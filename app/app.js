@@ -16,9 +16,9 @@ var gastosoService = angular.module('gastosoServices', ['ngResource']);
 
 gastosoService.factory('Conta', ['$resource',
   function($resource){
-//      return $resource('http://localhost:5000/contas/');
+//      return $resource('http://gastoso.herokuapp.com/contas/');
 
-    return $resource('http://localhost:5000/contas/:contaId', {}, {
+    return $resource('http://gastoso.herokuapp.com/contas/:contaId', {}, {
       query: {method:'GET', params: {contaId:'@id'} ,isArray:true}
     });
 
