@@ -1,1 +1,18 @@
 <h1> Conta: {{conta.nome}}</h1>
+
+<table>
+  <thead>
+    <th>Data</th>
+    <th>O que</th>
+    <th>Quanto</th>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat=lancamento in lancamentos">
+        <td><a href="#/movimentacoes?dia={{lancamento.moviventacao.dia}}">{{lancamento.moviventacao.dia}}</a></td>
+        <td><a href="#/movimentacoes/{{lancamento.movimentaao.id}}">{{lancamento.movimentaao.descricao}}</a></td>
+        <td class="dinheiro">{{lancamento.valor}}</td>
+    </tr>
+  </tbody>
+</table>
+

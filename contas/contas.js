@@ -9,6 +9,9 @@ angular.module('gastosoApp.contas', ['ngRoute'])
   }).when('/contas/:contaId',{
     templateUrl: 'contas/conta.html',
     controller: 'ContaCtrl'
+  }).when('/novaConta', {
+    templateUrl: 'contas/novaConta.html',
+    controller: 'NovaContaCtrl'
   });
 }])
 
@@ -16,6 +19,14 @@ angular.module('gastosoApp.contas', ['ngRoute'])
   $scope.contas = Conta.query();
 }]).controller('ContaCtrl', ['$scope','$routeParams','Conta',function($scope, $routeParams, Conta) {
   $scope.conta = Conta.get({contaId:$routeParams.contaId});
+
+  $scope.lancamento = Conta.lancamentos();
+
+}]).controller('NovaContaCtrl', ['$scope','Conta',function($scope, Conta) {
+  $scope.conta ={};
+  $scope.adicionarConta = function(){
+       Conta.save($scope.conta);
+  };
   
 }])
 ;

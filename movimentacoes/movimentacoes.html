@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<h1>Movimentações</h1>
+
+<ul>
+   <li ng-repeat="movimentacao in movimentacoes">
+	  <a href="#/movimentacoes/{{movimentacao.id}}">{{movimentacao.dia}} - {{movimentacao.descricao}}</a>          
+   </li>
+</ul>
+
+<a href="#/novaMovimentacao">Criar nova movimentacao</a>
