@@ -13,18 +13,21 @@ config(['$routeProvider', function($routeProvider) {
 }]);
 
 
+//var serverdomain = 'localhost:5000';
+var serverdomain = 'gastoso.herokuapp.com';
+
+var appBaseUrl = 'http://' + serverdomain;
+
 var gastosoService = angular.module('gastosoServices', ['ngResource']);
 
 gastosoService.factory('Conta', ['$resource',
   function($resource){
-//      return $resource('http://gastoso.herokuapp.com/contas/');
-    return $resource('http://localhost:5000/contas/:contaId', {}, {});
+    return $resource(appBaseUrl + '/contas/:contaId', {}, {});
 }]);
 
 
 gastosoService.factory('Movimentacao', ['$resource',
   function($resource){
-//      return $resource('http://gastoso.herokuapp.com/contas/');
-    return $resource('http://localhost:5000/movimentacoes/:movimentacaoId', {}, {});
+    return $resource(appBaseUrl + '/movimentacoes/:movimentacaoId', {}, {});
 }]);
 
