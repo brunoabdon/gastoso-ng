@@ -15,12 +15,15 @@ angular.module('gastosoApp.contas', ['ngRoute'])
   });
 }])
 
-.controller('ContasCtrl', ['$scope','Conta',function($scope, Conta) {
+.controller('ContasCtrl', ['$scope','Conta','$routeParams',function($scope, Conta,$routeParams) {
   $scope.contas = Conta.query();
-}]).controller('ContaCtrl', ['$scope','$routeParams','Conta',function($scope, $routeParams, Conta) {
-  $scope.conta = Conta.get({contaId:$routeParams.contaId});
-
-  $scope.lancamento = Conta.lancamentos();
+}])
+.controller('ContaCtrl', ['$scope','$routeParams','Conta','Lancamento',function($scope, $routeParams, Conta, Lancamento) {
+  
+  var contaId = $routeParams.contaId;
+  
+  $scope.conta = Conta.get({contaId:contaId});
+  $scope.lancamentos = Lancamento.query({conta:contaId});
 
 }]).controller('NovaContaCtrl', ['$scope','Conta',function($scope, Conta) {
   $scope.conta ={};
