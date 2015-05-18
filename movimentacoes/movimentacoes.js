@@ -17,8 +17,12 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
 
 .controller('MovimentacoesCtrl', ['$scope','Movimentacao',function($scope, Movimentacao) {
   $scope.movimentacoes = Movimentacao.query();
-}]).controller('MovimentacaoCtrl', ['$scope','$routeParams','Movimentacao',function($scope, $routeParams, Movimentacao) {
-  $scope.movimentacao = Movimentacao.get({movimentacaoId:$routeParams.movimentacaoId});
+}]).controller('MovimentacaoCtrl', ['$scope','$routeParams','Movimentacao','Lancamento',function($scope, $routeParams, Movimentacao, Lancamento) {
+  
+  var idMovimentacao = $routeParams.movimentacaoId;
+  $scope.movimentacao = Movimentacao.get({movimentacaoId:idMovimentacao});
+  $scope.lancamentos = Lancamento.query({movimentacao:idMovimentacao});
+  
 
 
 }]).controller('NovaMovimentacaoCtrl', ['$scope','Movimentacao',function($scope, Movimentacao) {

@@ -1,5 +1,5 @@
 <h1> Conta: {{conta.nome}}</h1>
-
+<p>{{contaId}}</p>
 <table>
   <thead>
     <th>Data</th>
@@ -8,11 +8,10 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat=lancamento in lancamentos">
-        <td><a href="#/movimentacoes?dia={{lancamento.moviventacao.dia}}">{{lancamento.moviventacao.dia}}</a></td>
-        <td><a href="#/movimentacoes/{{lancamento.movimentaao.id}}">{{lancamento.movimentaao.descricao}}</a></td>
+    <tr ng-repeat="lancamento in lancamentos">
+        <td><a href="#/movimentacoes?dia={{lancamento.movimentacao.dia}}">{{lancamento.movimentacao.dia}}</a></td>
+        <td><a href="#/movimentacoes/{{lancamento.movimentacao.id}}">{{lancamento.movimentacao.descricao}}</a></td>
         <td class="dinheiro">{{lancamento.valor}}</td>
     </tr>
   </tbody>
 </table>
-
