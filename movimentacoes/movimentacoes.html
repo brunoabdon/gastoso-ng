@@ -3,8 +3,10 @@
 
 <ul>
    <li ng-repeat="movimentacao in movimentacoes">
-	  <a href="#/movimentacoes/{{movimentacao.id}}">{{movimentacao.dia}} - {{movimentacao.descricao}}</a>          
+	  <a href="#/movimentacoes/{{movimentacao.id}}">{{movimentacao.dia|date}} - {{movimentacao.descricao}}</a>          
    </li>
 </ul>
 
 <a href="#/novaMovimentacao">Criar nova movimentacao</a>
+
+
