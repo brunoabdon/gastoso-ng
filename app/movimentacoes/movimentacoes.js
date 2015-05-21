@@ -17,6 +17,8 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
 
 .controller('MovimentacoesCtrl', ['$scope','Movimentacao',function($scope, Movimentacao) {
   $scope.movimentacoes = Movimentacao.query();
+  $scope.dia = new Date();
+
 }]).controller('MovimentacaoCtrl', ['$scope','$routeParams','Movimentacao','Lancamento',function($scope, $routeParams, Movimentacao, Lancamento) {
   
   var idMovimentacao = $routeParams.movimentacaoId;
@@ -28,6 +30,7 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
 }]).controller('NovaMovimentacaoCtrl', ['$scope','Movimentacao',function($scope, Movimentacao) {
   $scope.movimentacao ={dia:new Date()};
   $scope.adicionarMovimentacao = function(){
+       $scope.movimentacao.dia= new Date();
        Movimentacao.save($scope.movimentacao);
   };
   
