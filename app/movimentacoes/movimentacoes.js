@@ -24,8 +24,12 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
   var idMovimentacao = $routeParams.movimentacaoId;
   $scope.movimentacao = Movimentacao.get({movimentacaoId:idMovimentacao});
   $scope.lancamentos = Lancamento.query({movimentacao:idMovimentacao});
-  
 
+  $scope.classDinheiro = 
+	function (valor) { 
+           var classeValor = valor >= 0 ?'positivo' :'negativo'
+           return 'dinheiro ' + classeValor;
+         };
 
 }]).controller('NovaMovimentacaoCtrl', ['$scope','Movimentacao',function($scope, Movimentacao) {
   $scope.movimentacao ={dia:new Date()};

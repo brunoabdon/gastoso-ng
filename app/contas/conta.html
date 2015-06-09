@@ -9,9 +9,9 @@
 
   <tbody>
     <tr ng-repeat="lancamento in lancamentos">
-        <td><a href="#/movimentacoes?dia={{lancamento.movimentacao.dia}}">{{lancamento.movimentacao.dia}}</a></td>
+        <td><a href="#/movimentacoes?dia={{lancamento.movimentacao.dia}}">{{lancamento.movimentacao.dia|data}}</a></td>
         <td><a href="#/movimentacoes/{{lancamento.movimentacao.id}}">{{lancamento.movimentacao.descricao}}</a></td>
-        <td class="dinheiro">{{lancamento.valor}}</td>
+        <td class="dinheiro">{{lancamento.valor|real}}</td>
     </tr>
   </tbody>
 </table>

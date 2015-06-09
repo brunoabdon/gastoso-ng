@@ -1,10 +1,8 @@
-<h1>Movimentação</h1>
-
-<p>Dia {{movimentacao.dia| data}} - {{movimentacao.descricao}}</p>
+<h1>{{movimentacao.dia| data}} - {{movimentacao.descricao}}</h1>
 
 <ul>
 <li ng-repeat="lancamento in lancamentos">
-    <span class="dinheiro {{lancamento.valor > 0?'positivo':'negativo'}}">{{lancamento.valor|currency:"R$"}}</span> - <a href="#/contas/{{lancamento.conta.id}}">{{lancamento.conta.nome}}</a> 
+    <span ng-class="classDinheiro(lancamento.valor)">{{lancamento.valor|real}}</span> - <a href="#/contas/{{lancamento.conta.id}}">{{lancamento.conta.nome}}</a> 
 </li>
     
 </ul>
