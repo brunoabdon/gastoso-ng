@@ -17,7 +17,6 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
 
 .controller('MovimentacoesCtrl', ['$scope','Movimentacao',function($scope, Movimentacao) {
   $scope.movimentacoes = Movimentacao.query();
-  $scope.dia = new Date();
 
 }]).controller('MovimentacaoCtrl', ['$scope','$routeParams','Movimentacao','Lancamento',function($scope, $routeParams, Movimentacao, Lancamento) {
   
@@ -31,13 +30,29 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
            return 'dinheiro ' + classeValor;
          };
 
-}]).controller('NovaMovimentacaoCtrl', ['$scope','Movimentacao',function($scope, Movimentacao) {
-  $scope.movimentacao ={dia:new Date()};
-  $scope.adicionarMovimentacao = function(){
-       $scope.movimentacao.dia= new Date();
-       Movimentacao.save($scope.movimentacao);
-  };
+}]).controller('NovaMovimentacaoCtrl', ['$scope','dateFilter','Movimentacao','Conta',
+   function($scope, $dateFilter, Movimentacao,Conta) {
+
+  var resetar = function(){
+    $scope.dia = $dateFilter(new Date(),'yyyy-MM-dd');
+    $scope.descricao = null;
+  }
   
+  $scope.adicionarMovimentacao = function(){
+      var sucesso = function(mov) {
+         resetar();
+         $scope.movimentacoes.push(mov);
+      }
+
+      var fail = function(obj){
+          console.log(obj);
+      }
+    
+      Movimentacao.save({dia:$scope.dia, descricao:$scope.descricao},sucesso,fail);
+  };
+  $scope.contas = Conta.query();
+  $scope.movimentacoes = new Array();
+  resetar();
 }])
 ;
 
