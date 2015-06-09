@@ -7,25 +7,21 @@ angular.module('gastosoApp', [
   'gastosoServices',
   'gastosoApp.contas',
   'gastosoApp.movimentacoes'
-]).
-config(['$routeProvider', function($routeProvider) {
+])
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/contas'});
 }])
-    .filter("data",function(){
-       
-        return function (input){
-            var ano = input[0];
-            var mes = input[1];
-            var dia = input[2];
-            
-            if(dia < 10) dia = "0" + dia;
-            if(mes < 10) mes = "0" + mes;
-            
-            return dia + "/" + mes + "/" + ano;
-        };
-    })
+.filter('data', ['dateFilter',function($dateFilter) {    
+    return function(theDate) {
+       return $dateFilter(theDate, 'MMMM dd, yyyy');
+    }
+}])
+.filter('real',['currencyFilter',function($currencyFilter) {
+    return function(valor) {
+       return $currencyFilter(valor,'R$');
+    }
+}])
 ;
-
 
 var serverdomain = 'localhost:5000';
 //var serverdomain = 'gastoso.herokuapp.com';
