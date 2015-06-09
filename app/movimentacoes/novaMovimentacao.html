@@ -1,6 +1,10 @@
 <h1>Nova Movimentação</h1>
 
-<label for="dia">Dia:</label><input ng-model="movimentacao.dia" id="dia">
-<label for="descricao">O que?</label><input ng-model="movimentacao.descricao" id="descricao">
+<label for="dia">Dia:</label><input id="dia" type="date" ng-model="dia" required>
+<label for="descricao">O que?</label><input ng-model="descricao" id="descricao">
 
 <button ng-click="adicionarMovimentacao()">Adicionar</button>
+
+<ng-include
+  src="'movimentacoes/listaMovimentacoes.html'">
+</ng-include>

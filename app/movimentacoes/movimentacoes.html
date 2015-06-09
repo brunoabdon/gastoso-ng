@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <h1>Movimentações</h1>
 
-<ul>
-   <li ng-repeat="movimentacao in movimentacoes">
-	  <a href="#/movimentacoes/{{movimentacao.id}}">{{movimentacao.dia|data}} - {{movimentacao.descricao}}</a>          
-   </li>
-</ul>
+<ng-include
+  src="'movimentacoes/listaMovimentacoes.html'">
+</ng-include>
 
 <a href="#/novaMovimentacao">Criar nova movimentacao</a>
 
