@@ -18,7 +18,10 @@ angular.module('gastosoApp.contas', ['ngRoute'])
 .controller('ContasCtrl', ['$scope','Conta','$routeParams',function($scope, Conta,$routeParams) {
   $scope.contas = Conta.query();
 }])
-.controller('ContaCtrl', ['$scope','$routeParams','Conta','Lancamento',function($scope, $routeParams, Conta, Lancamento) {
+.controller('ContaCtrl', ['$scope','$routeParams','Utils', 'Conta','Lancamento',
+ function($scope, $routeParams, Utils, Conta, Lancamento) {
+  
+  $scope.utils = Utils;
   
   var contaId = $routeParams.contaId;
   

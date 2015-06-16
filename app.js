@@ -35,7 +35,6 @@ gastosoService.factory('Conta', ['$resource',
     return $resource(appBaseUrl + '/contas/:contaId', {}, {});
 }]);
 
-
 gastosoService.factory('Movimentacao', ['$resource',
   function($resource){
     return $resource(appBaseUrl + '/movimentacoes/:movimentacaoId', {}, {});
@@ -46,6 +45,16 @@ gastosoService.factory('Lancamento', ['$resource',
     return $resource(appBaseUrl + '/lancamentos', {}, {});
 }]);
 
+gastosoService.factory('Utils',[function(){
+     var util = {};
+     util.classDinheiro = function (valor) { 
+        var classeValor = valor >= 0 ?'positivo' :'negativo'
+        return 'dinheiro ' + classeValor;
+     };
+
+     return util;
+}]);
 
 
-function currency(N){N=parseFloat(N);if(!isNaN(N))N=N.toFixed(2);else N='0.00';return N;}
+
+//function currency(N){N=parseFloat(N);if(!isNaN(N))N=N.toFixed(2);else N='0.00';return N;}

@@ -2,6 +2,10 @@ body{
    font-size: 10pt;
 }
 
+.dinheiro{
+  text-align: right;
+}
+
 .dinheiro.positivo{
     color:green;
 }
