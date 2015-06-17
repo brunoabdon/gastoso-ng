@@ -7,20 +7,23 @@
 <p class="msg">{{mensagem.txt}}</p>
 
 <fieldset>
-<label for="dia">Dia:</label><input id="dia" type="date" ng-model="movimentacao.dia" required>
-<label for="descricao">O que?</label><input ng-model="movimentacao.descricao" id="descricao">
+<input id="dia" type="date" ng-model="movimentacao.dia" required>
+<input ng-model="movimentacao.descricao" id="descricao">
 </fieldset>
 
 <fieldset>
+<legend>Lançamentos</legend>
 <label for="conta">Conta:</label>
-<select ng-model="conta" id="conta" ng-options="conta.nome for conta in contas track by conta.id"/>
+<select ng-model="conta" id="conta" ng-options="conta.nome for conta in contas track by conta.id"></select>
+
 
 <label for="valor">Valor:</label>
 <input id="valor" ng-model="valor">
-<button ng-click="adicionarLancamento()" ng-disabled="!valor || !conta">+</button>
-</fieldset>
 
-<table>
+<button ng-click="adicionarLancamento()" ng-disabled="!valor || !conta">+</button>
+
+
+<table class="extrato">
   <thead>
     <th>Onde</th>
     <th>Quanto</th>
@@ -36,7 +39,19 @@
   </tbody>
 </table>
 
+
+</fieldset>
+
 <button ng-click="adicionarMovimentacao()">Adicionar</button>
 <ng-include
   src="'movimentacoes/listaMovimentacoes.html'">
 </ng-include>
+
+
+<ul ng-show="lancamentos.length != 0">
+<li ng-repeat="lancamento in lancamentos" 
+    ng-class="utils.classDinheiro(lancamento.valor)">{{lancamento.valor|real}} <a href ng-click="editarLancamento(lancamento)">{{lancamento.conta.nome}}</a>
+   <span ng-show="lancamento.id">&#10004;</span>
+</li>
+</ul>
+
