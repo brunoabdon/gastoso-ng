@@ -1,8 +1,30 @@
 <h1>{{movimentacao.dia| data}} - {{movimentacao.descricao}}</h1>
 
-<ul>
+
+<table class="extrato">
+  <thead>
+    <th>Onde</th>
+    <th>Quanto</th>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="lancamento in lancamentos" ng-click="">
+        <td><a href="#/contas/{{lancamento.conta.id}}" 
+            title={{lancamento.conta.nome}}
+            >{{lancamento.conta.nome}}</a></td>
+        <td ng-class="utils.classDinheiro(lancamento.valor)"
+            ><a href="#/contas/{{lancamento.conta.id}}" 
+            title={{lancamento.conta.nome}}
+            >{{lancamento.valor|real}}</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<!--ul>
 <li ng-repeat="lancamento in lancamentos">
     <span ng-class="utils.classDinheiro(lancamento.valor)">{{lancamento.valor|real}}</span> - <a href="#/contas/{{lancamento.conta.id}}">{{lancamento.conta.nome}}</a> 
 </li>
     
-</ul>
+</ul-->
