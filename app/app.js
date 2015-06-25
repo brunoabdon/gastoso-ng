@@ -21,6 +21,8 @@ angular.module('gastosoApp', [
        return $currencyFilter(valor,'R$ ');
     }
 }])
+
+
 ;
 
 var serverdomain = 'localhost:5000';
@@ -48,13 +50,18 @@ gastosoService.factory('Lancamento', ['$resource',
 gastosoService.factory('Utils',[function(){
      var util = {};
      util.classDinheiro = function (valor) { 
-        var classeValor = valor >= 0 ?'positivo' :'negativo'
-        return 'dinheiro ' + classeValor;
+        var klass = 'dinheiro';
+	if(valor != null && valor != '-' && isNaN(valor)) {
+	   klass += ' errado';
+	} else if(valor > 0){
+	    klass += ' positivo';
+	} else if(valor < 0){
+	    klass += ' negativo';
+	}
+        return klass;
      };
 
      return util;
 }]);
-
-
 
 //function currency(N){N=parseFloat(N);if(!isNaN(N))N=N.toFixed(2);else N='0.00';return N;}
