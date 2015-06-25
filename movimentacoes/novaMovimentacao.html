@@ -1,15 +1,19 @@
 <h1 ng-show="!movimentacao.descricao">Nova Movimentação</h1>
 <h1 ng-show="movimentacao.descricao">{{movimentacao.dia|data}} - {{movimentacao.descricao}}
-<span ng-class="utils.classDinheiro(total)" ng-show="total != 0">{{total|real}}</span>
+<span ng-class="utils.classDinheiro(total)" ng-show="lancamentos.lenght != 0">{{total|real}}</span>
 <span ng-show="movimentacao.id">&#10004;</span>
 </h1>
 
-<p class="msg">{{mensagem.txt}}</p>
+<p class="msg" ng-show="mensagem != null">{{mensagem.txt}} 
+<img src="img/16/cancel-circle.png" ng-click="mensagem=null"></p>
 
 <fieldset>
+<legend>Evento</legend>
 <input id="dia" type="date" ng-model="movimentacao.dia" required>
 <input ng-model="movimentacao.descricao" id="descricao">
 </fieldset>
+
+aaa<input type="text" name="field" ng-model="percentage" ui-percentage-mask>
 
 <fieldset>
 <legend>Lançamentos</legend>
@@ -18,12 +22,14 @@
 
 
 <label for="valor">Valor:</label>
-<input id="valor" ng-model="valor">
+<input id="valor" ng-model="valor" ng-class="utils.classDinheiro(valor)" type="text" format="number" 
+>
 
-<button ng-click="adicionarLancamento()" ng-disabled="!valor || !conta">+</button>
+<button ng-click="adicionarLancamento()" ng-disabled="!valor || !conta" class="botaozinho">+</button>
 
+</fieldset>
 
-<table class="extrato">
+<table class="extrato" ng-show="lancamentos.length != 0">
   <thead>
     <th>Onde</th>
     <th>Quanto</th>
@@ -33,25 +39,14 @@
     <tr ng-repeat="lancamento in lancamentos">
         <td><a href ng-click="editarLancamento(lancamento)">{{lancamento.conta.nome}}</a></td>
         <td ng-class="utils.classDinheiro(lancamento.valor)">{{lancamento.valor|real}}
-        <span ng-show="lancamento.id">&#10004;</span>
+           <span ng-show="lancamento.id">&#10004;</span>
         </td>
     </tr>
   </tbody>
 </table>
 
-
-</fieldset>
-
-<button ng-click="adicionarMovimentacao()">Adicionar</button>
+<button ng-click="adicionarMovimentacao()" ng-disabled="lancamentos.length == 0">
+<img src="img/16/plus.png">Adicionar</button>
 <ng-include
   src="'movimentacoes/listaMovimentacoes.html'">
 </ng-include>
-
-
-<ul ng-show="lancamentos.length != 0">
-<li ng-repeat="lancamento in lancamentos" 
-    ng-class="utils.classDinheiro(lancamento.valor)">{{lancamento.valor|real}} <a href ng-click="editarLancamento(lancamento)">{{lancamento.conta.nome}}</a>
-   <span ng-show="lancamento.id">&#10004;</span>
-</li>
-</ul>
-

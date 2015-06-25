@@ -44,14 +44,14 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
 	  
 	  var valor = parseFloat($scope.valor);
 	  if(isNaN(valor)){
-		  $scope.mensagem = {txt: 'Valor inválido: ' + $scope.valor};
-		  return;
+	     $scope.mensagem = {txt: 'Valor inválido: ' + $scope.valor};
+	     return;
 	  }
 	  
 	  var lancamento = {
-		  //movimentacao:$scope.movimentacao,
-		  conta: $scope.conta,
-		  valor: valor
+             //movimentacao:$scope.movimentacao,
+             conta: $scope.conta,
+             valor: valor
       }													 
       $scope.lancamentos.push(lancamento);
       $scope.contas.splice($scope.contas.indexOf(lancamento.conta),1);
