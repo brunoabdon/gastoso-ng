@@ -12,9 +12,6 @@ a{
 h1{
    margin: 0.2em 0.2em;
 }
-fieldset{
-  margin: 0.5em 0;
-}
 
 input[type='date']{
    width:9em;
@@ -35,30 +32,24 @@ input[type=date]::-webkit-inner-spin-button {
 }
 
 
-fieldset
-{
-  background-color:#CCC;
-  max-width:40em;
-  padding:1em;	
-  -moz-border-radius:0.5em;
-  -webkit-border-radius:0.5em;	
-}
-
 legend{
   margin-bottom:0;
-  margin-left:1em;
+  margin-left:0.2em;
 }
 
-
 ul{
-padding:0;
+  padding:0;
 }
 
 li{
   list-style-type:none;
 }
 
-td.dinheiro{
+.dinheiro{
+  content: "R$";
+}
+
+td.dinheiro, input.dinheiro{
   text-align: right;
 }
 
@@ -67,7 +58,30 @@ td.dinheiro{
 }
 
 .dinheiro.negativo{
-    color:red;
+    color:#a00;
+}
+
+.dinheiro.errado{
+   color:red;
+
+}
+
+table.extrato, fieldset{
+     background: linear-gradient(#ddd, #efefef);
+
+  margin: 0.5em 0;
+  padding:1em;	
+
+  max-width:40em;
+
+  -moz-border-radius:0.5em;
+  -webkit-border-radius:0.5em;	
+
+}
+
+table.extrato td, 
+table.extrato th {
+   padding: 0 1em;
 }
 
 table.extrato {
@@ -95,6 +109,73 @@ table.extrato > tbody > tr{
    border-bottom: 1px solid #008484;
 }
 
+table.extrato > tbody > tr:last-child{
+   border-bottom: 0px none #000;
+
+}
+
 table.extrato > tbody > tr:hover{
   background-color: #E8E8E8;  
 }
+
+
+button {
+  background-color: #17A894;
+  color: #efefef;
+  border-width:0;
+  padding: 1em 1.5em;
+
+  -moz-border-radius:0.4em;
+  -webkit-border-radius:0.4em;	
+}
+
+button:hover{
+  background-color: #27B8A4;
+  color: #dfdfdf;
+
+}
+
+button.botaozinho{
+  padding: 0.1em 0.6em;
+}
+
+button img{
+   margin-right: 1em;
+}
+
+
+.msg{
+   width: 40em;
+   background-color: #fefefe;
+   color: red;
+   padding: 0.1em 0;
+   text-align:center;
+   margin: 1em 4em 1em 1em;
+  -moz-border-radius:0.4em;
+  -webkit-border-radius:0.4em;	
+
+}
+
+
+select, input {
+  padding: 0.2em 0.2em;
+  border-style:solid;
+  border-width: 1px;
+  -moz-border-radius:0.4em;
+  -webkit-border-radius:0.4em;	
+}
+
+input[type="text"], input:not([type]),
+input[type="text"]:focus, input:not([type]):focus{
+   border-style: none none dashed none;
+   border-color: transparent;
+   border-bottom-color: black;
+   background-color: transparent;
+   outline: -webkit-focus-ring-color none 0px
+   
+}
+
+.msg > img {
+  margin: 0 0.5em;
+  float: right;
+} 
