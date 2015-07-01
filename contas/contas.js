@@ -16,7 +16,10 @@ angular.module('gastosoApp.contas', ['ngRoute'])
 }])
 
 .controller('ContasCtrl', ['$scope','Conta','$routeParams',function($scope, Conta,$routeParams) {
-  $scope.contas = Conta.query();
+   $scope.contas = Conta.query(function(obj){},function(obj){ 
+         $scope.mensagem = {txt: obj.data, status: obj.status};
+      });
+
 }])
 .controller('ContaCtrl', ['$scope','$routeParams','Utils', 'Conta','Lancamento',
  function($scope, $routeParams, Utils, Conta, Lancamento) {
