@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <h1>Contas</h1>
 
+<p class="msg" ng-show="mensagem != null">{{mensagem.txt}} 
+<img src="img/16/cancel-circle.png" ng-click="mensagem=null"></p>
+
 <ul>
    <li ng-repeat="conta in contas">
 	  <a href="#/contas/{{conta.id}}">{{conta.nome}}</a>          
