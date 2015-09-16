@@ -6,7 +6,7 @@ angular.module('gastosoApp', [
   'ngResource',
   'gastosoServices',
   'gastosoApp.contas',
-  'gastosoApp.movimentacoes'
+  'gastosoApp.fatos'
 ])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/contas'});
@@ -37,9 +37,9 @@ gastosoService.factory('Conta', ['$resource',
     return $resource(appBaseUrl + '/contas/:contaId', {}, {});
 }]);
 
-gastosoService.factory('Movimentacao', ['$resource',
+gastosoService.factory('Fato', ['$resource',
   function($resource){
-    return $resource(appBaseUrl + '/movimentacoes/:movimentacaoId', {}, {});
+    return $resource(appBaseUrl + '/fatos/:fatoId', {}, {});
 }]);
 
 gastosoService.factory('Lancamento', ['$resource',

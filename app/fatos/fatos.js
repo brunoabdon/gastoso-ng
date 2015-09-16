@@ -1,41 +1,41 @@
 'use strict';
 
-angular.module('gastosoApp.movimentacoes', ['ngRoute'])
+angular.module('gastosoApp.fatos', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/movimentacoes', {
-    templateUrl: 'movimentacoes/movimentacoes.html',
-    controller: 'MovimentacoesCtrl'
-  }).when('/movimentacoes/:movimentacaoId',{
-    templateUrl: 'movimentacoes/movimentacao.html',
-    controller: 'MovimentacaoCtrl'
-  }).when('/novaMovimentacao', {
-    templateUrl: 'movimentacoes/novaMovimentacao.html',
-    controller: 'NovaMovimentacaoCtrl'
+  $routeProvider.when('/fatos', {
+    templateUrl: 'fatos/fatos.html',
+    controller: 'FatosCtrl'
+  }).when('/fatos/:fatoId',{
+    templateUrl: 'fatos/fato.html',
+    controller: 'FatoCtrl'
+  }).when('/novaFato', {
+    templateUrl: 'fatos/novaFato.html',
+    controller: 'NovaFatoCtrl'
   });
 }])
 
-.controller('MovimentacoesCtrl', ['$scope','Movimentacao',function($scope, Movimentacao) {
-  $scope.movimentacoes = Movimentacao.query();
+.controller('FatosCtrl', ['$scope','Fato',function($scope, Fato) {
+  $scope.fatos = Fato.query();
 
-}]).controller('MovimentacaoCtrl', ['$scope','$routeParams','Utils','Movimentacao','Lancamento',
-    function($scope, $routeParams, Utils, Movimentacao, Lancamento) {
+}]).controller('FatoCtrl', ['$scope','$routeParams','Utils','Fato','Lancamento',
+    function($scope, $routeParams, Utils, Fato, Lancamento) {
 
   $scope.utils = Utils;
   
-  var idMovimentacao = $routeParams.movimentacaoId;
-  $scope.movimentacao = Movimentacao.get({movimentacaoId:idMovimentacao});
-  $scope.lancamentos = Lancamento.query({movimentacao:idMovimentacao});
+  var idFato = $routeParams.fatoId;
+  $scope.fato = Fato.get({fatoId:idFato});
+  $scope.lancamentos = Lancamento.query({fato:idFato});
 
-}]).controller('NovaMovimentacaoCtrl', ['$scope','dateFilter','Utils','Movimentacao','Conta','Lancamento',
-   function($scope, $dateFilter, Utils, Movimentacao,Conta,Lancamento) {
+}]).controller('NovaFatoCtrl', ['$scope','dateFilter','Utils','Fato','Conta','Lancamento',
+   function($scope, $dateFilter, Utils, Fato,Conta,Lancamento) {
 
   $scope.utils = Utils;
 
   $scope.contas = Conta.query();
 
   var resetar = function(){
-    $scope.movimentacao = {
+    $scope.fato = {
 	   dia: $dateFilter(new Date(),'yyyy-MM-dd')
 	};
   }
@@ -49,7 +49,7 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
 	  }
 	  
 	  var lancamento = {
-             //movimentacao:$scope.movimentacao,
+             //fato:$scope.fato,
              conta: $scope.conta,
              valor: valor
       }													 
@@ -69,15 +69,15 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
 	   
   }
   
-  $scope.adicionarMovimentacao = function(){
-      var sucesso = function(mov) {
+  $scope.adicionarFato = function(){
+      var sucesso = function(fato) {
          resetar();
-         $scope.movimentacoes.push(mov);
-         $scope.movimentacao=mov;
+         $scope.fatos.push(fato);
+         $scope.fato=fato;
          
          for (var i = 0; i < $scope.lancamentos.length; i++){
       	      var lancamento = $scope.lancamentos[i];
-        	  lancamento.movimentacao = mov;
+        	  lancamento.fato = fato;
 		      Lancamento.save(lancamento,function(l){lancamento.id=l.id}); //nao funciona. lancamento nao é passado por referencia. só o ultimo cara do array eh ticado.
 	     }
       }
@@ -86,12 +86,12 @@ angular.module('gastosoApp.movimentacoes', ['ngRoute'])
          $scope.mensagem = {txt: obj.data.message, status: obj.status};
       }
       
-      Movimentacao.save($scope.movimentacao,sucesso,fail);
+      Fato.save($scope.fato,sucesso,fail);
 
 
   };
   $scope.contas = Conta.query();
-  $scope.movimentacoes = new Array();
+  $scope.fatos = new Array();
   $scope.lancamentos = new Array();
   $scope.total = 0;
   resetar();
