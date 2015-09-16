@@ -11,8 +11,8 @@
 
   <tbody>
     <tr ng-repeat="lancamento in lancamentos">
-        <td><a href="#/movimentacoes?dia={{lancamento.movimentacao.dia}}">{{lancamento.movimentacao.dia|data}}</a></td>
-        <td><a href="#/movimentacoes/{{lancamento.movimentacao.id}}">{{lancamento.movimentacao.descricao}}</a></td>
+        <td><a href="#/fatos?dia={{lancamento.fato.dia}}">{{lancamento.fato.dia|data}}</a></td>
+        <td><a href="#/fatos/{{lancamento.fato.id}}">{{lancamento.fato.descricao}}</a></td>
         <td ng-class="utils.classDinheiro(lancamento.valor)">{{lancamento.valor|real}}</td>
     </tr>
   </tbody>
