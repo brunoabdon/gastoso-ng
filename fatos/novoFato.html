@@ -13,19 +13,17 @@
 <input ng-model="fato.descricao" id="descricao">
 </fieldset>
 
-<input type="text" name="field" ng-model="percentage" ui-percentage-mask>
-
 <fieldset>
 <legend>Lançamentos</legend>
 <label for="conta">Conta:</label>
-<select ng-model="conta" id="conta" ng-options="conta.nome for conta in contas track by conta.id"></select>
+<select ng-model="lancamento.conta" id="conta" ng-options="conta.nome for conta in contas track by conta.id"></select>
 
 
 <label for="valor">Valor:</label>
-<input id="valor" ng-model="valor" ng-class="utils.classDinheiro(valor)" type="text" format="number" 
+<input id="valor" ng-model="lancamento.valor" ng-class="utils.classDinheiro(lancamento.valor)" type="text" format="number" 
 >
 
-<button ng-click="adicionarLancamento()" ng-disabled="!valor || !conta" class="botaozinho">+</button>
+<button ng-click="adicionarLancamento()" ng-disabled="!lancamento.valor || !lancamento.conta" class="botaozinho">+</button>
 
 </fieldset>
 

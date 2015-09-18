@@ -9,8 +9,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   }).when('/fatos/:fatoId',{
     templateUrl: 'fatos/fato.html',
     controller: 'FatoCtrl'
-  }).when('/novaFato', {
-    templateUrl: 'fatos/novaFato.html',
+  }).when('/novoFato', {
+    templateUrl: 'fatos/novoFato.html',
     controller: 'NovaFatoCtrl'
   });
 }])
@@ -34,67 +34,64 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 
   $scope.contas = Conta.query();
 
+  $scope.fatos = new Array();
+  $scope.lancamentos = new Array();
+  $scope.total = 0;
+  $scope.fato = new Fato({dia: $dateFilter(new Date(),'yyyy-MM-dd')});
+  $scope.lancamento = new Lancamento({fato:$scope.fato});
+
+
+
   var resetar = function(){
-    $scope.fato = {
-	   dia: $dateFilter(new Date(),'yyyy-MM-dd')
-	};
+    $scope.fato = new Fato({dia: $dateFilter(new Date(),'yyyy-MM-dd')});
+    $scope.lancamento = new Lancamento({fato:$scope.fato});
+
   }
 
   $scope.adicionarLancamento = function(){
 	  
-	  var valor = parseFloat($scope.valor);
-	  if(isNaN(valor)){
+      var valor = parseFloat($scope.lancamento.valor);
+      if(isNaN(valor)){
 	     $scope.mensagem = {txt: 'Valor inválido: ' + $scope.valor};
 	     return;
-	  }
+      }
 	  
-	  var lancamento = {
-             //fato:$scope.fato,
-             conta: $scope.conta,
-             valor: valor
-      }													 
-      $scope.lancamentos.push(lancamento);
-      $scope.contas.splice($scope.contas.indexOf(lancamento.conta),1);
+      $scope.lancamentos.push($scope.lancamento);
+      $scope.contas.splice($scope.contas.indexOf($scope.lancamento.conta),1);
       $scope.total += valor;
-      delete $scope.valor;
-      delete $scope.conta;
+      $scope.lancamento = new Lancamento({fato:$scope.fato});
 
   }
   
   $scope.editarLancamento = function(lancamento){
 	   $scope.contas.push(lancamento.conta);
-	   $scope.conta = lancamento.conta;
-	   $scope.valor = lancamento.valor;
+	   $scope.lancamento = lancamento;
 	   $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
 	   
   }
   
   $scope.adicionarFato = function(){
-      var sucesso = function(fato) {
-         resetar();
-         $scope.fatos.push(fato);
-         $scope.fato=fato;
-         
-         for (var i = 0; i < $scope.lancamentos.length; i++){
-      	      var lancamento = $scope.lancamentos[i];
-        	  lancamento.fato = fato;
-		      Lancamento.save(lancamento,function(l){lancamento.id=l.id}); //nao funciona. lancamento nao é passado por referencia. só o ultimo cara do array eh ticado.
-	     }
-      }
 
       var fail = function(obj){ 
          $scope.mensagem = {txt: obj.data.message, status: obj.status};
       }
       
-      Fato.save($scope.fato,sucesso,fail);
+      //Fato.save($scope.fato,sucesso,fail);
+      $scope.fato = $scope.fato.$save(
+         function(fato,responseHeaders) {
+ 
+             $scope.fatos.push(fato);
+		 
+             for (var i = 0; i < $scope.lancamentos.length; i++){
+	      	  var lancamento = $scope.lancamentos[i];
+                  lancamento.$save(function(l,resonse){console.log("salvou " + l.id)},fail);
+             }
+             $scope.lancamentos = new Array();
 
-
+             resetar();
+          }
+       );
   };
-  $scope.contas = Conta.query();
-  $scope.fatos = new Array();
-  $scope.lancamentos = new Array();
-  $scope.total = 0;
-  resetar();
 }])
 ;
 
