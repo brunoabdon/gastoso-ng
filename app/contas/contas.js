@@ -32,9 +32,13 @@ angular.module('gastosoApp.contas', ['ngRoute'])
   $scope.lancamentos = Lancamento.query({conta:contaId});
 
 }]).controller('NovaContaCtrl', ['$scope','Conta',function($scope, Conta) {
-  $scope.conta ={};
+  $scope.conta = new Conta();
   $scope.adicionarConta = function(){
-       Conta.save($scope.conta);
+       $scope.conta.$save(function(conta,responseHeaders){
+         $scope.mensagem = {txt: conta.nome + " criada.", status: responseHeaders.status};
+         console.log($scope.mensagem);
+         $scope.conta = new Conta();
+       });
   };
   
 }])
