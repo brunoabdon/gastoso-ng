@@ -8,7 +8,7 @@
 <img src="img/16/cancel-circle.png" ng-click="mensagem=null"></p>
 
 <fieldset>
-<legend>Evento</legend>
+<legend>Fato</legend>
 <input id="dia" type="date" ng-model="fato.dia" required>
 <input ng-model="fato.descricao" id="descricao">
 </fieldset>
@@ -20,8 +20,7 @@
 
 
 <label for="valor">Valor:</label>
-<input id="valor" ng-model="lancamento.valor" ng-class="utils.classDinheiro(lancamento.valor)" type="text" format="number" 
->
+<input id="valor" ng-model="lancamento.valor" ng-class="utils.classDinheiro(lancamento.valor)" type="number" format="number" >
 
 <button ng-click="adicionarLancamento()" ng-disabled="!lancamento.valor || !lancamento.conta" class="botaozinho">+</button>
 
