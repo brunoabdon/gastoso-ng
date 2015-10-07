@@ -66,6 +66,7 @@ td.dinheiro, input.dinheiro{
 
 }
 
+
 table.extrato, fieldset{
      background: linear-gradient(#ddd, #efefef);
 
@@ -79,10 +80,6 @@ table.extrato, fieldset{
 
 }
 
-table.extrato td, 
-table.extrato th {
-   padding: 0 1em;
-}
 
 table.extrato {
    border-style: none;

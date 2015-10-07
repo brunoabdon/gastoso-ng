@@ -1,14 +1,19 @@
-<h1>{{fato.dia| data}} - {{fato.descricao}}</h1>
+<h1>{{fato.dia|data}} - {{fato.descricao}}</h1>
 
 
 <table class="extrato">
+  <col style="width:5%"/>
+  <col>
+  <col>
   <thead>
+    <th />
     <th>Onde</th>
     <th>Quanto</th>
   </thead>
 
   <tbody>
     <tr ng-repeat="lancamento in lancamentos" ng-click="">
+        <td><img src="img/16/bin.png" ng-click="removerLancamento(lancamento)"/></td>
         <td><a href="#/contas/{{lancamento.conta.id}}" 
             title={{lancamento.conta.nome}}
             >{{lancamento.conta.nome}}</a></td>
@@ -19,8 +24,6 @@
     </tr>
   </tbody>
 </table>
-
-
 
 <!--ul>
 <li ng-repeat="lancamento in lancamentos">
