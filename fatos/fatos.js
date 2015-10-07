@@ -22,7 +22,20 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
       }
   );
 
-  $scope.removerFato = function(fato){};
+  $scope.removerFato = function(fato){
+
+        console.log('removendo fato');
+       fato.$remove(
+          function(){
+             $scope.fatos.splice($scope.fatos.indexOf(fato),1);
+          },
+          function(){
+            $scope.mensagem = {txt: obj.data, status: obj.status}; //criar Utils.mostraerro
+          } 
+       );
+
+
+  };
 
 }]).controller('FatoCtrl', ['$scope','$routeParams','Utils','Fato','Lancamento',
     function($scope, $routeParams, Utils, Fato, Lancamento) {
