@@ -1,5 +1,6 @@
 <ul>
    <li ng-repeat="fato in fatos">
-     <a href="#/fatos/{{fato.id}}">{{fato.dia|data}} - {{fato.descricao}}</a>          
+      <img src="img/16/bin.png" ng-click="removerFato(fato)"/> 
+      <a href="#/fatos/{{fato.id}}">{{fato.dia|data}} - {{fato.descricao}}</a>          
    </li>
 </ul>
