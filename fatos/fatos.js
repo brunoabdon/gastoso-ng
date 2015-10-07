@@ -6,7 +6,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   $routeProvider.when('/fatos', {
     templateUrl: 'fatos/fatos.html',
     controller: 'FatosCtrl'
-  }).when('/fatos/:fatoId',{
+  }).when('/fatos/:id',{
     templateUrl: 'fatos/fato.html',
     controller: 'FatoCtrl'
   }).when('/novoFato', {
@@ -16,16 +16,42 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 }])
 
 .controller('FatosCtrl', ['$scope','Fato',function($scope, Fato) {
-  $scope.fatos = Fato.query();
+  var fatos = Fato.query(
+      function(){
+        $scope.fatos = fatos;
+      }
+  );
+
+  $scope.removerFato = function(fato){};
 
 }]).controller('FatoCtrl', ['$scope','$routeParams','Utils','Fato','Lancamento',
     function($scope, $routeParams, Utils, Fato, Lancamento) {
 
   $scope.utils = Utils;
   
-  var idFato = $routeParams.fatoId;
-  $scope.fato = Fato.get({fatoId:idFato});
-  $scope.lancamentos = Lancamento.query({fato:idFato});
+  var idFato = $routeParams.id;
+
+  var fato = Fato.get({id:idFato},function(){
+	$scope.fato = fato;
+  });
+
+  var lancamentos = Lancamento.query({fato:idFato},function(){
+        $scope.lancamentos = lancamentos;
+  }); 
+
+  $scope.removerLancamento = function(lancamento){
+        console.log('removendo lancamento');
+       lancamento.$remove(
+          function(){
+             $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
+          },
+          function(){
+            $scope.mensagem = {txt: obj.data, status: obj.status}; //criar Utils.mostraerro
+          } 
+       );
+
+  }
+
 
 }]).controller('NovaFatoCtrl', ['$scope','dateFilter','Utils','Fato','Conta','Lancamento',
    function($scope, $dateFilter, Utils, Fato,Conta,Lancamento) {
