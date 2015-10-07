@@ -34,17 +34,17 @@ var gastosoService = angular.module('gastosoServices', ['ngResource']);
 
 gastosoService.factory('Conta', ['$resource',
   function($resource){
-    return $resource(appBaseUrl + '/contas/:contaId', {}, {});
+    return $resource(appBaseUrl + '/contas/:id', {id:'@id'}, {});
 }]);
 
 gastosoService.factory('Fato', ['$resource',
   function($resource){
-    return $resource(appBaseUrl + '/fatos/:fatoId', {}, {});
+    return $resource(appBaseUrl + '/fatos/:id', {id:'@id'}, {});
 }]);
 
 gastosoService.factory('Lancamento', ['$resource',
   function($resource){
-    return $resource(appBaseUrl + '/lancamentos', {}, {});
+    return $resource(appBaseUrl + '/lancamentos/:id', {id:'@id'}, {});
 }]);
 
 gastosoService.factory('Utils',[function(){
