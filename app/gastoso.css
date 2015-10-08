@@ -49,23 +49,27 @@ li{
   content: "R$";
 }
 
-td.dinheiro, input.dinheiro{
+td.dinheiro, input.dinheiro, div.dinheiro{
   text-align: right;
 }
 
-.dinheiro.positivo{
+span.dinheiro.positivo, 
+p.dinheiro.positivo,
+a.dinheiro.positivo {
     color:green;
 }
 
-.dinheiro.negativo{
+span.dinheiro.dinheiro.negativo,
+p.dinheiro.dinheiro.negativo,
+a.dinheiro.dinheiro.negativo {
     color:#a00;
 }
 
-.dinheiro.errado{
+span.dinheiro.errado,
+p.dinheiro.errado,
+a.dinheiro.errado {
    color:red;
-
 }
-
 
 table.extrato, fieldset{
      background: linear-gradient(#ddd, #efefef);
@@ -77,7 +81,6 @@ table.extrato, fieldset{
 
   -moz-border-radius:0.5em;
   -webkit-border-radius:0.5em;	
-
 }
 
 
@@ -98,8 +101,14 @@ table.extrato > thead {
    color: #003E3E;
    text-align:right;
 }
-table.extrato > thead > tr > th:first-child{
+table.extrato > thead > tr > th{
    text-align:left;
+}
+
+table.extrato > tfoot > tr > td,
+table.extrato > thead > tr > th:last-child,
+table.extrato > tbody > tr > td:last-child {
+   text-align:right;
 }
 
 table.extrato > tbody > tr{

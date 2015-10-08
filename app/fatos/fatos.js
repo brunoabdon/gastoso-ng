@@ -39,7 +39,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     function($scope, $routeParams, Utils, Fato, Lancamento) {
 
   $scope.utils = Utils;
-  
+  $scope.total = 0;  
+
   var idFato = $routeParams.id;
 
   var fato = Fato.get({id:idFato},function(){
@@ -48,7 +49,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 
   var lancamentos = Lancamento.query({fato:idFato},function(){
         $scope.lancamentos = lancamentos;
-  }); 
+
+        lancamentos.forEach(function(lancamento) {
+            $scope.total+=lancamento.valor;
+        });        
+  });
 
   $scope.removerLancamento = function(lancamento){
         console.log('removendo lancamento');
@@ -102,7 +107,6 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 	   $scope.contas.push(lancamento.conta);
 	   $scope.lancamento = lancamento;
 	   $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
-	   
   }
   
   $scope.adicionarFato = function(){
