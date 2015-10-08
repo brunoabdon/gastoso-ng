@@ -1,4 +1,4 @@
-<h1>{{fato.dia|data}} - {{fato.descricao}}</h1>
+<h1>{{fato.dia|data}} - {{fato.descricao}}</span></h1>
 
 
 <table class="extrato">
@@ -6,20 +6,26 @@
   <col>
   <col>
   <thead>
-    <th />
-    <th>Onde</th>
-    <th>Quanto</th>
+    <tr>
+      <th/>
+      <th>Onde</th>
+      <th>Quanto</th>
+    </tr>
   </thead>
-
+  <tfoot>
+    <tr>
+      <td colspan="3">Total: <span ng-class="utils.classDinheiro(total)">{{total|real}}</span><td>
+    </tr>
+  <tfoot>
   <tbody>
     <tr ng-repeat="lancamento in lancamentos" ng-click="">
         <td><img src="img/16/bin.png" ng-click="removerLancamento(lancamento)"/></td>
         <td><a href="#/contas/{{lancamento.conta.id}}" 
             title={{lancamento.conta.nome}}
             >{{lancamento.conta.nome}}</a></td>
-        <td ng-class="utils.classDinheiro(lancamento.valor)"
-            ><a href="#/contas/{{lancamento.conta.id}}" 
+        <td><a href="#/contas/{{lancamento.conta.id}}" 
             title={{lancamento.conta.nome}}
+            ng-class="utils.classDinheiro(lancamento.valor)" 
             >{{lancamento.valor|real}}</a></td>
     </tr>
   </tbody>
