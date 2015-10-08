@@ -4,6 +4,7 @@
 angular.module('gastosoApp', [
   'ngRoute',
   'ngResource',
+  'xeditable',
   'gastosoServices',
   'gastosoApp.contas',
   'gastosoApp.fatos'
