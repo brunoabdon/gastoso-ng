@@ -33,8 +33,6 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
             $scope.mensagem = {txt: obj.data, status: obj.status}; //criar Utils.mostraerro
           } 
        );
-
-
   };
 
 }]).controller('FatoCtrl', ['$scope','$routeParams','Utils','Fato','Lancamento',
@@ -76,13 +74,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   $scope.fatos = new Array();
   $scope.lancamentos = new Array();
   $scope.total = 0;
-  $scope.fato = new Fato({dia: $dateFilter(new Date(),'yyyy-MM-dd')});
+  $scope.fato = {dia: $dateFilter(new Date(),'yyyy-MM-dd')};
   $scope.lancamento = new Lancamento({fato:$scope.fato});
 
-
-
   var resetar = function(){
-    $scope.fato = new Fato({dia: $dateFilter(new Date(),'yyyy-MM-dd')});
+    $scope.fato = {dia: $dateFilter(new Date(),'yyyy-MM-dd')};
     $scope.lancamento = new Lancamento({fato:$scope.fato});
 
   }
@@ -98,7 +94,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
       $scope.lancamentos.push($scope.lancamento);
       $scope.contas.splice($scope.contas.indexOf($scope.lancamento.conta),1);
       $scope.total += valor;
-      $scope.lancamento = new Lancamento({fato:$scope.fato});
+      $scope.lancamento = {fato:$scope.fato};
 
   }
   
@@ -114,22 +110,24 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
       var fail = function(obj){ 
          $scope.mensagem = {txt: obj.data.message, status: obj.status};
       }
-      
-      //Fato.save($scope.fato,sucesso,fail);
-      $scope.fato = $scope.fato.$save(
-         function(fato,responseHeaders) {
- 
-             $scope.fatos.push(fato);
-		 
-             for (var i = 0; i < $scope.lancamentos.length; i++){
-	      	  var lancamento = $scope.lancamentos[i];
-                  lancamento.$save(function(l,resonse){console.log("salvou " + l.id)},fail);
-             }
-             $scope.lancamentos = new Array();
 
-             resetar();
-          }
-       );
+      var sucesso = function(fato,responseHeaders) {
+	 $scope.fatos.push(fato);
+		 
+	 for (var i = 0; i < $scope.lancamentos.length; i++){
+	    var lancamento = $scope.lancamentos[i];
+            console.log($scope.fato == fato);
+            lancamento.fato=fato;
+            Lancamento.save(lancamento,function(l,resonse){console.log("salvou " + l.id)},fail);
+	 }
+	 
+         $scope.lancamentos = new Array();
+	 resetar();
+       }
+
+      $scope.fato = Fato.save($scope.fato,sucesso,fail);
+
+
   };
 }])
 ;
