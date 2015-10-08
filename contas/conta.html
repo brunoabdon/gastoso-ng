@@ -1,7 +1,5 @@
 <h1 editable-text="conta.nome" buttons="no">{{conta.nome}}</h1>
 
-
-
 <table>
   <thead>
     <th>Data</th>
@@ -17,3 +15,7 @@
     </tr>
   </tbody>
 </table>
+
+<button ng-show="nomeOriginal != conta.nome" ng-click="alterarConta()">Salvar</button>
+
+

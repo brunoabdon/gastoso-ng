@@ -45,8 +45,17 @@ angular.module('gastosoApp.contas', ['ngRoute'])
   
   var contaId = $routeParams.id;
   
-  $scope.conta = Conta.get({id:contaId});
+  var salvaNomeOriginal = function(){$scope.nomeOriginal = $scope.conta.nome};
+
+  $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
+  
   $scope.lancamentos = Lancamento.query({conta:contaId});
+
+  $scope.alterarConta = function(){
+      $scope.conta.$save(salvaNomeOriginal);
+  }
+
+
 
 }]).controller('NovaContaCtrl', ['$scope','Conta',function($scope, Conta) {
   $scope.conta = new Conta();
