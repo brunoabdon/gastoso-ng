@@ -19,7 +19,7 @@ angular.module('gastosoApp', [
 }])
 .filter('real',['currencyFilter',function($currencyFilter) {
     return function(valor) {
-       return $currencyFilter(valor,'R$ ');
+       return $currencyFilter(valor/100,'R$ ');
     }
 }])
 
