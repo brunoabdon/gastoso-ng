@@ -55,19 +55,23 @@ td.dinheiro, input.dinheiro, div.dinheiro{
 
 span.dinheiro.positivo, 
 p.dinheiro.positivo,
-a.dinheiro.positivo {
+a.dinheiro.positivo,
+td.dinheiro.positivo {
     color:green;
 }
 
 span.dinheiro.dinheiro.negativo,
 p.dinheiro.dinheiro.negativo,
-a.dinheiro.dinheiro.negativo {
+a.dinheiro.dinheiro.negativo,
+td.dinheiro.negativo {
     color:#a00;
 }
 
 span.dinheiro.errado,
 p.dinheiro.errado,
-a.dinheiro.errado {
+a.dinheiro.errado,
+td.dinheiro.errado
+ {
    color:red;
 }
 
