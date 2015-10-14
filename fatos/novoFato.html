@@ -20,9 +20,9 @@
 
 
 <label for="valor">Valor:</label>
-<input id="valor" ng-model="lancamento.valor" ng-class="utils.classDinheiro(lancamento.valor)" type="number" format="number" >
+<input id="valor" ng-model="valor" ng-class="utils.classDinheiro(valor)" type="number" format="number">
 
-<button ng-click="adicionarLancamento()" ng-disabled="!lancamento.valor || !lancamento.conta" class="botaozinho">+</button>
+<button ng-click="adicionarLancamento()" ng-disabled="!valor || !lancamento.conta" class="botaozinho">+</button>
 
 </fieldset>
 

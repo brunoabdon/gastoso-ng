@@ -56,10 +56,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   });
 
   $scope.removerLancamento = function(lancamento){
-        console.log('removendo lancamento');
+       console.log('removendo lancamento');
        lancamento.$remove(
           function(){
              $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
+             $scope.total-=lancamento.valor;
           },
           function(){
             $scope.mensagem = {txt: obj.data, status: obj.status}; //criar Utils.mostraerro
@@ -72,40 +73,47 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 }]).controller('NovaFatoCtrl', ['$scope','dateFilter','Utils','Fato','Conta','Lancamento',
    function($scope, $dateFilter, Utils, Fato,Conta,Lancamento) {
 
+  var resetar = function(){
+    $scope.lancamentos = new Array();
+    $scope.fato = {dia: $dateFilter(new Date(),'yyyy-MM-dd')};
+    resetarNovoLancamento();
+  }
+  var resetarNovoLancamento = function(){
+
+    $scope.lancamento = new Lancamento({fato:$scope.fato});
+    $scope.valor = "";
+  }
+
+
   $scope.utils = Utils;
 
   $scope.contas = Conta.query();
 
   $scope.fatos = new Array();
-  $scope.lancamentos = new Array();
   $scope.total = 0;
-  $scope.fato = {dia: $dateFilter(new Date(),'yyyy-MM-dd')};
-  $scope.lancamento = new Lancamento({fato:$scope.fato});
+  resetar();
 
-  var resetar = function(){
-    $scope.fato = {dia: $dateFilter(new Date(),'yyyy-MM-dd')};
-    $scope.lancamento = new Lancamento({fato:$scope.fato});
-
-  }
 
   $scope.adicionarLancamento = function(){
 	  
-      var valor = parseFloat($scope.lancamento.valor);
+      var valor = parseFloat($scope.valor);
       if(isNaN(valor)){
 	     $scope.mensagem = {txt: 'Valor inválido: ' + $scope.valor};
 	     return;
       }
-	  
+      $scope.lancamento.valor = Math.round(valor * 100);
       $scope.lancamentos.push($scope.lancamento);
       $scope.contas.splice($scope.contas.indexOf($scope.lancamento.conta),1);
-      $scope.total += valor;
-      $scope.lancamento = {fato:$scope.fato};
+      $scope.total += $scope.lancamento.valor;
+      resetarNovoLancamento();
 
   }
   
   $scope.editarLancamento = function(lancamento){
 	   $scope.contas.push(lancamento.conta);
 	   $scope.lancamento = lancamento;
+           $scope.valor = lancamento.valor/100;
+           $scope.total -= lancamento.valor;
 	   $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
   }
   
@@ -125,8 +133,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
             Lancamento.save(lancamento,function(l,resonse){console.log("salvou " + l.id)},fail);
 	 }
 	 
-         $scope.lancamentos = new Array();
-	 resetar();
+         resetar();
        }
 
       $scope.fato = Fato.save($scope.fato,sucesso,fail);
