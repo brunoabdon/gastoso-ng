@@ -5,7 +5,6 @@ angular.module('gastosoApp', [
   'ngRoute',
   'ngResource',
   'xeditable',
-  'gastosoServices',
   'gastosoApp.contas',
   'gastosoApp.fatos'
 ])
@@ -31,24 +30,24 @@ var serverdomain = 'localhost:5000';
 
 var appBaseUrl = 'http://' + serverdomain;
 
-var gastosoService = angular.module('gastosoServices', ['ngResource']);
+var gastosoApp = angular.module('gastosoApp');
 
-gastosoService.factory('Conta', ['$resource',
+gastosoApp.factory('Conta', ['$resource',
   function($resource){
     return $resource(appBaseUrl + '/contas/:id', {id:'@id'}, {});
 }]);
 
-gastosoService.factory('Fato', ['$resource',
+gastosoApp.factory('Fato', ['$resource',
   function($resource){
     return $resource(appBaseUrl + '/fatos/:id', {id:'@id'}, {});
 }]);
 
-gastosoService.factory('Lancamento', ['$resource',
+gastosoApp.factory('Lancamento', ['$resource',
   function($resource){
     return $resource(appBaseUrl + '/lancamentos/:id', {id:'@id'}, {});
 }]);
 
-gastosoService.factory('Utils',[function(){
+gastosoApp.factory('Utils',[function(){
      var util = {};
      util.classDinheiro = function (valor) { 
         var klass = 'dinheiro';
