@@ -4,8 +4,8 @@
 <span ng-show="fato.id">&#10004;</span>
 </h1>
 
-<p class="msg" ng-show="mensagem != null">{{mensagem.txt}} 
-<img src="img/16/cancel-circle.png" ng-click="mensagem=null"></p>
+<p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}} 
+    <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
 
 <fieldset>
 <legend>Fato</legend>
@@ -42,8 +42,8 @@
   </tbody>
 </table>
 
-<button ng-click="adicionarFato()" ng-disabled="lancamentos.length == 0">
-<img src="img/16/plus.png">Adicionar</button>
+<button ng-click="fato.$save(salvarLancamentos,MsgService.handleFail)" ng-disabled="lancamentos.length == 0">
+<img src="img/16/plus.png">Salvar</button>
 <ng-include
   src="'fatos/listaFatos.html'">
 </ng-include>

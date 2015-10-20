@@ -14,14 +14,11 @@ angular.module('gastosoApp.contas', ['ngRoute'])
   });
 }])
 
-.controller('ContasCtrl', ['$scope','Conta','$routeParams',function($scope, Conta,$routeParams) {
+.controller('ContasCtrl', ['$scope','MsgService','Conta',function($scope, MsgService, Conta) {
    var contas = Conta.query(
-	function(obj){
+	function(){
             $scope.contas = contas;
-        },
-        function(obj){ 
-         $scope.mensagem = {txt: obj.data, status: obj.status}; //criar Utils.mostraerro
-      });
+        },MsgService.handleFail);
 
    $scope.removerConta = function(conta){
 
@@ -30,10 +27,7 @@ angular.module('gastosoApp.contas', ['ngRoute'])
         conta.$remove(
         function(){
            $scope.contas.splice($scope.contas.indexOf(conta),1);
-        },
-        function(obj){
-         $scope.mensagem = {txt: obj.data, status: obj.status}; //criar Utils.mostraerro
-        });
+        },MsgService.handleFail);
         
    };
 
@@ -55,16 +49,16 @@ angular.module('gastosoApp.contas', ['ngRoute'])
       $scope.conta.$save(salvaNomeOriginal);
   }
 
-
-
-}]).controller('NovaContaCtrl', ['$scope','Conta',function($scope, Conta) {
-  $scope.conta = new Conta();
+}]).controller('NovaContaCtrl', ['$scope','MsgService','Conta',function($scope, MsgService, Conta) {
+  
+    $scope.MsgService = MsgService;
+    $scope.conta = new Conta();
   $scope.adicionarConta = function(){
-       $scope.conta.$save(function(conta,responseHeaders){
-         $scope.mensagem = {txt: conta.nome + " criada.", status: responseHeaders.status};
-         console.log($scope.mensagem);
-         $scope.conta = new Conta();
-       });
+       $scope.conta.$save(
+            function(conta){
+                  MsgService.addMessage(conta.nome + " criada.");
+                  $scope.conta = new Conta();
+       },MsgService.handleFail);
   };
   
 }])

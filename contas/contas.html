@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <h1>Contas</h1>
 
-<p class="msg" ng-show="mensagem != null">{{mensagem.txt}} 
-<img src="img/16/cancel-circle.png" ng-click="mensagem=null"></p>
+<p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}} 
+    <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
 
 <ul>
    <li ng-repeat="conta in contas">
