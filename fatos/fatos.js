@@ -20,16 +20,16 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
       function(){
         $scope.fatos = fatos;
       }
-  );
+    );
 
-  $scope.removerFato = function(fato){
+    $scope.removerFato = function(fato){
 
         console.log('removendo fato');
-       fato.$remove(
-          function(){
-             $scope.fatos.splice($scope.fatos.indexOf(fato),1);
-          },
-          MsgService.handleFail
+        fato.$remove(
+            function(){
+                $scope.fatos.splice($scope.fatos.indexOf(fato),1);
+            },
+            MsgService.handleFail
         );
   };
 
@@ -84,7 +84,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   $scope.contas = 
         Conta.query(
             angular.noop,
-            MsgService.addMessage("Erro ao carregar contas"));
+            function(){MsgService.addMessage("Erro ao carregar contas");});
 
   $scope.fatos = new Array();
   $scope.total = 0;
