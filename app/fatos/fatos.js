@@ -15,7 +15,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   });
 }])
 
-.controller('FatosCtrl', ['$scope','Fato',function($scope, Fato) {
+.controller('FatosCtrl', ['$scope','MsgService','Fato',function($scope, MsgService, Fato) {
   var fatos = Fato.query(
       function(){
         $scope.fatos = fatos;
@@ -29,16 +29,15 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
           function(){
              $scope.fatos.splice($scope.fatos.indexOf(fato),1);
           },
-          function(){
-            $scope.mensagem = {txt: obj.data, status: obj.status}; //criar Utils.mostraerro
-          } 
-       );
+          MsgService.handleFail
+        );
   };
 
-}]).controller('FatoCtrl', ['$scope','$routeParams','Utils','Fato','Lancamento',
-    function($scope, $routeParams, Utils, Fato, Lancamento) {
+}]).controller('FatoCtrl', ['$scope','$routeParams','Utils','MsgService','Fato','Lancamento',
+    function($scope, $routeParams, Utils, MsgService, Fato, Lancamento) {
 
   $scope.utils = Utils;
+  $scope.MsgService = MsgService;
   $scope.total = 0;  
 
   var idFato = $routeParams.id;
@@ -61,32 +60,27 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
           function(){
              $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
              $scope.total-=lancamento.valor;
-          },
-          function(){
-            $scope.mensagem = {txt: obj.data, status: obj.status}; //criar Utils.mostraerro
-          } 
-       );
+          },MsgService.handleFail);
 
-  }
+  };
 
 
-}]).controller('NovaFatoCtrl', ['$scope','dateFilter','Utils','Fato','Conta','Lancamento',
-   function($scope, $dateFilter, Utils, Fato,Conta,Lancamento) {
+}]).controller('NovaFatoCtrl', ['$scope','dateFilter','Utils','MsgService','Fato','Conta','Lancamento',
+   function($scope, $dateFilter, Utils, MsgService, Fato, Conta,Lancamento) {
 
   var resetar = function(){
     $scope.lancamentos = new Array();
-    $scope.fato = {dia: $dateFilter(new Date(),'yyyy-MM-dd')};
+    $scope.fato = new Fato({dia: $dateFilter(new Date(),'yyyy-MM-dd')});
     resetarNovoLancamento();
-  }
+  };
   var resetarNovoLancamento = function(){
-
     $scope.lancamento = new Lancamento({fato:$scope.fato});
     $scope.valor = "";
-  }
+  };
 
 
   $scope.utils = Utils;
-
+  $scope.MsgService = MsgService;
   $scope.contas = Conta.query();
 
   $scope.fatos = new Array();
@@ -98,8 +92,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 	  
       var valor = parseFloat($scope.valor);
       if(isNaN(valor)){
-	     $scope.mensagem = {txt: 'Valor inválido: ' + $scope.valor};
-	     return;
+            MsgService.addMessage('Valor inválido: ' + $scope.valor);
+            return;
       }
       $scope.lancamento.valor = Math.round(valor * 100);
       $scope.lancamentos.push($scope.lancamento);
@@ -107,40 +101,26 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
       $scope.total += $scope.lancamento.valor;
       resetarNovoLancamento();
 
-  }
+  };
   
-  $scope.editarLancamento = function(lancamento){
+    $scope.editarLancamento = function(lancamento){
 	   $scope.contas.push(lancamento.conta);
 	   $scope.lancamento = lancamento;
            $scope.valor = lancamento.valor/100;
            $scope.total -= lancamento.valor;
 	   $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
-  }
-  
-  $scope.adicionarFato = function(){
-
-      var fail = function(obj){ 
-         $scope.mensagem = {txt: obj.data.message, status: obj.status};
-      }
-
-      var sucesso = function(fato,responseHeaders) {
-	 $scope.fatos.push(fato);
-		 
-	 for (var i = 0; i < $scope.lancamentos.length; i++){
-	    var lancamento = $scope.lancamentos[i];
-            console.log($scope.fato == fato);
-            lancamento.fato=fato;
-            Lancamento.save(lancamento,function(l,resonse){console.log("salvou " + l.id)},fail);
-	 }
-	 
-         resetar();
-       }
-
-      $scope.fato = Fato.save($scope.fato,sucesso,fail);
-
-
   };
+
+    $scope.salvarLancamentos = function(fato) {
+        $scope.fatos.push(fato);
+
+        for (var i = 0; i < $scope.lancamentos.length; i++){
+          var lancamento = $scope.lancamentos[i];
+          console.log($scope.fato == fato);
+          lancamento.$save(function(l){console.log("salvou " + l.id);},MsgService.handleFail);
+        }
+	 
+        resetar();
+    };
 }])
 ;
-
-

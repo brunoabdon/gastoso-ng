@@ -60,8 +60,32 @@ gastosoApp.factory('Utils',[function(){
 	}
         return klass;
      };
+     
+     
 
      return util;
 }]);
+
+gastosoApp.factory('MsgService',function(){
+    var MsgService = new function(){
+        this.message = "";
+        this.addMessage = function(newMessage){
+            MsgService.message = newMessage;
+        };
+        this.hasMessage = function(){
+            return MsgService.message !== "";
+        };
+        this.clearMessage=function(){
+            MsgService.message = "";
+        };
+        
+        this.handleFail = function(obj){
+            MsgService.message = obj.data;
+            MsgService.status = obj.status; //fazer alguma coisa com isso...
+        };
+    };
+    return MsgService;
+});
+
 
 //function currency(N){N=parseFloat(N);if(!isNaN(N))N=N.toFixed(2);else N='0.00';return N;}
