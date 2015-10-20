@@ -14,16 +14,13 @@ angular.module('gastosoApp', [
 .filter('data', ['dateFilter',function($dateFilter) {    
     return function(theDate) {
        return $dateFilter(theDate, 'MMMM dd, yyyy');
-    }
+    };
 }])
 .filter('real',['currencyFilter',function($currencyFilter) {
     return function(valor) {
        return $currencyFilter(valor/100,'R$ ');
-    }
-}])
-
-
-;
+    };
+}]);
 
 var serverdomain = 'localhost:5000';
 //var serverdomain = 'gastoso.herokuapp.com';
@@ -60,9 +57,7 @@ gastosoApp.factory('Utils',[function(){
 	}
         return klass;
      };
-     
-     
-
+   
      return util;
 }]);
 
@@ -86,6 +81,5 @@ gastosoApp.factory('MsgService',function(){
     };
     return MsgService;
 });
-
 
 //function currency(N){N=parseFloat(N);if(!isNaN(N))N=N.toFixed(2);else N='0.00';return N;}
