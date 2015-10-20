@@ -18,7 +18,6 @@
 <label for="conta">Conta:</label>
 <select ng-model="lancamento.conta" id="conta" ng-options="conta.nome for conta in contas track by conta.id"></select>
 
-
 <label for="valor">Valor:</label>
 <input id="valor" ng-model="valor" ng-class="utils.classDinheiro(valor)" type="number" format="number">
 

@@ -16,7 +16,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 }])
 
 .controller('FatosCtrl', ['$scope','MsgService','Fato',function($scope, MsgService, Fato) {
-  var fatos = Fato.query(
+    var fatos = Fato.query(
       function(){
         $scope.fatos = fatos;
       }
@@ -81,7 +81,10 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 
   $scope.utils = Utils;
   $scope.MsgService = MsgService;
-  $scope.contas = Conta.query();
+  $scope.contas = 
+        Conta.query(
+            angular.noop,
+            MsgService.addMessage("Erro ao carregar contas"));
 
   $scope.fatos = new Array();
   $scope.total = 0;
@@ -100,8 +103,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
       $scope.contas.splice($scope.contas.indexOf($scope.lancamento.conta),1);
       $scope.total += $scope.lancamento.valor;
       resetarNovoLancamento();
-
-  };
+};
   
     $scope.editarLancamento = function(lancamento){
 	   $scope.contas.push(lancamento.conta);
