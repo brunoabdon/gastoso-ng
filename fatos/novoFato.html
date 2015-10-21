@@ -27,8 +27,10 @@
 
 <table class="extrato" ng-show="lancamentos.length != 0">
   <thead>
-    <th>Onde</th>
-    <th>Quanto</th>
+    <tr>
+        <th>Onde</th>
+        <th>Quanto</th>
+    </tr>
   </thead>
 
   <tbody>
@@ -42,7 +44,7 @@
 </table>
 
 <button ng-click="fato.$save(salvarLancamentos,MsgService.handleFail)" ng-disabled="lancamentos.length == 0">
-<img src="img/16/plus.png">Salvar</button>
+<img src="img/16/plus.png" alt="Salvar">Salvar</button>
 <ng-include
   src="'fatos/listaFatos.html'">
 </ng-include>
