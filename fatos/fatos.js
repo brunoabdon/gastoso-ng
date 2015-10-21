@@ -68,16 +68,16 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 }]).controller('NovaFatoCtrl', ['$scope','dateFilter','Utils','MsgService','Fato','Conta','Lancamento',
    function($scope, $dateFilter, Utils, MsgService, Fato, Conta,Lancamento) {
 
-  var resetar = function(){
-    $scope.lancamentos = new Array();
-    $scope.fato = new Fato({dia: $dateFilter(new Date(),'yyyy-MM-dd')});
-    resetarNovoLancamento();
-  };
-  var resetarNovoLancamento = function(){
-    $scope.lancamento = new Lancamento({fato:$scope.fato});
-    $scope.valor = "";
-  };
+    var resetar = function(){
+        $scope.lancamentos = new Array();
+        $scope.fato = new Fato({dia: $dateFilter(new Date(),'yyyy-MM-dd')});
+        resetarNovoLancamento();
+    };
 
+    var resetarNovoLancamento = function(){
+        $scope.lancamento = new Lancamento({fato:$scope.fato});
+        $scope.valor = "";
+    };
 
   $scope.utils = Utils;
   $scope.MsgService = MsgService;
