@@ -33,8 +33,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
         );
   };
 
-}]).controller('FatoCtrl', ['$scope','$routeParams','Utils','MsgService','Fato','Lancamento',
-    function($scope, $routeParams, Utils, MsgService, Fato, Lancamento) {
+}]).controller('FatoCtrl', ['$scope','$routeParams','Utils','MsgService','Fato','Conta','Lancamento',
+    function($scope, $routeParams, Utils, MsgService, Fato, Conta, Lancamento) {
 
   $scope.utils = Utils;
   $scope.MsgService = MsgService;
@@ -65,33 +65,42 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     }
     
     $scope.confirmarLancamento = function(){
-        
+
         var valor = parseFloat($scope.valor);
         if(isNaN(valor)){
             MsgService.addMessage('Valor inválido: ' + $scope.valor);
             return;
         }
         var lancamento = $scope.lancamento;
-        $scope.lancamento = null;
-
-        $scope.lancamentos.push(lancamento);
-
-        $scope.contas.splice($scope.contas.indexOf(lancamento.conta),1);
-        $scope.conta = null;
-        $scope.valor = '';
-
+        
         lancamento.valor = Math.round(valor * 100);
         lancamento.conta = $scope.conta;
+
+        $scope.lancamento = null;
+        $scope.conta = null;
+        $scope.valor = '';
+        
+        $scope.lancamentos.push(lancamento);
+        $scope.contas.splice($scope.contas.indexOf(lancamento.conta),1);
+
     };
     
     $scope.editarLancamento = function (lancamento){
-        $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
-        $scope.lancamento = lancamento;
-        $scope.push(lancamento.conta);
-        $scope.conta=lancamento.conta;
-        $scope.valor=lancamento.valor/100;
-        lancamento.alterado = true;
-        lancamentosAlterados++;
+        var prepara = function(){
+            $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
+            $scope.lancamento = lancamento;
+            $scope.contas.push(lancamento.conta);
+            $scope.conta=lancamento.conta;
+            $scope.valor=lancamento.valor/100;
+            $scope.total-=lancamento.valor;
+            lancamento.alterado = true;
+            lancamentosAlterados++;
+        }
+        if(!$scope.contas){
+            $scope.contas = Conta.query(prepara,MsgService.handleFail);
+        } else {
+            prepara();
+        }
     };
     
     $scope.toggleExcluirLancamento = function(lancamento){
@@ -149,67 +158,4 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
       console.log('salvando: ' + $scope.fato);
       $scope.fato.$save(salvarLancamentos,MsgService.handleFail);
     };
-    
-
-
-}]).controller('NovaFatoCtrl', ['$scope','dateFilter','Utils','MsgService','Fato','Conta','Lancamento',
-   function($scope, $dateFilter, Utils, MsgService, Fato, Conta,Lancamento) {
-
-    var resetar = function(){
-        $scope.lancamentos = new Array();
-        $scope.fato = new Fato({dia: $dateFilter(new Date(),'yyyy-MM-dd')});
-        resetarNovoLancamento();
-    };
-
-    var resetarNovoLancamento = function(){
-        $scope.lancamento = new Lancamento({fato:$scope.fato});
-        $scope.valor = "";
-    };
-
-  $scope.utils = Utils;
-  $scope.MsgService = MsgService;
-  $scope.contas = 
-        Conta.query(
-            angular.noop,
-            function(){MsgService.addMessage("Erro ao carregar contas");});
-
-  $scope.fatos = new Array();
-  $scope.total = 0;
-  resetar();
-
-
-  $scope.adicionarLancamento = function(){
-	  
-      var valor = parseFloat($scope.valor);
-      if(isNaN(valor)){
-            MsgService.addMessage('Valor inválido: ' + $scope.valor);
-            return;
-      }
-      $scope.lancamento.valor = Math.round(valor * 100);
-      $scope.lancamentos.push($scope.lancamento);
-      $scope.contas.splice($scope.contas.indexOf($scope.lancamento.conta),1);
-      $scope.total += $scope.lancamento.valor;
-      resetarNovoLancamento();
-};
-  
-    $scope.editarLancamento = function(lancamento){
-	   $scope.contas.push(lancamento.conta);
-	   $scope.lancamento = lancamento;
-           $scope.valor = lancamento.valor/100;
-           $scope.total -= lancamento.valor;
-	   $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
-  };
-
-    $scope.salvarLancamentos = function(fato) {
-        $scope.fatos.push(fato);
-
-        for (var i = 0; i < $scope.lancamentos.length; i++){
-          var lancamento = $scope.lancamentos[i];
-          console.log($scope.fato == fato);
-          lancamento.$save(function(l){console.log("salvou " + l.id);},MsgService.handleFail);
-        }
-	 
-        resetar();
-    };
-}])
-;
+}]);

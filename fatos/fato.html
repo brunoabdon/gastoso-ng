@@ -3,6 +3,20 @@
 <p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}}
     <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
 
+<fieldset ng-show="lancamento">
+<legend>Lançamentos</legend>
+<label for="conta">Conta:</label>
+<select ng-model="conta" id="conta" ng-options="conta.nome for conta in contas track by conta.id"></select>
+
+<label for="valor">Valor:</label>
+<input id="valor" ng-model="valor" ng-class="utils.classDinheiro(valor)" type="number" format="number">
+
+<button ng-click="confirmarLancamento()" ng-disabled="!valor || !lancamento.conta" class="botaozinho">+</button>
+
+</fieldset>
+
+
+
 <table class="extrato">
   <col style="width:5%"/>
   <col style="width:5%"/>
