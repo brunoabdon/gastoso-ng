@@ -154,7 +154,9 @@ button img{
    margin-right: 1em;
 }
 
-
+button.botaozinho img{
+    margin: 0;
+}
 .msg{
    width: 40em;
    background-color: #fefefe;
@@ -229,3 +231,6 @@ tr.deletado a {
     text-decoration: line-through;
 }
 
+table.extrato.disabilitado {
+    opacity: 0.2;
+}
