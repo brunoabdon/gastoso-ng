@@ -64,17 +64,30 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
         $scope.total = 0;
     }
     
-    $scope.confirmarLancamento = function(){
-
-        var valor = parseFloat($scope.valor);
-        if(isNaN(valor)){
-            MsgService.addMessage('Valor inválido: ' + $scope.valor);
-            return;
-        }
-        var lancamento = $scope.lancamento;
+    $scope.cancelarEdicaoLancamento = function(){
+        terminarEdicacaoLancamento(false)
+    }
         
-        lancamento.valor = Math.round(valor * 100);
-        lancamento.conta = $scope.conta;
+    $scope.confirmarLancamento = function(){
+        terminarEdicacaoLancamento(true);
+    };
+    
+    var terminarEdicacaoLancamento = function(salvar){
+
+        var lancamento = $scope.lancamento;
+
+        if(salvar){
+            var valor = parseFloat($scope.valor);
+            if(isNaN(valor)){
+                MsgService.addMessage('Valor inválido: ' + $scope.valor);
+                return;
+            }
+
+            lancamento.valor = Math.round(valor * 100);
+            lancamento.conta = $scope.conta;
+            lancamento.alterado = true;
+            lancamentosAlterados++;
+        }
 
         $scope.lancamento = null;
         $scope.conta = null;
@@ -82,10 +95,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
         
         $scope.lancamentos.push(lancamento);
         $scope.contas.splice($scope.contas.indexOf(lancamento.conta),1);
-
     };
-    
+
     $scope.editarLancamento = function (lancamento){
+        if($scope.lancamento) return;
+        
         var prepara = function(){
             $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
             $scope.lancamento = lancamento;
@@ -93,8 +107,6 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
             $scope.conta=lancamento.conta;
             $scope.valor=lancamento.valor/100;
             $scope.total-=lancamento.valor;
-            lancamento.alterado = true;
-            lancamentosAlterados++;
         }
         if(!$scope.contas){
             $scope.contas = Conta.query(prepara,MsgService.handleFail);
