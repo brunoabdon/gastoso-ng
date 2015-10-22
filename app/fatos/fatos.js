@@ -38,31 +38,118 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 
   $scope.utils = Utils;
   $scope.MsgService = MsgService;
-  $scope.total = 0;  
+  
+  var lancamentosAlterados = 0;
+  var lancamentosExcluidos = 0;
+  
+  $scope.total = 0;
+  
+    if($routeParams.id){
+        $scope.fato = Fato.get({id:$routeParams.id},
+            function(){
+                $scope.lancamentos = 
+                    Lancamento.query({fato:$routeParams.id},
+                        function(){
+                            $scope.lancamentos.forEach(function(lancamento) {
+                                $scope.total+=lancamento.valor;
+                            });        
+                        },MsgService.handleFail);
+                MsgService.clearMessage();
+            },MsgService.handleFail);
+    } else {
+        var hojeStr = $dateFilter(new Date(),'yyyy-MM-dd');
+        $scope.fato = 
+            new Fato({dia: hojeStr, descricao:""});
+        $scope.lancamentos = new Array();
+        $scope.total = 0;
+    }
+    
+    $scope.confirmarLancamento = function(){
+        
+        var valor = parseFloat($scope.valor);
+        if(isNaN(valor)){
+            MsgService.addMessage('Valor inválido: ' + $scope.valor);
+            return;
+        }
+        var lancamento = $scope.lancamento;
+        $scope.lancamento = null;
 
-  var idFato = $routeParams.id;
+        $scope.lancamentos.push(lancamento);
 
-  var fato = Fato.get({id:idFato},function(){
-	$scope.fato = fato;
-  });
+        $scope.contas.splice($scope.contas.indexOf(lancamento.conta),1);
+        $scope.conta = null;
+        $scope.valor = '';
 
-  var lancamentos = Lancamento.query({fato:idFato},function(){
-        $scope.lancamentos = lancamentos;
+        lancamento.valor = Math.round(valor * 100);
+        lancamento.conta = $scope.conta;
+    };
+    
+    $scope.editarLancamento = function (lancamento){
+        $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
+        $scope.lancamento = lancamento;
+        $scope.push(lancamento.conta);
+        $scope.conta=lancamento.conta;
+        $scope.valor=lancamento.valor/100;
+        lancamento.alterado = true;
+        lancamentosAlterados++;
+    };
+    
+    $scope.toggleExcluirLancamento = function(lancamento){
+      lancamento.excluido = !lancamento.excluido;
+      var i = (lancamento.excluido?1:-1);
+      lancamentosExcluidos += i;
+      $scope.total -= i * lancamento.valor;
+    };
 
-        lancamentos.forEach(function(lancamento) {
-            $scope.total+=lancamento.valor;
-        });        
-  });
+    $scope.alterado = function(){
+      return (!$scope.fato.id) 
+              || lancamentosAlterados > 0
+              || lancamentosExcluidos > 0;
+    };
+    
+    var salvarLancamentos = function(){
+        salvarLancamento($scope.lancamentos,0);
+    };
+    
+    var salvarLancamento = function(lancamentos,i){
+        
+        if(i < lancamentos.length) {
+            console.log('salvando lancamento ' + i);
 
-  $scope.removerLancamento = function(lancamento){
-       console.log('removendo lancamento');
-       lancamento.$remove(
-          function(){
-             $scope.lancamentos.splice($scope.lancamentos.indexOf(lancamento),1);
-             $scope.total-=lancamento.valor;
-          },MsgService.handleFail);
+            var lancamento = lancamentos[i];
+            if(lancamento.excluido){
+                if(lancamento.id === null){
+                    lancamentos.splice(lancamentos.indexOf(lancamento),1);
+                    salvarLancamento(lancamentos,i+1);
+                } else {
+                    delete lancamento.alterado;
+                    delete lancamento.excluido;
+                    lancamento.$remove(function(){
+                        lancamentos.splice(lancamentos.indexOf(lancamento),1);
+                        salvarLancamento(lancamentos,i+1);
+                    },MsgService.handleFail);
+                }
+            } else if(lancamento.alterado){
+                delete lancamento.alterado;
+                delete lancamento.excluido;
+                lancamento.$save(function(){
+                    salvarLancamento(lancamentos,i+1);
+                });
+            } else {
+                salvarLancamento(lancamentos,i+1);
+            }
+        } else {
+            lancamentosAlterados = 0;
+            lancamentosExcluidos = 0;
+            MsgService.addMessage("O fato " + $scope.fato.descricao + " foi salvo com sucesso.");
+        }
+    };
 
-  };
+    $scope.salvarFato = function(){
+      console.log('salvando: ' + $scope.fato);
+      $scope.fato.$save(salvarLancamentos,MsgService.handleFail);
+    };
+    
 
 
 }]).controller('NovaFatoCtrl', ['$scope','dateFilter','Utils','MsgService','Fato','Conta','Lancamento',
