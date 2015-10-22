@@ -1,25 +1,29 @@
-<h1>{{fato.dia|data}} - {{fato.descricao}}</span></h1>
+<h1>{{fato.dia|data}} - {{fato.descricao}}</h1>
 
+<p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}}
+    <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
 
 <table class="extrato">
+  <col style="width:5%"/>
   <col style="width:5%"/>
   <col>
   <col>
   <thead>
     <tr>
-      <th/>
-      <th>Onde</th>
-      <th>Quanto</th>
+        <th colspan="2"></th>
+        <th>Onde</th>
+        <th>Quanto</th>
     </tr>
   </thead>
   <tfoot>
     <tr>
-      <td colspan="3">Total: <span ng-class="utils.classDinheiro(total)">{{total|real}}</span><td>
+      <td colspan="4">Total: <span ng-class="utils.classDinheiro(total)">{{total|real}}</span></td>
     </tr>
-  <tfoot>
+  </tfoot>
   <tbody>
-    <tr ng-repeat="lancamento in lancamentos" ng-click="">
-        <td><img src="img/16/bin.png" ng-click="removerLancamento(lancamento)"/></td>
+      <tr ng-repeat="lancamento in lancamentos" ng-class="{'deletado':lancamento.excluido}">
+        <td><img src="img/16/bin.png" ng-click="toggleExcluirLancamento(lancamento)" /></td>
+        <td><img src="img/16/pencil.png" ng-click="editarLancamento(lancamento)" ng-show="!lancamento.excluido"/></td>
         <td><a href="#/contas/{{lancamento.conta.id}}" 
             title={{lancamento.conta.nome}}
             >{{lancamento.conta.nome}}</a></td>
@@ -31,9 +35,5 @@
   </tbody>
 </table>
 
-<!--ul>
-<li ng-repeat="lancamento in lancamentos">
-    <span ng-class="utils.classDinheiro(lancamento.valor)">{{lancamento.valor|real}}</span> - <a href="#/contas/{{lancamento.conta.id}}">{{lancamento.conta.nome}}</a> 
-</li>
-    
-</ul-->
+<button ng-click="salvarFato()" ng-show="alterado()">
+<img src="img/16/plus.png" alt="Salvar">Salvar</button>
