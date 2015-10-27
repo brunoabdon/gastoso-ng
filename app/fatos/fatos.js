@@ -19,25 +19,28 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   });
 }])
 
-.controller('FatosCtrl', ['$scope','dateFilter','MsgService','Fato',function($scope, $dateFilter, MsgService, Fato) {
-    Fato.query({dataMax:$dateFilter(new Date(),'yyyy-MM-dd')},
-      function(fatos){
-          
-        $scope.fatosPorDia = {};
-        for(var i = 0; i < fatos.length; i++){
-            var fato = fatos[i];
-            var fatosDoDia = $scope.fatosPorDia[fato.dia];
-            if(!fatosDoDia ){
-                fatosDoDia = new Array();
-                
-                $scope.fatosPorDia[fato.dia] = fatosDoDia;
-                
-                
-            } 
-            fatosDoDia.push(fato);
-        }
-      }
-    );
+.controller('FatosCtrl', ['$scope','$routeParams', 'dateFilter','MsgService','MesNav','Fato',function($scope, $routeParams, $dateFilter, MsgService, MesNav, Fato) {
+    
+    $scope.mesNav = new MesNav($routeParams.mes?$routeParams.mes:new Date());
+    
+    $scope.$watch('mesNav.mesStr',function(){
+        Fato.query({mes:$scope.mesNav.mesStr},
+          function(fatos){
+
+            $scope.fatosPorDia = {};
+            for(var i = 0; i < fatos.length; i++){
+                var fato = fatos[i];
+                var fatosDoDia = $scope.fatosPorDia[fato.dia];
+                if(!fatosDoDia ){
+                    fatosDoDia = new Array();
+
+                    $scope.fatosPorDia[fato.dia] = fatosDoDia;
+                } 
+                fatosDoDia.push(fato);
+            }
+          }
+        );
+    });
 
     $scope.removerFato = function(fato){
 

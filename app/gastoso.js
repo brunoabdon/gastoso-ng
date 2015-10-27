@@ -48,7 +48,7 @@ gastosoApp.factory('Utils',[function(){
      var util = {};
      util.classDinheiro = function (valor) { 
         var klass = 'dinheiro';
-	if(valor != null && valor != '-' && isNaN(valor)) {
+	if(valor !== null && valor !== '-' && isNaN(valor)) {
 	   klass += ' errado';
 	} else if(valor > 0){
 	    klass += ' positivo';
@@ -80,6 +80,65 @@ gastosoApp.factory('MsgService',function(){
         };
     };
     return MsgService;
+});
+
+gastosoApp.factory('MesNav',function(){
+    
+    return function(data){
+        this.saveStrFormats = function(){
+            this.mesStr = 
+                this.ano
+                + '-'
+                + (this.mes >= 10 ? '' : '0')
+                + this.mes;
+            this.dateStr = this.mesStr + '-01';
+        };
+        
+        
+        if(data instanceof Date){
+            this.mes = data.getMonth() + 1;
+            this.ano = data.getFullYear();
+            this.saveStrFormats();
+        } else if (typeof data === 'string' && data.length === 7){
+            
+            var re = /^([0-9]{4})-([0-9]{2})$/;
+            
+            var res = re.exec(data)
+            if(res){
+
+                var mes = parseInt(res[2]);
+                var ano = parseInt(res[1]);
+                
+                if(mes >= 1 && mes <= 12){
+                    this.mes = mes;
+                    this.ano = ano;
+                    this.saveStrFormats();
+                }
+            }
+        }
+        
+        this.incrementaMes = function(){
+            var mes = this.mes+1;
+            if(mes === 13){
+                this.mes = 1;
+                this.ano++;
+            } else {
+                this.mes = mes;
+            }
+            this.saveStrFormats();
+        };
+        
+        this.decrementaMes = function(){
+          var mes = this.mes-1;
+          if(mes === 0){
+              this.mes = 12;
+              this.ano--;
+          } else {
+              this.mes = mes;
+          }
+          this.saveStrFormats();
+        };
+    };
 });
 
 //function currency(N){N=parseFloat(N);if(!isNaN(N))N=N.toFixed(2);else N='0.00';return N;}
