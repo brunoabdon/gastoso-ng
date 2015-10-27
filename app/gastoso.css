@@ -11,8 +11,17 @@ a{
 
 h1{
    margin: 0.2em 0.2em;
-   text-transform: capitalize;
 }
+
+h1 > img:first-child{
+    margin: 0 0.2em 0 0;
+    opacity: 0.2;
+}
+
+h1 > img:first-child:hover {
+    opacity: 1;
+}
+
 
 input[type='date']{
    width:9em;
@@ -27,11 +36,25 @@ input[type='date']:hover{
    border-style: solid;
 }
 
-input[type=date]::-webkit-inner-spin-button {
+input[type='date']::-webkit-inner-spin-button {
     -webkit-appearance: none;
     display: none;
 }
 
+input.inline[type='text'],
+input.inline[type='date']{
+    border:inherit;    
+    background-color: transparent;
+}
+
+input.inline[type='text']:hover,
+input.inline[type='text']:focus{
+   border-style: none none dashed none;
+   border-color: transparent;
+   border-width: 1px;
+   border-bottom-color: black;
+   background-color: transparent;
+}
 
 legend{
   margin-bottom:0;
@@ -74,6 +97,10 @@ a.dinheiro.errado,
 td.dinheiro.errado
  {
    color:red;
+}
+
+span.data{
+    text-transform: capitalize;
 }
 
 table.extrato, fieldset{
@@ -130,7 +157,7 @@ table.extrato > tbody > tr:hover{
 }
 
 
-button {
+button.mainButton {
   background-color: #17A894;
   color: #efefef;
   border-width:0;
@@ -140,7 +167,7 @@ button {
   -webkit-border-radius:0.4em;	
 }
 
-button:hover{
+button.mainButton:hover{
   background-color: #27B8A4;
   color: #dfdfdf;
 
@@ -150,7 +177,7 @@ button.botaozinho{
   padding: 0.1em 0.6em;
 }
 
-button img{
+button.mainButton img{
    margin-right: 1em;
 }
 
@@ -169,24 +196,24 @@ button.botaozinho img{
 
 }
 
-
+/*
 select, input {
   padding: 0.2em 0.2em;
   border-style:solid;
   border-width: 1px;
   -moz-border-radius:0.4em;
-  -webkit-border-radius:0.4em;	
+   -webkit-border-radius:0.4em;	
 }
 
 input[type="text"], input:not([type]),
 input[type="text"]:focus, input:not([type]):focus{
    border-style: none none dashed none;
    border-color: transparent;
-   border-bottom-color: black;
    background-color: transparent;
+   border-bottom-color: black;
    outline: -webkit-focus-ring-color none 0px
    
-}
+}*/
 
 .msg > img {
   margin: 0 0.5em;
@@ -231,6 +258,10 @@ tr.deletado a {
     text-decoration: line-through;
 }
 
-table.extrato.disabilitado {
+table.extrato.desabilitado {
     opacity: 0.2;
+}
+
+h1.alterado{
+    font-style: italic; 
 }
