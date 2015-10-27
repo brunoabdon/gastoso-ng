@@ -1,7 +1,27 @@
-<h1>{{fato.dia|data}} - {{fato.descricao}}</h1>
+<h1 ng-class="{'alterado':fatoAlterado}"><img src="img/16/pencil.png" ng-click="editarFato()" ng-show="fato.id && !editandoFato" class="botaozinho"
+        /><span class="data">{{fato.dia|data}}</span> - {{fato.descricao}}</h1>
 
 <p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}}
     <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
+
+<fieldset ng-show="editandoFato || !fato.id">
+    <legend>Fato</legend>
+    <input id="dia" type="date" ng-model="fato.dia" required>
+    <input ng-model="fato.descricao" id="descricao">
+
+    <button ng-click="confirmarFato()" 
+            ng-disabled="!fato.descricao"
+            ng-show="editandoFato"
+            class="botaozinho"
+            >&#10004;</button>
+    
+    <button ng-click="cancelarEdicaoFato()" 
+            ng-show="editandoFato"
+            class="botaozinho"
+            >&#10008</button>
+
+</fieldset>
+
 
 <fieldset ng-show="lancamento">
     <legend>Lançamentos</legend>
@@ -19,20 +39,20 @@
            format="number">
 
     <button ng-click="confirmarLancamento()" 
-            ng-disabled="!valor || !lancamento.conta" 
+            ng-disabled="!valor || !conta" 
             class="botaozinho"
-            ><img src="img/16/checkmark.png" alt="Confirmar"></button>
+            >&#10004;</button>
     
     <button ng-click="cancelarEdicaoLancamento()" 
             ng-disabled="!valor || !lancamento.conta" 
             class="botaozinho"
-            ><img src="img/16/cross.png" alt="Cancelar"></button>
+            >&#10008</button>
 
 </fieldset>
 
 
 
-<table class="extrato" ng-class="{'disabilitado':lancamento}">
+<table class="extrato" ng-class="{'desabilitado':alterando()}">
   <col style="width:5%"/>
   <col style="width:5%"/>
   <col>
@@ -64,5 +84,5 @@
   </tbody>
 </table>
 
-<button ng-click="salvarFato()" ng-show="alterado()">
+<button ng-click="salvarFato()" ng-show="alterado()" class="mainButton">
 <img src="img/16/checkmark.png" alt="Salvar">Salvar</button>
