@@ -33,35 +33,32 @@ angular.module('gastosoApp.contas', ['ngRoute'])
 
 }])
 .controller('ContaCtrl', ['$scope','$routeParams','Utils', 'Conta','Lancamento',
- function($scope, $routeParams, Utils, Conta, Lancamento) {
+    function($scope, $routeParams, Utils, Conta, Lancamento) {
   
-  $scope.utils = Utils;
+    $scope.utils = Utils;
   
-  var contaId = $routeParams.id;
+    var contaId = $routeParams.id;
   
-  var salvaNomeOriginal = function(){$scope.nomeOriginal = $scope.conta.nome};
+    var salvaNomeOriginal = function(){$scope.nomeOriginal = $scope.conta.nome;};
 
-  $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
+    $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
   
-  $scope.lancamentos = Lancamento.query({conta:contaId});
+    $scope.lancamentos = Lancamento.query({conta:contaId});
 
-  $scope.alterarConta = function(){
-      $scope.conta.$save(salvaNomeOriginal);
-  }
+    $scope.alterarConta = function(){
+        $scope.conta.$save(salvaNomeOriginal);
+    };
 
 }]).controller('NovaContaCtrl', ['$scope','MsgService','Conta',function($scope, MsgService, Conta) {
   
     $scope.MsgService = MsgService;
     $scope.conta = new Conta();
-  $scope.adicionarConta = function(){
-       $scope.conta.$save(
+    $scope.adicionarConta = function(){
+        $scope.conta.$save(
             function(conta){
-                  MsgService.addMessage(conta.nome + " criada.");
-                  $scope.conta = new Conta();
+                MsgService.addMessage(conta.nome + " criada.");
+                $scope.conta = new Conta();
        },MsgService.handleFail);
   };
-  
 }])
 ;
-
-
