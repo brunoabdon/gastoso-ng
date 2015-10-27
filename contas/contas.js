@@ -15,10 +15,12 @@ angular.module('gastosoApp.contas', ['ngRoute'])
 }])
 
 .controller('ContasCtrl', ['$scope','MsgService','Conta',function($scope, MsgService, Conta) {
-   var contas = Conta.query(
-	function(){
+    
+    var contas = Conta.query(
+        function(){
             $scope.contas = contas;
         },MsgService.handleFail);
+    
 
    $scope.removerConta = function(conta){
 
@@ -32,8 +34,8 @@ angular.module('gastosoApp.contas', ['ngRoute'])
    };
 
 }])
-.controller('ContaCtrl', ['$scope','$routeParams','Utils', 'Conta','Lancamento',
-    function($scope, $routeParams, Utils, Conta, Lancamento) {
+.controller('ContaCtrl', ['$scope','$routeParams','MesNav','Utils', 'Conta','Lancamento',
+    function($scope, $routeParams, MesNav, Utils, Conta, Lancamento) {
   
     $scope.utils = Utils;
   
@@ -41,9 +43,12 @@ angular.module('gastosoApp.contas', ['ngRoute'])
   
     var salvaNomeOriginal = function(){$scope.nomeOriginal = $scope.conta.nome;};
 
-    $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
-  
-    $scope.lancamentos = Lancamento.query({conta:contaId});
+    $scope.mesNav = new MesNav($routeParams.mes?$routeParams.mes:new Date());
+
+    $scope.$watch('mesNav.mesStr',function(){
+        $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
+        $scope.lancamentos = Lancamento.query({conta:contaId,mes:$scope.mesNav.mesStr});
+    });
 
     $scope.alterarConta = function(){
         $scope.conta.$save(salvaNomeOriginal);
