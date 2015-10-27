@@ -20,9 +20,22 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 }])
 
 .controller('FatosCtrl', ['$scope','dateFilter','MsgService','Fato',function($scope, $dateFilter, MsgService, Fato) {
-    var fatos = Fato.query({dataMax:$dateFilter(new Date(),'yyyy-MM-dd')},
-      function(){
-        $scope.fatos = fatos;
+    Fato.query({dataMax:$dateFilter(new Date(),'yyyy-MM-dd')},
+      function(fatos){
+          
+        $scope.fatosPorDia = {};
+        for(var i = 0; i < fatos.length; i++){
+            var fato = fatos[i];
+            var fatosDoDia = $scope.fatosPorDia[fato.dia];
+            if(!fatosDoDia ){
+                fatosDoDia = new Array();
+                
+                $scope.fatosPorDia[fato.dia] = fatosDoDia;
+                
+                
+            } 
+            fatosDoDia.push(fato);
+        }
       }
     );
 
