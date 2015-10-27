@@ -19,8 +19,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   });
 }])
 
-.controller('FatosCtrl', ['$scope','MsgService','Fato',function($scope, MsgService, Fato) {
-    var fatos = Fato.query(
+.controller('FatosCtrl', ['$scope','dateFilter','MsgService','Fato',function($scope, $dateFilter, MsgService, Fato) {
+    var fatos = Fato.query({dataMax:$dateFilter(new Date(),'yyyy-MM-dd')},
       function(){
         $scope.fatos = fatos;
       }
