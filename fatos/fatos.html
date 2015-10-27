@@ -1,4 +1,10 @@
 <h1>Fatos</h1>
+
+<p>
+<a href ng-click="mesNav.decrementaMes()" >Mês anterior</a>
+<a href ng-click="mesNav.incrementaMes()" >Próximo mês</a>
+</p> 
+
 <table style="font-family: monospace">
     <tbody ng-repeat="fatosDoDia in fatosPorDia">
         <tr><th colspan="2" style="text-align: left">{{fatosDoDia [0].dia|date:"dd/MM/yyyy"}}</th>
