@@ -44,10 +44,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 
     $scope.removerFato = function(fato){
 
+        var fatos = $scope.fatosPorDia[fato.dia];
         console.log('removendo fato');
         fato.$remove(
             function(){
-                $scope.fatos.splice($scope.fatos.indexOf(fato),1);
+                fatos.splice(fatos.indexOf(fato),1);
             },
             MsgService.handleFail
         );
