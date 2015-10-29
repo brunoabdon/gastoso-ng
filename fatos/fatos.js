@@ -108,7 +108,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
             $scope.total += lancamento.valor;
         }
 
-        $scope.lancamento = ehCriacao? {fato:$scope.fato} : null;
+        $scope.lancamento = 
+            ehCriacao
+                ? new Lancamento({fato:$scope.fato}) 
+                : null;
+                
         $scope.conta = null;
         $scope.valor = '';
         
