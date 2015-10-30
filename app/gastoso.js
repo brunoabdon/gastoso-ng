@@ -22,26 +22,23 @@ angular.module('gastosoApp', [
     };
 }]);
 
-var serverdomain = 'localhost:5000';
-//var serverdomain = 'gastoso.herokuapp.com';
 
-var appBaseUrl = 'http://' + serverdomain;
 
 var gastosoApp = angular.module('gastosoApp');
 
-gastosoApp.factory('Conta', ['$resource',
-  function($resource){
-    return $resource(appBaseUrl + '/contas/:id', {id:'@id'}, {});
+gastosoApp.factory('Conta', ['$resource','Utils',
+  function($resource,Utils){
+    return $resource(Utils.appBaseUrl + '/contas/:id', {id:'@id'}, {});
 }]);
 
-gastosoApp.factory('Fato', ['$resource',
-  function($resource){
-    return $resource(appBaseUrl + '/fatos/:id', {id:'@id'}, {});
+gastosoApp.factory('Fato', ['$resource','Utils',
+  function($resource,Utils){
+    return $resource(Utils.appBaseUrl + '/fatos/:id', {id:'@id'}, {});
 }]);
 
-gastosoApp.factory('Lancamento', ['$resource',
-  function($resource){
-    return $resource(appBaseUrl + '/lancamentos/:id', {id:'@id'}, {});
+gastosoApp.factory('Lancamento', ['$resource','Utils',
+  function($resource,Utils){
+    return $resource(Utils.appBaseUrl + '/lancamentos/:id', {id:'@id'}, {});
 }]);
 
 gastosoApp.factory('Utils',[function(){
@@ -57,6 +54,13 @@ gastosoApp.factory('Utils',[function(){
 	}
         return klass;
      };
+     
+    var serverDomain = 
+        window.location.host === "localhost:8000"
+            ? "localhost:5000"
+            : "gastoso.herokuapp.com";
+            
+    util.appBaseUrl = 'http://' + serverDomain;
    
      return util;
 }]);
