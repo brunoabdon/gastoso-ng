@@ -5,11 +5,12 @@ angular.module('gastosoApp', [
   'ngRoute',
   'ngResource',
   'xeditable',
+  'ngStorage',
   'gastosoApp.contas',
   'gastosoApp.fatos'
 ])
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/contas'});
+.config(['$routeProvider',function($routeProvider) {
+    $routeProvider.otherwise({redirectTo: '/contas'});   
 }])
 .filter('data', ['dateFilter',function($dateFilter) {    
     return function(theDate) {
@@ -20,9 +21,47 @@ angular.module('gastosoApp', [
     return function(valor) {
        return $currencyFilter(valor/100,'R$ ');
     };
+}])
+.controller('LoginCtrl',['$rootScope' ,'$scope','$localStorage','$http','$timeout','Utils',
+    function($rootScope, $scope, $localStorage,$http,$timeout,Utils){
+        
+        $scope.password = '';
+        
+        $scope.login = function(){
+            if(!$rootScope.isLoggedIn){
+
+                console.log($scope.password);
+
+                $http
+                    .post(Utils.appBaseUrl + '/login', $scope.password)
+                    .then(function(response){
+                        $localStorage.authKey = angular.fromJson(response.data);
+                        $rootScope.isLoggedIn = true;
+                        console.log($localStorage.authKey);
+                        $http.defaults.headers.common['X-Abd-auth_token'] = $localStorage.authKey.token;
+                    }, function(response){
+                        $scope.loginErrorMsg = response.statusText;
+                        $timeout(function(){
+                            delete $scope.loginErrorMsg;
+                        },3000);
+                    });
+            }
+        };
+
+        $scope.logout = function(){
+            delete $localStorage.authKey;
+            $rootScope.isLoggedIn = false;
+            $http.defaults.headers.common['X-Abd-auth_token'] = null;
+        };
+    }
+])
+.run(['$rootScope','$localStorage','$http',function($rootScope,$localStorage,$http){
+        $rootScope.isLoggedIn = false || $localStorage.authKey;
+        if($rootScope.isLoggedIn){
+            $http.defaults.headers.common['X-Abd-auth_token'] 
+                = $localStorage.authKey.token;
+        }
 }]);
-
-
 
 var gastosoApp = angular.module('gastosoApp');
 
@@ -107,7 +146,7 @@ gastosoApp.factory('MesNav',function(){
             
             var re = /^([0-9]{4})-([0-9]{2})$/;
             
-            var res = re.exec(data)
+            var res = re.exec(data);
             if(res){
 
                 var mes = parseInt(res[2]);
