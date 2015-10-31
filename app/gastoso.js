@@ -94,12 +94,10 @@ gastosoApp.factory('Utils',[function(){
         return klass;
      };
      
-    var serverDomain = 
+    util.appBaseUrl = 
         window.location.host === "localhost:8000"
-            ? "localhost:5000"
-            : "gastoso.herokuapp.com";
-            
-    util.appBaseUrl = 'http://' + serverDomain;
+            ? "http://localhost:5000"
+            : "https://gastoso.herokuapp.com";
    
      return util;
 }]);
