@@ -166,9 +166,9 @@ button.mainButton {
   color: #efefef;
   border-width:0;
   padding: 1em 1.5em;
-
   -moz-border-radius:0.4em;
-  -webkit-border-radius:0.4em;	
+  -webkit-border-radius:0.4em;
+  font-family: Symbola;
 }
 
 button.mainButton:hover{
@@ -230,18 +230,28 @@ ul.nav {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    background-color: #98bf21;
+    width: 30em;
 }
+
 
 ul.nav li {
     float: left;
+    margin: 0 0.5em;
+    vertical-align: middle;
+    height: 2em;
 }
+
+ul.nav li img{
+    vertical-align: -webkit-baseline-middle;
+}
+
 
 ul.nav li a:link, ul.nav li a:visited {
     display: block;
-    width: 120px;
     font-weight: bold;
     color: #FFFFFF;
-    background-color: #98bf21;
+
     text-align: center;
     padding: 4px;
     text-decoration: none;
@@ -251,7 +261,6 @@ ul.nav li a:link, ul.nav li a:visited {
 ul.nav li a:hover, ul.nav li a:active {
     background-color: #7A991A;
 }
-
 
 tr.deletado td {
     background-color: red;
