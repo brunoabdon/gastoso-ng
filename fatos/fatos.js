@@ -45,14 +45,16 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     $scope.removerFato = function(fato){
 
         var fatos = $scope.fatosPorDia[fato.dia];
+        if(confirm('Deletar ' + fato.descricao + '?')){
         console.log('removendo fato');
-        fato.$remove(
-            function(){
-                fatos.splice(fatos.indexOf(fato),1);
-            },
-            MsgService.handleFail
-        );
-  };
+            fato.$remove(
+                function(){
+                    fatos.splice(fatos.indexOf(fato),1);
+                },
+                MsgService.handleFail
+            );
+        }
+    };
 
 }]).controller('FatoCtrl', 
     ['$scope','$routeParams','dateFilter','Utils','MsgService','Fato','Conta','Lancamento',
