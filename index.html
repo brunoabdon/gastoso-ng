@@ -22,7 +22,7 @@
     <div ng-if="!isLoggedIn" ng-controller="LoginCtrl">
         <fieldset style="border-style: double; border-width: 1px; width:15em;">
           <legend>Password</legend>
-          <input ng-model="password" size="15"/>
+          <input ng-model="password" size="15" type="password"/>
           <button ng-click="login()" ><img src="img/16/enter.png" alt="Logar"></button>
           <p ng-bind="loginErrorMsg"></p>
         </fieldset>
