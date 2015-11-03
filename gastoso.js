@@ -30,14 +30,11 @@ angular.module('gastosoApp', [
         $scope.login = function(){
             if(!$rootScope.isLoggedIn){
 
-                console.log($scope.password);
-
                 $http
                     .post(Utils.appBaseUrl + '/login', $scope.password)
                     .then(function(response){
                         $localStorage.authKey = angular.fromJson(response.data);
                         $rootScope.isLoggedIn = true;
-                        console.log($localStorage.authKey);
                         $http.defaults.headers.common['X-Abd-auth_token'] = $localStorage.authKey.token;
                     }, function(response){
                         $scope.loginErrorMsg = response.statusText;
