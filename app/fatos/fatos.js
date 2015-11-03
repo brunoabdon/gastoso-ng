@@ -85,7 +85,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     };
         
     $scope.cancelarEdicaoLancamento = function(){
-        terminarEdicacaoLancamento(false)
+        terminarEdicacaoLancamento(false);
     };
         
     $scope.confirmarLancamento = function(){
@@ -235,5 +235,4 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
         $scope.editarLancamento(new Lancamento({fato:$scope.fato}));
         $scope.lancamentos = new Array();
     }
-
 }]);
