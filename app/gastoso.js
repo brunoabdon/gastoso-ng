@@ -10,7 +10,7 @@ angular.module('gastosoApp', [
   'gastosoApp.fatos'
 ])
 .config(['$routeProvider',function($routeProvider) {
-    $routeProvider.otherwise({redirectTo: '/contas'});   
+    $routeProvider.otherwise({redirectTo: '/fatos'});   
 }])
 .filter('data', ['dateFilter',function($dateFilter) {    
     return function(theDate) {
