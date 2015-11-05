@@ -2,7 +2,7 @@
 angular.module('gastosoApp').factory('Login',['$rootScope' ,'$localStorage','$http','Utils',
     function($rootScope, $localStorage,$http,Utils){
 
-        function login(password){
+        function login(password,successHandler,errorHandler){
             if(!$rootScope.isLoggedIn){
 
                 $http
@@ -10,9 +10,13 @@ angular.module('gastosoApp').factory('Login',['$rootScope' ,'$localStorage','$ht
                     .then(function(response){
                         $localStorage.authKey = angular.fromJson(response.data);
                         $rootScope.isLoggedIn = true;
-                        $http.defaults.headers.common['X-Abd-auth_token'] = $localStorage.authKey.token;
+                        $http.defaults.headers.common['X-Abd-auth_token'] = 
+                            $localStorage.authKey.token;
+                    
+                        if(successHandler) successHandler(response);
                     }, function(response){
                         console.log('deu ruim no login');
+                        if(errorHandler) errorHandler(response);
                     });
             }
         };
