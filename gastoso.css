@@ -119,7 +119,6 @@ table.extrato, fieldset{
   -webkit-border-radius:0.5em;	
 }
 
-
 table.extrato {
    border-style: none;
    width: 30em;
@@ -168,7 +167,6 @@ button.mainButton {
   padding: 1em 1.5em;
   -moz-border-radius:0.4em;
   -webkit-border-radius:0.4em;
-  font-family: Symbola;
 }
 
 button.mainButton:hover{
