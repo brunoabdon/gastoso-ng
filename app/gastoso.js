@@ -22,34 +22,15 @@ angular.module('gastosoApp', [
        return $currencyFilter(valor/100,'R$ ');
     };
 }])
-.controller('LoginCtrl',['$rootScope' ,'$scope','$localStorage','$http','$timeout','Utils',
-    function($rootScope, $scope, $localStorage,$http,$timeout,Utils){
+.controller('LoginCtrl',['Login' ,'$scope',function(Login, $scope){
         
         $scope.password = '';
         
         $scope.login = function(){
-            if(!$rootScope.isLoggedIn){
-
-                $http
-                    .post(Utils.appBaseUrl + '/login', $scope.password)
-                    .then(function(response){
-                        $localStorage.authKey = angular.fromJson(response.data);
-                        $rootScope.isLoggedIn = true;
-                        $http.defaults.headers.common['X-Abd-auth_token'] = $localStorage.authKey.token;
-                    }, function(response){
-                        $scope.loginErrorMsg = response.statusText;
-                        $timeout(function(){
-                            delete $scope.loginErrorMsg;
-                        },3000);
-                    });
-            }
+            Login.login($scope.password);
         };
-
-        $scope.logout = function(){
-            delete $localStorage.authKey;
-            $rootScope.isLoggedIn = false;
-            $http.defaults.headers.common['X-Abd-auth_token'] = null;
-        };
+        
+        $scope.logout = Login.logout;
     }
 ])
 .run(['$rootScope','$localStorage','$http',function($rootScope,$localStorage,$http){
