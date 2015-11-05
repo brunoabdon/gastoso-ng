@@ -22,12 +22,17 @@ angular.module('gastosoApp', [
        return $currencyFilter(valor/100,'R$ ');
     };
 }])
-.controller('LoginCtrl',['Login' ,'$scope',function(Login, $scope){
+.controller('LoginCtrl',['Login' ,'$scope','$timeout',function(Login, $scope,$timeout){
         
         $scope.password = '';
         
         $scope.login = function(){
-            Login.login($scope.password);
+            Login.login($scope.password,angular.noop,function(res){
+                $scope.loginErrorMsg = res.statusText;
+                $timeout(function(){
+                    delete $scope.loginErrorMsg;
+                },3000);                
+            });
         };
         
         $scope.logout = Login.logout;
