@@ -17,7 +17,7 @@
 
   <tbody>
     <tr ng-repeat="lancamento in lancamentos">
-        <td><a href="#/fatos?dia={{lancamento.fato.dia}}">{{lancamento.fato.dia|data}}</a></td>
+        <td><a href="#/fatos?dia={{lancamento.fato.dia}}">{{lancamento.fato.dia|date:"dd/MM/yyyy - EEE"}}</a></td>
         <td><a href="#/fatos/{{lancamento.fato.id}}">{{lancamento.fato.descricao}}</a></td>
         <td ng-class="utils.classDinheiro(lancamento.valor)">{{lancamento.valor|real}}</td>
     </tr>
