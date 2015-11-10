@@ -7,7 +7,7 @@
 
 <table>
     <tbody ng-repeat="fatosDoDia in fatosPorDia">
-        <tr><th colspan="2" style="text-align: left">{{fatosDoDia [0].dia|date:"dd/MM/yyyy"}}</th>
+        <tr><th colspan="2" style="text-align: left">{{fatosDoDia [0].dia|date:"dd/MM/yyyy - EEEE"}}</th>
         </tr>
         <tr ng-repeat="fato in fatosDoDia">
             <td><img src="img/16/bin.png" ng-click="removerFato(fato)"/></td>
