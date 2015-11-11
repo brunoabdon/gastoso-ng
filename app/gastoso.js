@@ -27,7 +27,12 @@ angular.module('gastosoApp', [
         $scope.password = '';
         
         $scope.login = function(){
-            Login.login($scope.password,angular.noop,function(res){
+            $scope.loginErrorMsg = 'Logando...';
+            Login.login($scope.password,
+                function(){
+                    $scope.loginErrorMsg = 'Login Ok! Aguarde...'
+                },
+                function(res){
                 $scope.loginErrorMsg = res.statusText;
                 $timeout(function(){
                     delete $scope.loginErrorMsg;
