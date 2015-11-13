@@ -11,7 +11,8 @@
         </tr>
         <tr ng-repeat="fato in fatosDoDia">
             <td><img src="img/16/bin.png" ng-click="removerFato(fato)"/></td>
-            <td><a href="#/fatos/{{fato.id}}">{{fato.descricao}}</a></td> 
+            <td><a href="#/fatos/{{fato.id}}">{{fato.descricao}}</a> 
+                <span ng-class="utils.classDinheiro(fato.total)">{{fato.total|real}}</span></td>
         </tr>
     </tbody>
 </table>

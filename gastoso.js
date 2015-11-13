@@ -10,7 +10,7 @@ angular.module('gastosoApp', [
   'gastosoApp.fatos'
 ])
 .config(['$routeProvider',function($routeProvider) {
-    $routeProvider.otherwise({redirectTo: '/fatos'});   
+    $routeProvider.otherwise({redirectTo: '/fatos'});
 }])
 .filter('data', ['dateFilter',function($dateFilter) {    
     return function(theDate) {
@@ -30,7 +30,7 @@ angular.module('gastosoApp', [
             $scope.loginErrorMsg = 'Logando...';
             Login.login($scope.password,
                 function(){
-                    $scope.loginErrorMsg = 'Login Ok! Aguarde...'
+                    $scope.loginErrorMsg = 'Login Ok! Aguarde...';
                 },
                 function(res){
                 $scope.loginErrorMsg = res.statusText;
@@ -58,14 +58,64 @@ gastosoApp.factory('Conta', ['$resource','Utils',
     return $resource(Utils.appBaseUrl + '/contas/:id', {id:'@id'}, {});
 }]);
 
-gastosoApp.factory('Fato', ['$resource','Utils',
-  function($resource,Utils){
+gastosoApp.factory('Fato', ['$resource','Utils', function($resource,Utils){
     return $resource(Utils.appBaseUrl + '/fatos/:id', {id:'@id'}, {});
 }]);
 
-gastosoApp.factory('Lancamento', ['$resource','Utils',
-  function($resource,Utils){
+gastosoApp.factory('Lancamento', ['$resource','Utils', function($resource,Utils){
     return $resource(Utils.appBaseUrl + '/lancamentos/:id', {id:'@id'}, {});
+  }]);
+
+gastosoApp.factory('Depends',['Conta','Fato','Lancamento',
+    function(Conta,Fato,Lancamento){
+        
+        var Depends = {};
+
+        var carregaConta = function(lancamentos,idx,mapContas,successCB,errorCB){
+            if(lancamentos.length > idx){
+                var lancamento = lancamentos[idx];
+                var contaId = lancamento.contaId;
+                var conta = mapContas[contaId];
+                if(!conta){
+                    Conta.get({id:contaId},function(conta){
+                        console.log('salvando ' + conta.nome + ' no cache['+conta.id+']. Tam: ' + mapContas.length);
+                        mapContas[conta.id] = conta;
+                        lancamento.conta = conta;
+                        carregaConta(lancamentos,++idx,mapContas,successCB,errorCB);
+                    },errorCB);
+                } else {
+                    console.log('reusando ' +conta.id + '-' + conta.nome + ' pra ' + lancamento);
+                    lancamento.conta = conta;
+                    carregaConta(lancamentos,++idx,mapContas,successCB,errorCB);
+                }
+            } else {
+                (successCB||angular.noop)(lancamentos);
+            }
+        };
+
+        var lancamentosDoFato = function(fato,successCallback,errorCallback,cacheContas){
+            Lancamento.query({fato:fato.id},
+            function(lancamentos){
+                carregaConta(lancamentos,0,(cacheContas||{}),successCallback,errorCallback);
+            }
+            ,errorCallback);
+        };  
+
+        Depends.carregaLancamentos = function(fato,success,fail,cacheContas){
+        lancamentosDoFato(fato,
+             function(lancamentos){
+                 fato.lancamentos = lancamentos;
+                 (success||angular.noop)(lancamentos);
+                 fato.total = 0;
+                 lancamentos.forEach(function(lancamento) {
+                     fato.total+=lancamento.valor;
+                 });        
+        }
+        ,fail,cacheContas);        
+     };
+
+        return Depends;    
+        
 }]);
 
 gastosoApp.factory('Utils',[function(){
