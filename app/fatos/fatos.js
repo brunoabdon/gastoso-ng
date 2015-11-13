@@ -19,17 +19,25 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   });
 }])
 
-.controller('FatosCtrl', ['$scope','$routeParams', 'dateFilter','MsgService','MesNav','Fato',function($scope, $routeParams, $dateFilter, MsgService, MesNav, Fato) {
+.controller('FatosCtrl', ['$scope','$routeParams', 'Utils','MsgService','MesNav','Fato', 'Depends',
+    function($scope, $routeParams, Utils, MsgService, MesNav, Fato, Depends) {
+    
+    $scope.utils = Utils;
     
     $scope.mesNav = new MesNav($routeParams.mes?$routeParams.mes:new Date());
     
     $scope.$watch('mesNav.mesStr',function(){
+        
         Fato.query({mes:$scope.mesNav.mesStr},
           function(fatos){
-
+            var cacheContas = new Array();
             $scope.fatosPorDia = {};
-            for(var i = 0; i < fatos.length; i++){
+            
+            function processaFato(fatos,i){
+                if(i>=fatos.length) return;
+                
                 var fato = fatos[i];
+
                 var fatosDoDia = $scope.fatosPorDia[fato.dia];
                 if(!fatosDoDia ){
                     fatosDoDia = new Array();
@@ -37,7 +45,14 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                     $scope.fatosPorDia[fato.dia] = fatosDoDia;
                 } 
                 fatosDoDia.push(fato);
+                
+                Depends.carregaLancamentos(
+                    fato,
+                    function(){processaFato(fatos,++i);},
+                    MsgService.handleFail,
+                    cacheContas);
             }
+            processaFato(fatos,0);
           }
         );
     });
@@ -56,9 +71,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
         }
     };
 
-}]).controller('FatoCtrl', 
-    ['$scope','$routeParams','dateFilter','Utils','MsgService','Fato','Conta','Lancamento',
-    function($scope, $routeParams, $dateFilter, Utils, MsgService, Fato, Conta, Lancamento) {
+}]).controller('FatoCtrl', ['$scope','$routeParams','dateFilter','Utils','MsgService', 'Depends',  'Fato','Conta','Lancamento',
+    function($scope, $routeParams, $dateFilter, Utils, MsgService, Depends, Fato, Conta, Lancamento) {
 
     $scope.utils = Utils;
     $scope.MsgService = MsgService;
@@ -214,25 +228,23 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     var lancamentosAlterados = 0;
     var lancamentosExcluidos = 0;
 
-    $scope.total = 0;
-
     if(!ehCriacao){
         $scope.fato = Fato.get({id:$routeParams.id},
-            function(){
-                $scope.lancamentos = 
-                    Lancamento.query({fato:$routeParams.id},
-                        function(){
-                            $scope.lancamentos.forEach(function(lancamento) {
-                                $scope.total+=lancamento.valor;
-                            });        
-                        },MsgService.handleFail);
-                MsgService.clearMessage();
-            },MsgService.handleFail);
+            function(fato){
+                Depends.carregaLancamentos(fato,
+                    function(lancamentos){
+                        $scope.lancamentos = lancamentos;
+                        $scope.total = fato.total;
+                    },MsgService.handleFail);
+            }
+            ,MsgService.handleFail);
+            
     } else {
         var hojeStr = $dateFilter(new Date(),'yyyy-MM-dd');
         $scope.fato = 
             new Fato({dia: hojeStr, descricao:""});
         $scope.editarLancamento(new Lancamento({fato:$scope.fato}));
         $scope.lancamentos = new Array();
+        $scope.total = 0;
     }
 }]);
