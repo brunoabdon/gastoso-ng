@@ -32,12 +32,10 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
           function(fatos){
             var cacheContas = new Array();
             $scope.fatosPorDia = {};
-            
-            function processaFato(fatos,i){
-                if(i>=fatos.length) return;
-                
-                var fato = fatos[i];
 
+            for(var i = 0; i < fatos.length; i++){
+                var fato = fatos[i];
+                fato.total=0;
                 var fatosDoDia = $scope.fatosPorDia[fato.dia];
                 if(!fatosDoDia ){
                     fatosDoDia = new Array();
@@ -45,6 +43,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                     $scope.fatosPorDia[fato.dia] = fatosDoDia;
                 } 
                 fatosDoDia.push(fato);
+            }
+
+            function processaFato(fatos,i){
+                if(i>=fatos.length) return;
+                
                 
                 Depends.carregaLancamentos(
                     fato,
@@ -52,7 +55,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                     MsgService.handleFail,
                     cacheContas);
             }
-            processaFato(fatos,0);
+//            processaFato(fatos,0);
           }
         );
     });
