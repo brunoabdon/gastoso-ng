@@ -28,10 +28,12 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     
     $scope.$watch('mesNav.mesStr',function(){
         
-        Fato.query({mes:$scope.mesNav.mesStr},
-          function(fatos){
+        Fato.lista({mes:$scope.mesNav.mesStr},
+          function(fatosDetalhados){
             var cacheContas = new Array();
             $scope.fatosPorDia = {};
+
+            var fatos = fatosDetalhados.fatos;
 
             for(var i = 0; i < fatos.length; i++){
                 var fato = fatos[i];
@@ -43,19 +45,16 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                     $scope.fatosPorDia[fato.dia] = fatosDoDia;
                 } 
                 fatosDoDia.push(fato);
-            }
-
-            function processaFato(fatos,i){
-                if(i>=fatos.length) return;
                 
+                if(fato.contaId){
+                    fato.total = fato.valor;
+                } else {
+                    fato.lancamentos.forEach(function(lancamento) {
+                        fato.total+=lancamento.valor;
+                    });        
+                }
                 
-                Depends.carregaLancamentos(
-                    fato,
-                    function(){processaFato(fatos,++i);},
-                    MsgService.handleFail,
-                    cacheContas);
             }
-//            processaFato(fatos,0);
           }
         );
     });
@@ -63,9 +62,9 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     $scope.removerFato = function(fato){
 
         var fatos = $scope.fatosPorDia[fato.dia];
-        if(confirm('Deletar ' + fato.descricao + '?')){
+        if(confirm('Deletar ' + fato.desc + '?')){
         console.log('removendo fato');
-            fato.$remove(
+            Fato.remove({id:fato.id},
                 function(){
                     fatos.splice(fatos.indexOf(fato),1);
                 },
@@ -237,7 +236,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                 Depends.carregaLancamentos(fato,
                     function(lancamentos){
                         $scope.lancamentos = lancamentos;
-                        $scope.total = fato.total;
+                        $scope.total = fato.$total;
                     },MsgService.handleFail);
             }
             ,MsgService.handleFail);

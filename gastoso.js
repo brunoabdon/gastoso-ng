@@ -59,7 +59,9 @@ gastosoApp.factory('Conta', ['$resource','Utils',
 }]);
 
 gastosoApp.factory('Fato', ['$resource','Utils', function($resource,Utils){
-    return $resource(Utils.appBaseUrl + '/fatos/:id', {id:'@id'}, {});
+    return $resource(Utils.appBaseUrl + '/fatos/:id', {id:'@id'}, {
+        lista:{method:"GET",isArray:false,cache:true,withCredentials:true}
+    });
 }]);
 
 gastosoApp.factory('Lancamento', ['$resource','Utils', function($resource,Utils){
@@ -104,11 +106,11 @@ gastosoApp.factory('Depends',['Conta','Fato','Lancamento',
         Depends.carregaLancamentos = function(fato,success,fail,cacheContas){
         lancamentosDoFato(fato,
              function(lancamentos){
-                 fato.lancamentos = lancamentos;
+                 fato.$lancamentos = lancamentos;
                  (success||angular.noop)(lancamentos);
-                 fato.total = 0;
+                 fato.$total = 0;
                  lancamentos.forEach(function(lancamento) {
-                     fato.total+=lancamento.valor;
+                     fato.$total+=lancamento.valor;
                  });        
         }
         ,fail,cacheContas);        
