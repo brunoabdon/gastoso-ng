@@ -31,14 +31,16 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
         Fato.lista({mes:$scope.mesNav.mesStr},
           function(fatosDetalhados){
             var cacheContas = new Array();
+            $scope.total = 0;
             $scope.fatosPorDia = {};
 
             var fatos = fatosDetalhados.fatos;
 
+            var fatosDoDia;
             for(var i = 0; i < fatos.length; i++){
                 var fato = fatos[i];
                 fato.total=0;
-                var fatosDoDia = $scope.fatosPorDia[fato.dia];
+                fatosDoDia = $scope.fatosPorDia[fato.dia];
                 if(!fatosDoDia ){
                     fatosDoDia = {fatos:new Array(),total:0};
 
@@ -54,8 +56,9 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                     });        
                 }
                 fatosDoDia.total+=fato.total;
-                
+                $scope.total+=fato.total;
             }
+            
           }
         );
     });

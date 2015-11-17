@@ -5,6 +5,8 @@
 <a href ng-click="mesNav.incrementaMes()" >Próximo mês</a>
 </p> 
 
+<p>Balanço de {{mesNav.mesStr}}: <span ng-class="utils.classDinheiro(total)">{{total|real}}</span></p>
+
 <table>
     <tbody ng-repeat="fatosDoDia in fatosPorDia">
         <tr><th  colspan="2" style="padding-top:1em;text-align: left">{{fatosDoDia.fatos[0].dia|date:"dd/MM/yyyy - EEEE"}}
