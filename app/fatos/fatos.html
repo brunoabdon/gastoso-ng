@@ -7,9 +7,10 @@
 
 <table>
     <tbody ng-repeat="fatosDoDia in fatosPorDia">
-        <tr><th colspan="2" style="text-align: left">{{fatosDoDia [0].dia|date:"dd/MM/yyyy - EEEE"}}</th>
+        <tr><th  colspan="2" style="padding-top:1em;text-align: left">{{fatosDoDia.fatos[0].dia|date:"dd/MM/yyyy - EEEE"}}
+            <span ng-class="utils.classDinheiro(fatosDoDia.total)">{{fatosDoDia.total|real}}</span></th>
         </tr>
-        <tr ng-repeat="fato in fatosDoDia">
+        <tr ng-repeat="fato in fatosDoDia.fatos">
             <td><img src="img/16/bin.png" ng-click="removerFato(fato)"/></td>
             <td><a href="#/fatos/{{fato.id}}">{{fato.desc}}</a> 
                 <span ng-class="utils.classDinheiro(fato.total)">{{fato.total|real}}</span></td>
