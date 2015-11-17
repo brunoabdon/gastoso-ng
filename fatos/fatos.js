@@ -40,11 +40,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                 fato.total=0;
                 var fatosDoDia = $scope.fatosPorDia[fato.dia];
                 if(!fatosDoDia ){
-                    fatosDoDia = new Array();
+                    fatosDoDia = {fatos:new Array(),total:0};
 
                     $scope.fatosPorDia[fato.dia] = fatosDoDia;
                 } 
-                fatosDoDia.push(fato);
+                fatosDoDia.fatos.push(fato);
                 
                 if(fato.contaId){
                     fato.total = fato.valor;
@@ -53,6 +53,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                         fato.total+=lancamento.valor;
                     });        
                 }
+                fatosDoDia.total+=fato.total;
                 
             }
           }
