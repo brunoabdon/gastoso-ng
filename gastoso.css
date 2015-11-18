@@ -223,6 +223,11 @@ ul.nav {
     padding: 0;
     overflow: hidden;
     background-color: #fff;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid black;
 }
 
 
@@ -255,6 +260,11 @@ ul.nav li:hover, ul.nav li a:active {
     background-color: #000;
     color: #eee;
 }
+
+#main{
+    margin-top: 2.5em;
+}
+
 
 tr.deletado td {
     background-color: red;
