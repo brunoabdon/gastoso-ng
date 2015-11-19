@@ -60,7 +60,7 @@ gastosoApp.factory('Conta', ['$resource','Utils',
 
 gastosoApp.factory('Fato', ['$resource','Utils', function($resource,Utils){
     return $resource(Utils.appBaseUrl + '/fatos/:id', {id:'@id'}, {
-        lista:{method:"GET",isArray:false,cache:true,withCredentials:true}
+        lista:{method:"GET",url:Utils.appBaseUrl + '/fatosDetalhados',isArray:false,cache:true,withCredentials:true}
     });
 }]);
 
