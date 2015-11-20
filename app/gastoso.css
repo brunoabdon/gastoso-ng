@@ -83,6 +83,10 @@ td.dinheiro, input.dinheiro, div.dinheiro{
   text-align: right;
 }
 
+li.irrelevante, li.irrelevante > a{
+    color:#AAA;
+}
+
 span.dinheiro.positivo, 
 p.dinheiro.positivo,
 a.dinheiro.positivo,
@@ -90,9 +94,9 @@ td.dinheiro.positivo {
     color:green;
 }
 
-span.dinheiro.dinheiro.negativo,
-p.dinheiro.dinheiro.negativo,
-a.dinheiro.dinheiro.negativo,
+span.dinheiro.negativo,
+p.dinheiro.negativo,
+a.dinheiro.negativo,
 td.dinheiro.negativo {
     color:#a00;
 }

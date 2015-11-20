@@ -55,7 +55,9 @@ var gastosoApp = angular.module('gastosoApp');
 
 gastosoApp.factory('Conta', ['$resource','Utils',
   function($resource,Utils){
-    return $resource(Utils.appBaseUrl + '/contas/:id', {id:'@id'}, {});
+    return $resource(Utils.appBaseUrl + '/contas/:id', {id:'@id'}, {
+        lista:{method:"GET",url:Utils.appBaseUrl + '/contasDetalhadas',isArray:true,cache:true,withCredentials:true}
+    });
 }]);
 
 gastosoApp.factory('Fato', ['$resource','Utils', function($resource,Utils){
