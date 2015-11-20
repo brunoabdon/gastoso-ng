@@ -1,12 +1,12 @@
-<!DOCTYPE html>
 <h1>Contas</h1>
 
 <p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}} 
     <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
 
 <ul>
-   <li ng-repeat="conta in contas">
-          <img src="img/16/bin.png" ng-click="removerConta(conta)"/> 
-          <a href="#/contas/{{conta.id}}">{{conta.nome}}</a>          
+    <li ng-repeat="contaDetalhada in contas" ng-class="classe(contaDetalhada)">
+          <img src="img/16/bin.png" ng-click="removerConta(contaDetalhada.conta)"/> 
+          <a href="#/contas/{{contaDetalhada.conta.id}}">{{contaDetalhada.conta.nome}}</a>          
+          <span ng-class="utils.classDinheiro(contaDetalhada.saldo)">{{contaDetalhada.saldo|real}}</span>
    </li>
 </ul>

@@ -14,13 +14,20 @@ angular.module('gastosoApp.contas', ['ngRoute'])
   });
 }])
 
-.controller('ContasCtrl', ['$scope','MsgService','Conta',function($scope, MsgService, Conta) {
+.controller('ContasCtrl', ['$scope','MsgService','Utils','Conta',
+function($scope, MsgService, Utils, Conta) {
     
-    var contas = Conta.query(
+    $scope.utils = Utils;
+    
+    var contas = Conta.lista(
         function(){
             $scope.contas = contas;
         },MsgService.handleFail);
     
+    $scope.classe = function(conta){
+        return conta.saldo === 0 ? 'irrelevante':'';
+    };
+
 
    $scope.removerConta = function(conta){
 
