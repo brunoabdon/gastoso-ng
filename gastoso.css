@@ -116,18 +116,14 @@ span.data{
 
 
 table.extrato{
-     background: linear-gradient(#ddd, #efefef);
-
-  margin: 0.5em 0;
-  padding:1em;	
-
-  max-width:40em;
-
-  -moz-border-radius:0.5em;
-  -webkit-border-radius:0.5em;	
-   border-style: none;
-   width: 30em;
-
+     background: linear-gradient(to bottom right, #ddd, #efefef);
+     margin: 0.5em 0;
+     padding:1em;
+     max-width:40em;
+     -moz-border-radius:0.5em;
+     -webkit-border-radius:0.5em;
+     border-style: none;
+     width: 30em;
 }
 
 table.extrato td {
