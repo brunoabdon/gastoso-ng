@@ -27,12 +27,13 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     $scope.mesNav = new MesNav($routeParams.mes?$routeParams.mes:new Date());
     
     $scope.$watch('mesNav.mesStr',function(){
+
+        $scope.fatosPorDia = {};
         
         Fato.lista({mes:$scope.mesNav.mesStr},
           function(fatosDetalhados){
             var cacheContas = new Array();
             $scope.total = 0;
-            $scope.fatosPorDia = {};
 
             var fatos = fatosDetalhados.fatos;
 
