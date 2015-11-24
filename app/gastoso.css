@@ -211,6 +211,11 @@ button.mainButton img{
 button.botaozinho img{
     margin: 0;
 }
+
+img.acao{
+    cursor: pointer;
+}
+
 .msg{
    width: 40em;
    background-color: #fefefe;
