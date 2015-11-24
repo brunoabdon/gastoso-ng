@@ -22,6 +22,21 @@ angular.module('gastosoApp', [
        return $currencyFilter(valor/100,'R$ ');
     };
 }])
+
+.directive('abdLink', ['$location', function ($location) {
+  return{
+    restrict: 'A',
+    link: function (scope, element, attr) {
+      element.attr('style', 'cursor:pointer');
+      element.on('click', function(){
+        $location.path("/" + attr.abdLink);
+        scope.$apply();
+        console.log(element);
+      });
+    }
+  };
+}])
+
 .controller('LoginCtrl',['Login' ,'$scope','$timeout',function(Login, $scope,$timeout){
         
         $scope.password = '';
@@ -56,7 +71,8 @@ var gastosoApp = angular.module('gastosoApp');
 gastosoApp.factory('Conta', ['$resource','Utils',
   function($resource,Utils){
     return $resource(Utils.appBaseUrl + '/contas/:id', {id:'@id'}, {
-        lista:{method:"GET",url:Utils.appBaseUrl + '/contasDetalhadas',isArray:true,cache:true,withCredentials:true}
+        lista:{method:"GET",url:Utils.appBaseUrl + '/contasDetalhadas',isArray:true,cache:true,withCredentials:true},
+        extrato:{method:"GET",url:Utils.appBaseUrl + '/extrato',isArray:false,cache:true,withCredentials:true}
     });
 }]);
 

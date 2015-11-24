@@ -41,8 +41,8 @@ function($scope, MsgService, Utils, Conta) {
    };
 
 }])
-.controller('ContaCtrl', ['$scope','$routeParams','MesNav','Utils', 'Conta','Lancamento',
-    function($scope, $routeParams, MesNav, Utils, Conta, Lancamento) {
+.controller('ContaCtrl', ['$scope','$routeParams','MsgService','MesNav','Utils', 'Conta','Lancamento',
+    function($scope, $routeParams, MsgService, MesNav, Utils, Conta, Lancamento) {
   
     $scope.utils = Utils;
   
@@ -50,12 +50,56 @@ function($scope, MsgService, Utils, Conta) {
   
     var salvaNomeOriginal = function(){$scope.nomeOriginal = $scope.conta.nome;};
 
-    $scope.mesNav = new MesNav($routeParams.mes?$routeParams.mes:new Date());
+    $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
+    
+    var mes = $routeParams.mes;
+    if(!mes){
+        var hoje = new Date();
+        var month = hoje.getMonth()+1;
+        var prefix = month >= 10 ? '' : '0';
+        
+        mes = hoje.getFullYear() + '-' + prefix + month;
+    }
 
-    $scope.$watch('mesNav.mesStr',function(){
-        $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
-        $scope.lancamentos = Lancamento.query({conta:contaId,mes:$scope.mesNav.mesStr});
-    });
+    var foo = function(fato){
+        console.log(fato.lancamentos.map(l => l.valor));
+        fato.total = console.log(fato.lancamentos.map(l => l.valor).reduce((a,b) => a+b,0));
+    }
+    
+    Conta.extrato({conta:contaId,mes:mes},function(extrato){
+        
+        extrato.fatos.forEach(fato => {
+            fato.total = (fato.lancamentos ? 0 : fato.valor);
+            fato.saldo = 0;
+        });
+        
+        $scope.extrato = extrato;
+        
+        var saldoAteEntao = extrato.saldoIncial;
+
+        extrato.fatos.forEach(fato => {
+            if(fato.lancamentos){
+                fato.lancamentos.forEach(lancamento=>{
+                    fato.total += lancamento.valor;
+                    if(lancamento.contaId == contaId){
+                        fato.valor = lancamento.valor;
+                    }
+                });
+            }
+            fato.saldo = saldoAteEntao + fato.valor;
+            saldoAteEntao = fato.saldo;
+        });
+    },MsgService.handleFail);
+    
+    
+    
+
+//    $scope.mesNav = new MesNav($routeParams.mes?$routeParams.mes:new Date());
+
+//    $scope.$watch('mesNav.mesStr',function(){
+//        $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
+//        $scope.lancamentos = Lancamento.query({conta:contaId,mes:$scope.mesNav.mesStr});
+//    });
 
     $scope.alterarConta = function(){
         $scope.conta.$save(salvaNomeOriginal);

@@ -1,29 +1,32 @@
 <h1 editable-text="conta.nome" buttons="no">{{conta.nome}}</h1>
 
-<p>
-<a href ng-click="mesNav.decrementaMes()" >Mês anterior</a>
-<a href ng-click="mesNav.incrementaMes()" >Próximo mês</a>
-</p> 
+<p>De {{extrato.inicio|date:"dd/MM/yyyy"}} até {{extrato.fim|date:"dd/MM/yyyy"}}</p>
 
-
-<table>
+<table class="extrato">
   <thead>
     <tr>
         <th>Data</th>
         <th>O que</th>
         <th>Quanto</th>
+        <th>Saldo</th>
+        
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat="lancamento in lancamentos">
-        <td><a href="#/fatos?dia={{lancamento.fato.dia}}">{{lancamento.fato.dia|date:"dd/MM/yyyy - EEE"}}</a></td>
-        <td><a href="#/fatos/{{lancamento.fato.id}}">{{lancamento.fato.descricao}}</a></td>
-        <td ng-class="utils.classDinheiro(lancamento.valor)">{{lancamento.valor|real}}</td>
+      <tr>
+          <td></td>
+          <td>Saldo inicial</td>
+          <td></td>
+          <td ng-class="utils.classDinheiro(extrato.saldoIncial)" class="complementar">{{extrato.saldoIncial|real}}</td>
+      </tr>
+    <tr ng-repeat="fato in extrato.fatos" abd-link="fatos/{{fato.id}}">
+        <td style="height: 2em;"><a href="#/fatos?dia={{fato.dia}}">{{fato.dia|date:"dd/MM/yyyy"}}</a></td>
+        <td><a href="#/fatos/{{fato.id}}">{{fato.desc}}</a></td>
+        <td ng-class="utils.classDinheiro(fato.valor)">{{fato.valor|real}}</td>
+        <td ng-class="utils.classDinheiro(fato.saldo)" class="complementar">{{fato.saldo|real}}</td>
     </tr>
   </tbody>
 </table>
 
 <button ng-show="nomeOriginal != conta.nome" ng-click="alterarConta()">Salvar</button>
-
-
