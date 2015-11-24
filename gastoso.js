@@ -31,7 +31,6 @@ angular.module('gastosoApp', [
       element.on('click', function(){
         $location.path("/" + attr.abdLink);
         scope.$apply();
-        console.log(element);
       });
     }
   };
@@ -98,13 +97,11 @@ gastosoApp.factory('Depends',['Conta','Fato','Lancamento',
                 var conta = mapContas[contaId];
                 if(!conta){
                     Conta.get({id:contaId},function(conta){
-                        console.log('salvando ' + conta.nome + ' no cache['+conta.id+']. Tam: ' + mapContas.length);
                         mapContas[conta.id] = conta;
                         lancamento.conta = conta;
                         carregaConta(lancamentos,++idx,mapContas,successCB,errorCB);
                     },errorCB);
                 } else {
-                    console.log('reusando ' +conta.id + '-' + conta.nome + ' pra ' + lancamento);
                     lancamento.conta = conta;
                     carregaConta(lancamentos,++idx,mapContas,successCB,errorCB);
                 }

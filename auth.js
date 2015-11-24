@@ -15,7 +15,6 @@ angular.module('gastosoApp').factory('Login',['$rootScope' ,'$localStorage','$ht
                     
                         if(successHandler) successHandler(response);
                     }, function(response){
-                        console.log('deu ruim no login');
                         if(errorHandler) errorHandler(response);
                     });
             }
