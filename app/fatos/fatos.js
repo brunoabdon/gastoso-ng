@@ -48,7 +48,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                 } 
                 fatosDoDia.fatos.push(fato);
                 
-                if(fato.contaId){
+                if(!fato.lancamentos){
                     fato.total = fato.valor;
                 } else {
                     fato.lancamentos.forEach(function(lancamento) {
