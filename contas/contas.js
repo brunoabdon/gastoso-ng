@@ -52,21 +52,24 @@ function($scope, MsgService, Utils, Conta) {
 
     $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
     
+    var paramsExtrato = {conta:contaId};
+    
     var mes = $routeParams.mes;
-    if(!mes){
+    if(mes){
+        paramsExtrato.mes = mes;
+    } else {
         var hoje = new Date();
         var month = hoje.getMonth()+1;
         var prefix = month >= 10 ? '' : '0';
         
-        mes = hoje.getFullYear() + '-' + prefix + month;
+        paramsExtrato.dataMax = 
+            hoje.getFullYear() 
+            + '-' + prefix + month 
+            + '-' + hoje.getDate();
+        
     }
 
-    var foo = function(fato){
-        console.log(fato.lancamentos.map(l => l.valor));
-        fato.total = console.log(fato.lancamentos.map(l => l.valor).reduce((a,b) => a+b,0));
-    }
-    
-    Conta.extrato({conta:contaId,mes:mes},function(extrato){
+    Conta.extrato(paramsExtrato,function(extrato){
         
         extrato.fatos.forEach(fato => {
             fato.total = (fato.lancamentos ? 0 : fato.valor);
