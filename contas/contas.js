@@ -41,8 +41,8 @@ function($scope, MsgService, Utils, Conta) {
    };
 
 }])
-.controller('ContaCtrl', ['$scope','$routeParams','MsgService','MesNav','Utils', 'Conta','Lancamento',
-    function($scope, $routeParams, MsgService, MesNav, Utils, Conta, Lancamento) {
+.controller('ContaCtrl', ['$scope','$location','$routeParams','MsgService','MesNav','Utils', 'Conta','Lancamento',
+    function($scope, $location, $routeParams, MsgService, MesNav, Utils, Conta, Lancamento) {
   
     $scope.utils = Utils;
   
@@ -58,15 +58,18 @@ function($scope, MsgService, Utils, Conta) {
     if(mes){
         paramsExtrato.mes = mes;
     } else {
+        var dataMax = $routeParams.dataMax;
+        if(!dataMax){
         var hoje = new Date();
-        var month = hoje.getMonth()+1;
-        var prefix = month >= 10 ? '' : '0';
-        
-        paramsExtrato.dataMax = 
-            hoje.getFullYear() 
-            + '-' + prefix + month 
-            + '-' + hoje.getDate();
-        
+            var month = hoje.getMonth()+1;
+            var prefix = month >= 10 ? '' : '0';
+
+            dataMax = 
+                hoje.getFullYear() 
+                + '-' + prefix + month 
+                + '-' + hoje.getDate();
+        }
+        paramsExtrato.dataMax = dataMax;
     }
 
     Conta.extrato(paramsExtrato,function(extrato){
@@ -93,20 +96,26 @@ function($scope, MsgService, Utils, Conta) {
             saldoAteEntao = fato.saldo;
         });
     },MsgService.handleFail);
-    
-    
-    
 
-//    $scope.mesNav = new MesNav($routeParams.mes?$routeParams.mes:new Date());
+    $scope.navBack = function(){
+        var search = $location.search();
+        search.dataMax = $scope.extrato.inicio;
+        delete search.dataMin;
+        $location.search(search);
+    };
 
-//    $scope.$watch('mesNav.mesStr',function(){
-//        $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
-//        $scope.lancamentos = Lancamento.query({conta:contaId,mes:$scope.mesNav.mesStr});
-//    });
+    $scope.navForward = function(){
+        var search = $location.search();
+        search.dataMin = $scope.extrato.fim;
+        delete search.dataMax;
+        $location.search(search);
+    };
 
     $scope.alterarConta = function(){
         $scope.conta.$save(salvaNomeOriginal);
     };
+    
+    
 
 }]).controller('NovaContaCtrl', ['$scope','MsgService','Conta',function($scope, MsgService, Conta) {
   

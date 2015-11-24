@@ -1,6 +1,9 @@
 <h1 editable-text="conta.nome" buttons="no">{{conta.nome}}</h1>
 
-<p>De {{extrato.inicio|date:"dd/MM/yyyy"}} até {{extrato.fim|date:"dd/MM/yyyy"}}</p>
+<p> <img src="img/16/backward.png" ng-click="navBack()" alt="Mais antigos" class="acao">
+    De {{extrato.inicio|date:"dd/MM/yyyy"}} até {{extrato.fim|date:"dd/MM/yyyy"}}
+    <img src="img/16/forward.png" ng-click="navForward()" alt="Mais novos" class="acao">
+</p>
 
 <table class="extrato">
   <thead>
@@ -16,7 +19,7 @@
   <tbody>
       <tr>
           <td></td>
-          <td>Saldo inicial</td>
+          <td class="complementar">Saldo em {{extrato.inicio|date:"dd/MM/yyyy"}}</td>
           <td></td>
           <td ng-class="utils.classDinheiro(extrato.saldoIncial)" class="complementar">{{extrato.saldoIncial|real}}</td>
       </tr>
