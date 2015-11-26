@@ -23,31 +23,26 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     function($scope, $routeParams, Utils, MsgService, MesNav, Fato, Depends) {
     
     $scope.utils = Utils;
-    
+
+    $scope.totaisDia = {};
+        
     $scope.mesNav = new MesNav($routeParams.mes?$routeParams.mes:new Date());
     
     $scope.$watch('mesNav.mesStr',function(){
 
-        $scope.fatosPorDia = {};
-        
+        $scope.fatos = {};
+
         Fato.lista({mes:$scope.mesNav.mesStr},
           function(fatosDetalhados){
-            var cacheContas = new Array();
             $scope.total = 0;
 
             var fatos = fatosDetalhados.fatos;
+            console.log('tah lah');
+            $scope.fatos = fatos;
 
-            var fatosDoDia;
             for(var i = 0; i < fatos.length; i++){
                 var fato = fatos[i];
                 fato.total=0;
-                fatosDoDia = $scope.fatosPorDia[fato.dia];
-                if(!fatosDoDia ){
-                    fatosDoDia = {fatos:new Array(),total:0};
-
-                    $scope.fatosPorDia[fato.dia] = fatosDoDia;
-                } 
-                fatosDoDia.fatos.push(fato);
                 
                 if(!fato.lancamentos){
                     fato.total = fato.valor;
@@ -56,17 +51,16 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                         fato.total+=lancamento.valor;
                     });        
                 }
-                fatosDoDia.total+=fato.total;
+                $scope.totaisDia[fato.dia] = ($scope.totaisDia[fato.dia]||0)+fato.total;
                 $scope.total+=fato.total;
             }
-            
           }
         );
     });
 
     $scope.removerFato = function(fato){
 
-        var fatos = $scope.fatosPorDia[fato.dia];
+        var fatos = $scope.fatos;
         if(confirm('Deletar ' + fato.desc + '?')){
         console.log('removendo fato');
             Fato.remove({id:fato.id},
