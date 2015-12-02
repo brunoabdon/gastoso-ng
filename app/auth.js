@@ -1,32 +1,59 @@
 'use strict';
-angular.module('gastosoApp').factory('Login',['$rootScope' ,'$localStorage','$http','Utils',
-    function($rootScope, $localStorage,$http,Utils){
+angular.module('gastosoApp')
+.config(['$routeProvider', function($routeProvider) {
+  $routeProvider.when('/login', {
+    templateUrl: 'login.html',
+    controller: 'LoginCtrl'
+  });
+}]).controller(
+    'LoginCtrl',['Login' ,'$scope','$timeout','$location',
+    function(Login, $scope,$timeout,$location){
+        
+        $scope.password = '';
+        
+        $scope.login = function(){
+            $scope.loginErrorMsg = 'Logando...';
+            Login.login($scope.password,
+                function(){
+                    $scope.loginErrorMsg = 'Login Ok! Aguarde...';
+                    $location.path("/");
+                },
+                function(res){
+                $scope.loginErrorMsg = res.statusText;
+                $timeout(function(){
+                    delete $scope.loginErrorMsg;
+                },3000);                
+            });
+        };
+        
+        $scope.logout = Login.logout;
+    }
+]).factory('Login',['$rootScope' ,'$localStorage','$http','$location','Utils',
+    function($rootScope, $localStorage,$http,$location,Utils){
 
         function login(password,successHandler,errorHandler){
-            if(!$rootScope.isLoggedIn){
+            $http
+            .post(Utils.appBaseUrl + '/login', password)
+            .then(function(response){
+                $localStorage.authKey = angular.fromJson(response.data);
+                $rootScope.isLoggedIn = true;
+                $http.defaults.headers.common['X-Abd-auth_token'] = 
+                    $localStorage.authKey.token;
 
-                $http
-                    .post(Utils.appBaseUrl + '/login', password)
-                    .then(function(response){
-                        $localStorage.authKey = angular.fromJson(response.data);
-                        $rootScope.isLoggedIn = true;
-                        $http.defaults.headers.common['X-Abd-auth_token'] = 
-                            $localStorage.authKey.token;
-                    
-                        if(successHandler) successHandler(response);
-                    }, function(response){
-                        if(errorHandler) errorHandler(response);
-                    });
-            }
+                if(successHandler) successHandler(response);
+            }, function(response){
+                if(errorHandler) errorHandler(response);
+            });
         };
 
         function logout (){
+            console.log('logut');
             delete $localStorage.authKey;
             $rootScope.isLoggedIn = false;
             $http.defaults.headers.common['X-Abd-auth_token'] = null;
+            $location.path('/login');
         };
         
         return {login:login, logout: logout};
     }
 ]);
-

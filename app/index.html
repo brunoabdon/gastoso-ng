@@ -11,46 +11,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
   <link rel="stylesheet" href="xeditable-gastoso.css">
-  <link rel="stylesheet" href="gastoso.css">
+  <link rel="stylesheet" href="css/gastoso.css">
   <link rel="icon" type="image/png" href="img/16/coin-dollar.png" />
-</head>
-<body>
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
-    <div ng-if="!isLoggedIn" ng-controller="LoginCtrl">
-        <fieldset style="border-style: double; border-width: 1px; width:15em;">
-          <legend>Password</legend>
-          <input ng-model="password" size="15" type="password" 
-                 ng-keyup="$event.keyCode == 13 && login()"/>
-          <button ng-click="login()" ><img src="img/16/enter.png" alt="Logar"></button>
-          <p ng-bind="loginErrorMsg"></p>
-        </fieldset>
-    </div>
   
-  <div ng-if="isLoggedIn" ng-controller="LoginCtrl">
-  <ul class="nav">
-    <li><a href="#contas">Contas</a></li>
-    <li><a href="#fatos">Fatos</a></li>
-    <li><a href="#novaConta">Nova Conta</a></li>
-    <li><a href="#novoFato">Novo Fato</a></li>
-    <li id="exitMenu"><a href="#" ng-click="logout()"></a></li>
-  </ul>
-  
-  <div ng-view id="main"></div>
-  </div>
-        
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-resource/angular-resource.min.js"></script>
   <script src="bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
   <script src="bower_components/angular-i18n/angular-locale_pt-br.js"></script>
+  <script src="bower_components/angular-material/angular-material.min.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.min.js"></script>
   <script src="gastoso.js"></script>
   <script src="auth.js"></script>
   <script src="contas/contas.js"></script>
   <script src="fatos/fatos.js"></script>
   <script src="bower_components/ngstorage/ngStorage.min.js"></script>
+</head>
+<body>
+    <div id="main" ng-view>
+    </div>
 </body>
 </html>

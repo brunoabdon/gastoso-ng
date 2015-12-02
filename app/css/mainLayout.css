@@ -1,0 +1,28 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#main {
+  display: flex;
+  -webkit-flex-flow: column;
+  height: 100%;
+}
+
+#main #content{
+  flex: 0 1 30px;
+}
+
+#main .header {
+  flex: 0 1 auto;
+}
+
+#main #content {
+  -webkit-flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+#main .footer {
+  -webkit-flex: 0 1 40px;
+}

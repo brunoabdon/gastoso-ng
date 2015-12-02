@@ -6,11 +6,19 @@ angular.module('gastosoApp', [
   'ngResource',
   'xeditable',
   'ngStorage',
+  'ngAnimate',
+  'ngMaterial',
   'gastosoApp.contas',
   'gastosoApp.fatos'
 ])
-.config(['$routeProvider',function($routeProvider) {
+
+.config(['$routeProvider','$mdThemingProvider',function($routeProvider,$mdThemingProvider) {
     $routeProvider.otherwise({redirectTo: '/fatos'});
+    
+    $mdThemingProvider.theme('default')
+        .primaryPalette('grey')
+        .accentPalette('red');
+    
 }])
 .filter('data', ['dateFilter',function($dateFilter) {    
     return function(theDate) {
@@ -36,33 +44,24 @@ angular.module('gastosoApp', [
   };
 }])
 
-.controller('LoginCtrl',['Login' ,'$scope','$timeout',function(Login, $scope,$timeout){
-        
-        $scope.password = '';
-        
-        $scope.login = function(){
-            $scope.loginErrorMsg = 'Logando...';
-            Login.login($scope.password,
-                function(){
-                    $scope.loginErrorMsg = 'Login Ok! Aguarde...';
-                },
-                function(res){
-                $scope.loginErrorMsg = res.statusText;
-                $timeout(function(){
-                    delete $scope.loginErrorMsg;
-                },3000);                
-            });
-        };
-        
-        $scope.logout = Login.logout;
-    }
-])
-.run(['$rootScope','$localStorage','$http',function($rootScope,$localStorage,$http){
+.run(['$rootScope','$localStorage','$http','$location','$resource','Utils','Login',
+    function($rootScope,$localStorage,$http,$location,$resource,Utils,Login){
         $rootScope.isLoggedIn = false || $localStorage.authKey;
-        if($rootScope.isLoggedIn){
-            $http.defaults.headers.common['X-Abd-auth_token'] 
-                = $localStorage.authKey.token;
+        if(!$rootScope.isLoggedIn){
+           $location.path("/login"); 
+        } else if($location.path() !== "/login"){
+            $http.defaults.headers.common['X-Abd-auth_token'] = 
+                $localStorage.authKey.token;
+            $http.head(Utils.appBaseUrl + "/ping").then(angular.noop, function (res){
+                if(res.status === 401){
+                    delete $http.defaults.headers.common['X-Abd-auth_token'];
+                    $location.path("/login"); 
+                } else {
+                    $location.path("/panic"); 
+                }
+            });
         }
+        $rootScope.logout = Login.logout;
 }]);
 
 var gastosoApp = angular.module('gastosoApp');

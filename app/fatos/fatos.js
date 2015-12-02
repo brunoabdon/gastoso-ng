@@ -19,8 +19,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
   });
 }])
 
-.controller('FatosCtrl', ['$scope','$routeParams', 'Utils','MsgService','MesNav','Fato', 'Depends',
-    function($scope, $routeParams, Utils, MsgService, MesNav, Fato, Depends) {
+.controller('FatosCtrl', ['$scope','$routeParams', 'Utils','MsgService','MesNav','Fato',
+    function($scope, $routeParams, Utils, MsgService, MesNav, Fato) {
     
     $scope.utils = Utils;
 
@@ -37,7 +37,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
             $scope.total = 0;
 
             var fatos = fatosDetalhados.fatos;
-            console.log('tah lah');
+
             $scope.fatos = fatos;
 
             for(var i = 0; i < fatos.length; i++){

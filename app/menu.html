@@ -1,0 +1,20 @@
+<div class="md-toolbar-tools">
+    <md-menu>
+     <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
+       <md-icon md-svg-icon="img/svg/menu.svg"></md-icon>
+     </md-button>
+     <md-menu-content>
+       <md-menu-item><md-button href="#contas">Contas</md-button></md-menu-item>
+       <md-menu-item><md-button href="#fatos">Fatos</md-button></md-menu-item>
+       <md-menu-item><md-button href="#novaConta">Nova Conta</md-button></md-menu-item>
+       <md-menu-item><md-button href="#novoFato">Novo Fato</md-button></md-menu-item>
+     </md-menu-content>
+    </md-menu>            
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">{{menuTitle}}</h2>
+    </div>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Sair" ng-click="logout()">
+        <md-icon md-svg-icon="img/svg/exit.svg"></md-icon>
+    </md-button>        
+</div>

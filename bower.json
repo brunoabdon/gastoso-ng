@@ -1,17 +1,19 @@
 {
   "name": "gastoso",
   "description": "Controle de Gastos",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/brunoabdon/gastoso",
   "license": "GPL-v",
   "private": true,
   "dependencies": {
-    "angular": "1.2.x",
-    "angular-route": "1.2.x",
-    "angular-loader": "1.2.x",
-    "angular-resource": "1.2.x",
-    "angular-mocks": "~1.2.x",
+    "angular": "1.4.x",
+    "angular-route": "1.4.x",
+    "angular-loader": "1.4.x",
+    "angular-resource": "1.4.x",
+    "angular-i18n":"x",
+    "angular-material": "1.x",
     "html5-boilerplate": "~4.3.0",
-    "ngstorage": "0.3.9"
+    "ngstorage": "0.3.10",
+    "angular-xeditable":"x"
   }
 }
