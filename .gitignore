@@ -1,3 +1,6 @@
 /nbproject/
 /node_modules/
+/app/bower_components/
+.dist/
+.deploygit/
 *~
