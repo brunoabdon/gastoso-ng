@@ -16,7 +16,7 @@ angular.module('gastosoApp.contas', ['ngRoute'])
 
 .controller('ContasCtrl', ['$scope','MsgService','Utils','Conta',
 function($scope, MsgService, Utils, Conta) {
-    
+
     $scope.utils = Utils;
     
     var contas = Conta.lista(
@@ -43,7 +43,7 @@ function($scope, MsgService, Utils, Conta) {
 }])
 .controller('ContaCtrl', ['$scope','$location','$routeParams','MsgService','MesNav','Utils', 'Conta','Lancamento',
     function($scope, $location, $routeParams, MsgService, MesNav, Utils, Conta, Lancamento) {
-  
+        
     $scope.utils = Utils;
   
     var contaId = $routeParams.id;

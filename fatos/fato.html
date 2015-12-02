@@ -1,5 +1,7 @@
-<h1 ng-class="{'alterado':fatoAlterado}"><img src="img/16/pencil.png" ng-click="editarFato()" ng-show="fato.id && !editandoFato" class="botaozinho"
-        /><span class="data">{{fato.dia|data}}</span> - {{fato.descricao}}</h1>
+<div layout="column" ng-cloak>
+    <md-toolbar style="position: fixed;" ng-include="'menu.html'" onload="menuTitle=fato.descricao ? (fato.dia + ' - ' + fato.descricao) : 'Novo Fato'">
+    </md-toolbar>    
+    <md-content flex layout-padding style="margin-top:3em;">
 
 <p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}}
     <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
@@ -86,3 +88,6 @@
 
 <button ng-click="salvarFato()" ng-show="alterado()" class="mainButton">
 <img src="img/16/checkmark.png" alt="Salvar">Salvar</button>
+
+    </md-content>
+</div>

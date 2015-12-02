@@ -1,0 +1,64 @@
+<h1>Gasto</h1>
+<div class="box">
+    
+    <div class="boxHeader">2333</div>
+    
+    <div ng-show="wiz.tela === 1" class="boxContent">
+        <h2>Quando?</h2>
+        <input id="dia" type="date" ng-model="dia" required>
+    </div>
+    
+    <div ng-show="wiz.tela === 2" class="boxContent">
+        <h2>O Que</h2>
+        <input ng-model="descricao" id="descricao">
+    </div>
+    
+    <div ng-show="wiz.tela === 3" class="boxContent">
+        <h2>Quanto</h2>
+        <input id="valor" 
+           ng-model="valor" 
+           ng-class="utils.classDinheiro(valor)" 
+           type="number" 
+           format="number"
+           size="5">
+    </div>
+    
+    <div ng-show="wiz.tela === 4" class="boxContent">
+        <h2>Pago como?</h2>
+        <select id="conta" 
+                ng-model="conta"
+                ng-options="conta.nome for conta in contas track by conta.id"></select>
+    </div>
+    
+    <div ng-show="wiz.tela === -1" class="boxContent">
+        <h2>Gasto criado com sucesso</h2>
+        <p>Pago {{descricao}} de {{valorFinal|real}} com {{conta.nome}} 
+           em {{dia|date:dd/MM/yyyy}}.</p>
+    </div>
+
+    <div class="boxFooter">
+        <p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}}
+        <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
+        
+        <button ng-click="wiz.prev()" 
+            ng-disabled="wiz.tela ===1"
+            ng-if="wiz.tela >= 1"
+            class="botaozinho"
+            ><img src="img/16/arrow-left.png" alt="Anterior">Anterior</button>
+    
+        <button ng-click="wiz.next()" 
+            ng-if="!wiz.isUltimaTela() && wiz.tela >= 1"
+            class="botaozinho"
+            >Próxima<img src="img/16/arrow-right.png" alt="Proxima"></button>
+
+        <button ng-click="wiz.fim()" 
+            ng-if="wiz.isUltimaTela()"
+            class="botaozinho"
+            ><img src="img/16/checkmark.png" alt="OK">OK</button>
+    
+        <button ng-click="wiz.zerar()" 
+            ng-if="wiz.tela === -1"
+            class="botaozinho"
+            ><img src="img/16/file-empty.png" alt="Mais um">Mais um gasto...</button>
+    </div>    
+</div>

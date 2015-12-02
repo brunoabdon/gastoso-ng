@@ -1,4 +1,7 @@
-<h1 editable-text="conta.nome" buttons="no">{{conta.nome}}</h1>
+<div layout="column" ng-cloak>
+    <md-toolbar style="position: fixed;" ng-include="'menu.html'" onload="menuTitle=conta.nome">
+    </md-toolbar>    
+    <md-content flex layout-padding style="margin-top:3em;">
 
 <p> <img src="img/16/backward.png" ng-click="navBack()" alt="Mais antigos" class="acao">
     De {{extrato.inicio|date:"dd/MM/yyyy"}} até {{extrato.fim|date:"dd/MM/yyyy"}}
@@ -32,4 +35,7 @@
   </tbody>
 </table>
 
-<button ng-show="nomeOriginal != conta.nome" ng-click="alterarConta()">Salvar</button>
+    <button ng-show="nomeOriginal !== conta.nome" ng-click="alterarConta()">Salvar</button>
+
+</md-content>
+</div>

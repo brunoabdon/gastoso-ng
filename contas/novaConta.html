@@ -1,4 +1,7 @@
-<h1>Nova Conta</h1>
+<div layout="column" ng-cloak>
+    <md-toolbar style="position: fixed;" ng-include="'menu.html'" onload="menuTitle=Nova Conta">
+    </md-toolbar>    
+    <md-content flex layout-padding style="margin-top:3em;">
 
 <p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}} 
 <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
@@ -6,3 +9,7 @@
 Nome: <input ng-model="conta.nome">
 
 <button ng-click="adicionarConta()">+</button>
+
+    </md-content>
+    
+</div>
