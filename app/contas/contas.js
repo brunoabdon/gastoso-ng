@@ -62,12 +62,15 @@ function($scope, MsgService, Utils, Conta) {
         if(!dataMax){
         var hoje = new Date();
             var month = hoje.getMonth()+1;
-            var prefix = month >= 10 ? '' : '0';
+            var prefixMes = month >= 10 ? '' : '0';
+
+            var dia = hoje.getDate();
+            var prefixDia = dia >= 10 ? '' : '0';
 
             dataMax = 
                 hoje.getFullYear() 
-                + '-' + prefix + month 
-                + '-' + hoje.getDate();
+                + '-' + prefixMes + month 
+                + '-' + prefixDia + dia;
         }
         paramsExtrato.dataMax = dataMax;
     }
