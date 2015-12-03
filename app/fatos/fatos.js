@@ -172,8 +172,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     };
     
     $scope.alterando = function(){
-      return ($scope.lancamento && $scope.lancamento.id) || $scope.editandoFato;  
-        
+      return ($scope.lancamento && $scope.lancamento.id) || $scope.editandoFato;        
     };
     
     var salvarLancamentos = function(){
@@ -210,7 +209,9 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
         } else {
             lancamentosAlterados = 0;
             lancamentosExcluidos = 0;
-            MsgService.addMessage("O fato " + $scope.fato.descricao + " foi salvo com sucesso.");
+            MsgService
+            .addMessage(
+                "O fato " + $scope.fato.descricao + " foi salvo com sucesso.");
         }
     };
 
