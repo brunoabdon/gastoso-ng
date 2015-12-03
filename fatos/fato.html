@@ -8,7 +8,7 @@
 
 <fieldset ng-show="editandoFato || !fato.id">
     <legend>Fato</legend>
-    <input id="dia" type="date" ng-model="fato.dia" required>
+    <input id="dia" type="date" ng-model="fato.dia" required fmt-local-date>
     <input ng-model="fato.descricao" id="descricao">
 
     <button ng-click="confirmarFato()" 
