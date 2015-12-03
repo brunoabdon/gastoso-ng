@@ -42,6 +42,17 @@ angular.module('gastosoApp', [
     }
   };
 }])
+.directive("fmtLocalDate", ['DateUtils',function(DateUtils){
+  return {
+   require: 'ngModel',
+    link: function(scope, elem, attr, modelCtrl) {
+      modelCtrl.$formatters.push(function(modelValue){
+          console.log('parsing ' + modelValue);
+        return DateUtils.parseLocalDate(modelValue);
+      });
+    }
+  }
+}])
 
 .run(['$rootScope','$localStorage','$http','$location','$resource','Utils','Login',
     function($rootScope,$localStorage,$http,$location,$resource,Utils,Login){
@@ -82,6 +93,33 @@ gastosoApp.factory('Fato', ['$resource','Utils', function($resource,Utils){
 gastosoApp.factory('Lancamento', ['$resource','Utils', function($resource,Utils){
     return $resource(Utils.appBaseUrl + '/lancamentos/:id', {id:'@id'}, {});
   }]);
+
+gastosoApp.factory('DateUtils', [function(){
+    return {
+        parseLocalDate: function(dataStr){
+            var data = null;
+            if (typeof dataStr === 'string'){
+                var re = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/;
+
+                var res = re.exec(dataStr);
+                if(res){
+                    var dia = parseInt(res[3]);
+                    var mes = parseInt(res[2]);
+                    var ano = parseInt(res[1]);
+
+                    if((mes >= 1 && mes <= 12) && (dia >= 1 && dia <= 31)){
+                        data = new Date(ano,mes-1,dia);
+                    }
+                }
+            }
+            if(data===null){
+                throw ("Unparsable: " + dataStr);
+            }
+            return data;
+        }
+    };
+}]);
+
 
 gastosoApp.factory('Depends',['Conta','Fato','Lancamento',
     function(Conta,Fato,Lancamento){
