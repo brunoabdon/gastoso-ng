@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.0.0-rc5-master-fd33d41
+ * v1.0.0-rc6-master-cdc9719
  */
 html, body {
   height: 100%;
@@ -8306,7 +8306,7 @@ md-autocomplete {
   overflow: visible;
   min-width: 190px; }
   md-autocomplete[disabled] input {
-    cursor: not-allowed; }
+    cursor: default; }
   md-autocomplete[md-floating-label] {
     border-radius: 0;
     background: transparent;
@@ -8935,8 +8935,10 @@ md-card {
   md-card md-card-content {
     display: block;
     padding: 16px; }
-    md-card md-card-content > p {
-      margin: 0; }
+    md-card md-card-content > p:first-child {
+      margin-top: 0; }
+    md-card md-card-content > p:last-child {
+      margin-bottom: 0; }
     md-card md-card-content .md-media-xl {
       height: 240px;
       width: 240px; }
@@ -9157,7 +9159,7 @@ md-checkbox {
   md-checkbox.md-checked .md-icon {
     border: none; }
   md-checkbox[disabled] {
-    cursor: no-drop; }
+    cursor: default; }
   md-checkbox.md-checked .md-icon:after {
     box-sizing: border-box;
     -webkit-transform: rotate(45deg);
@@ -9253,6 +9255,8 @@ md-checkbox {
     cursor: text; }
     .md-chips:not(.md-readonly) .md-chip:not(.md-readonly) {
       padding-right: 22px; }
+      .md-chips:not(.md-readonly) .md-chip:not(.md-readonly) .md-chip-content {
+        padding-right: 4px; }
   .md-chips .md-chip {
     cursor: default;
     border-radius: 16px;
@@ -9267,7 +9271,6 @@ md-checkbox {
     position: relative; }
     .md-chips .md-chip .md-chip-content {
       display: block;
-      padding-right: 4px;
       float: left;
       white-space: nowrap;
       max-width: 100%;
@@ -9447,10 +9450,11 @@ md-datepicker {
   white-space: nowrap;
   overflow: hidden;
   padding-right: 18px;
-  margin-right: -18px; }
+  margin-right: -18px;
+  vertical-align: middle; }
 
 .md-inline-form md-datepicker {
-  margin-top: 8px; }
+  margin-top: 12px; }
 
 .md-datepicker-button {
   display: inline-block;
@@ -10019,6 +10023,7 @@ md-input-container {
   position: relative;
   padding: 2px;
   margin: 18px 0;
+  vertical-align: middle;
   /*
    * The .md-input class is added to the input/textarea
    */ }
@@ -10028,10 +10033,6 @@ md-input-container {
     clear: both; }
   md-input-container.md-block {
     display: block; }
-  md-input-container.md-has-icon {
-    padding-left: 36px; }
-    md-input-container.md-has-icon > label {
-      left: 36px; }
   md-input-container.md-input-has-messages {
     padding-bottom: 2px; }
   md-input-container > md-icon {
@@ -10072,6 +10073,10 @@ md-input-container {
     position: absolute;
     bottom: 100%;
     left: 0; }
+  md-input-container.md-has-icon {
+    padding-left: 36px; }
+    md-input-container.md-has-icon > label {
+      left: 36px; }
   md-input-container label:not(.md-no-float):not(.md-container-ignore),
   md-input-container .md-placeholder {
     -webkit-order: 1;
@@ -11188,6 +11193,10 @@ md-radio-button {
   white-space: nowrap;
   cursor: pointer;
   position: relative; }
+  md-radio-button[disabled] {
+    cursor: default; }
+    md-radio-button[disabled] .md-container {
+      cursor: default; }
   md-radio-button .md-container {
     position: absolute;
     top: 50%;
@@ -11566,6 +11575,8 @@ md-option {
   width: auto;
   padding: 0 16px 0 16px;
   height: 48px; }
+  md-option[disabled] {
+    cursor: default; }
   md-option:focus {
     outline: none; }
   md-option .md-text {
@@ -12045,6 +12056,10 @@ md-switch {
     md-switch:last-of-type bdo[dir=ltr] {
       direction: ltr;
       unicode-bidi: bidi-override; }
+  md-switch[disabled] {
+    cursor: default; }
+    md-switch[disabled] .md-container {
+      cursor: default; }
   md-switch .md-container {
     cursor: -webkit-grab;
     cursor: grab;
@@ -12518,6 +12533,9 @@ md-toast {
 @media screen and (-ms-high-contrast: active) {
   md-toast {
     border: 1px solid #fff; } }
+
+.md-toast-animating {
+  overflow: hidden !important; }
 
 md-toolbar {
   box-sizing: border-box;

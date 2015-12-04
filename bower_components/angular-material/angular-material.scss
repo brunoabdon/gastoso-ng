@@ -1083,7 +1083,7 @@ md-autocomplete {
   min-width: 190px;
   &[disabled] {
     input {
-      cursor: not-allowed;
+      cursor: default;
     }
   }
   &[md-floating-label] {
@@ -1875,7 +1875,13 @@ md-card {
     padding: $card-padding;
 
     & > p {
-      margin: 0;
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     .md-media-xl {
@@ -2086,7 +2092,7 @@ md-checkbox {
 
   // disabled
   &[disabled] {
-    cursor: no-drop;
+    cursor: default;
   }
 
 
@@ -2187,6 +2193,10 @@ $contact-chip-name-width: rem(12) !default;
 
     .md-chip:not(.md-readonly) {
       padding-right: $chip-remove-padding-right;
+
+      .md-chip-content {
+        padding-right:rem(0.4);
+      }
     }
   }
 
@@ -2205,7 +2215,6 @@ $contact-chip-name-width: rem(12) !default;
 
     .md-chip-content {
       display: block;
-      padding-right:rem(0.4);
       float: left;
       white-space: nowrap;
       max-width: 100%;
@@ -2512,11 +2521,13 @@ md-datepicker {
   // Leave room for the down-triangle button to "overflow" it's parent without modifying scrollLeft
   padding-right: $md-datepicker-triangle-button-width / 2;
   margin-right: -$md-datepicker-triangle-button-width / 2;
+
+  vertical-align: middle;
 }
 
 .md-inline-form {
   md-datepicker {
-    margin-top: 8px;
+    margin-top: 12px;
   }
 }
 
@@ -3262,16 +3273,10 @@ md-input-container {
   position: relative;
   padding: $input-container-padding;
   margin: 18px 0;
+  vertical-align: middle;
 
   &.md-block {
     display: block;
-  }
-
-  &.md-has-icon {
-    padding-left: $icon-offset;
-    > label {
-      left: $icon-offset;
-    }
   }
 
   // When we have ng-messages, remove the input error height from our bottom padding, since the
@@ -3330,6 +3335,13 @@ md-input-container {
     left: 0;
   }
 
+  // icon offset should have higher priority as normal label
+  &.md-has-icon {
+    padding-left: $icon-offset;
+    > label {
+      left: $icon-offset;
+    }
+  }
 
   label:not(.md-no-float):not(.md-container-ignore),
   .md-placeholder {
@@ -4476,6 +4488,15 @@ md-radio-button {
   cursor: pointer;
   position: relative;
 
+  // disabled
+  &[disabled] {
+    cursor: default;
+
+    .md-container {
+      cursor: default;
+    }
+  }
+
   .md-container {
     position: absolute;
     top: 50%;
@@ -4804,6 +4825,10 @@ md-option {
   display: flex;
   align-items: center;
   width: auto;
+
+  &[disabled] {
+    cursor: default;
+  }
 
   &:focus {
     outline: none;
@@ -5372,6 +5397,14 @@ md-switch {
     @include rtl(margin-left, inherit, 0);
     @include rtl(margin-right, 0, inherit);
   }
+  
+  &[disabled] {
+    cursor: default;
+
+    .md-container {
+      cursor: default;
+    }
+  }
 
   .md-container {
     cursor: grab;
@@ -5938,6 +5971,11 @@ md-toast {
   }
 }
 
+
+// While animating, set the toast parent's overflow to hidden so scrollbars do not appear
+.md-toast-animating {
+  overflow: hidden !important;
+}
 // Standard/Desktop Heights
 $toolbar-tools-height: 64px !default;
 $toolbar-height: 64px !default;
