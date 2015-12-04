@@ -72,8 +72,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
         }
     };
 
-}]).controller('FatoCtrl', ['$scope','$routeParams','dateFilter','Utils','MsgService', 'Depends',  'Fato','Conta','Lancamento',
-    function($scope, $routeParams, $dateFilter, Utils, MsgService, Depends, Fato, Conta, Lancamento) {
+}]).controller('FatoCtrl', ['$scope','$routeParams','dateFilter','Utils','DateUtils','MsgService', 'Depends',  'Fato','Conta','Lancamento',
+    function($scope, $routeParams, $dateFilter, Utils, DateUtils, MsgService, Depends, Fato, Conta, Lancamento) {
 
     $scope.utils = Utils;
     $scope.MsgService = MsgService;
@@ -83,18 +83,19 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     $scope.editarFato = function(){
         $scope.fatoOriginal = 
             {dia:$scope.fato.dia, descricao:$scope.fato.descricao};
+	$scope.dia = DateUtils.parseLocalDate($scope.fato.dia);
         $scope.editandoFato = true;
     };
     
     $scope.confirmarFato = function(){
         $scope.fatoAlterado |= 
-            $scope.fato.dia !== $scope.fatoOriginal.dia
+            $dateFilter($scope.dia,'yyyy-MM-dd') !== $scope.diaOriginal
             || $scope.fato.descricao !== $scope.fatoOriginal.descricao;
         $scope.editandoFato = false;
     };
     
     $scope.cancelarEdicaoFato = function(){
-        $scope.fato.dia = $scope.fatoOriginal.dia;
+        $scope.dia = DateUtils.parseLocalDate($scope.fatoOriginal.dia);
         $scope.fato.descricao = $scope.fatoOriginal.descricao;
         $scope.editandoFato = false;
     };
@@ -223,8 +224,9 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
             $scope.fatoAlterado = false;
             delete $scope.lancamento;
             salvarLancamentos();
-      };
-      $scope.fato.$save(fatoSalvo,MsgService.handleFail);
+        };
+        $scope.fato.dia=$dateFilter($scope.dia,'yyyy-MM-dd')
+        $scope.fato.$save(fatoSalvo,MsgService.handleFail);
     };
     
     var lancamentosAlterados = 0;
@@ -242,9 +244,9 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
             ,MsgService.handleFail);
             
     } else {
-        var hojeStr = $dateFilter(new Date(),'yyyy-MM-dd');
         $scope.fato = 
-            new Fato({dia: hojeStr, descricao:""});
+            new Fato({dia: '', descricao:""});
+        $scope.dia = new Date();
         $scope.editarLancamento(new Lancamento({fato:$scope.fato}));
         $scope.lancamentos = new Array();
         $scope.total = 0;
