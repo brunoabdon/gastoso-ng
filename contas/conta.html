@@ -1,8 +1,3 @@
-<div layout="column" ng-cloak>
-    <md-toolbar style="position: fixed;" ng-include="'menu.html'" onload="menuTitle=conta.nome">
-    </md-toolbar>    
-    <md-content flex layout-padding style="margin-top:3em;">
-
 <p> <img src="img/16/backward.png" ng-click="navBack()" alt="Mais antigos" class="acao">
     De {{extrato.inicio|date:"dd/MM/yyyy"}} até {{extrato.fim|date:"dd/MM/yyyy"}}
     <img src="img/16/forward.png" ng-click="navForward()" alt="Mais novos" class="acao">
@@ -14,8 +9,7 @@
         <th>Data</th>
         <th>O que</th>
         <th>Quanto</th>
-        <th>Saldo</th>
-        
+        <th>Saldo</th>        
     </tr>
   </thead>
 
@@ -35,7 +29,4 @@
   </tbody>
 </table>
 
-    <button ng-show="nomeOriginal !== conta.nome" ng-click="alterarConta()">Salvar</button>
-
-</md-content>
-</div>
+<button ng-show="nomeOriginal !== conta.nome" ng-click="alterarConta()">Salvar</button>

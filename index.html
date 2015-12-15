@@ -12,6 +12,22 @@
 <link rel="stylesheet" href="css/xeditable-gastoso.css">
 <link rel="stylesheet" href="css/gastoso.css">
 <link rel="icon" type="image/png" href="img/16/coin-dollar.png" />
+</head>
+<body>
+    <div layout="column" ng-cloak layout-fill>
+        <md-toolbar 
+            style="position: fixed;" 
+            ng-if="isLoggedIn">
+            <ng-include src="'menu.html'"></ng-include>
+        </md-toolbar>    
+        <md-content 
+            flex
+            layout-padding
+            layout="column"
+            style="margin-top:4em;" 
+            ng-view/>
+    </div>
+    
 <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-route/angular-route.min.js"></script>
@@ -26,8 +42,7 @@
 <script src="auth.js"></script>
 <script src="contas/contas.js"></script>
 <script src="fatos/fatos.js"></script>
-</head>
-<body>
-<div ng-view></div>
+<script src="movimentacao/gasto.js"></script>
+    
 </body>
 </html>

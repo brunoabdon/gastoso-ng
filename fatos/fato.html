@@ -1,14 +1,9 @@
-<div layout="column" ng-cloak>
-    <md-toolbar style="position: fixed;" ng-include="'menu.html'" onload="menuTitle=fato.descricao ? (fato.dia + ' - ' + fato.descricao) : 'Novo Fato'">
-    </md-toolbar>    
-    <md-content flex layout-padding style="margin-top:3em;">
-
 <p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}}
     <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
 
 <fieldset ng-show="editandoFato || !fato.id">
     <legend>Fato</legend>
-    <input id="dia" type="date" ng-model="fato.dia" required fmt-local-date>
+    <input id="dia" type="date" ng-model="dia" required>
     <input ng-model="fato.descricao" id="descricao">
 
     <button ng-click="confirmarFato()" 
@@ -87,7 +82,11 @@
 </table>
 
 <button ng-click="salvarFato()" ng-show="alterado()" class="mainButton">
+<<<<<<< HEAD
+<img src="img/16/checkmark.png" alt="Salvar">Salvar</button>
+=======
 <img src="img/16/checkmark.png" alt="Salvar">Salvar</button>
 
     </md-content>
 </div>
+>>>>>>> 08d5fbe94322382fc786231d4205c775a901661a

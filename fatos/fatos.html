@@ -1,24 +1,21 @@
-<div layout="column" ng-cloak>
-    <md-toolbar style="position: fixed;" ng-include="'menu.html'" onload="menuTitle = 'Fatos'">
-    </md-toolbar>    
-    <md-content flex layout-padding style="margin-top:3em;">
-        <div>
-            <a href ng-click="mesNav.decrementaMes()" >Mês anterior</a>
-            <a href ng-click="mesNav.incrementaMes()" >Próximo mês</a>
-        </div> 
-        <div>Balanço de {{mesNav.mesStr}}: <span ng-class="utils.classDinheiro(total)">{{total|real}}</span> </div>
-
-        <table>
-            <tbody ng-repeat="fato in fatos">
-                <tr ng-if="fato.dia != fatos[$index-1].dia"><th  colspan="2" style="padding-top:1em;text-align: left">{{fato.dia|date:"dd/MM/yyyy - EEEE"}}
-                    <span ng-class="utils.classDinheiro(totaisDia[fato.dia])">{{totaisDia[fato.dia]|real}}</span></th>
-                </tr>
-                <tr>
-                    <td><img src="img/16/bin.png" ng-click="removerFato(fato)"/></td>
-                    <td><a href="#/fatos/{{fato.id}}">{{fato.desc}}</a> 
-                        <span ng-class="utils.classDinheiro(fato.total)">{{fato.total|real}}</span></td>
-                </tr>
-            </tbody>
-        </table>
-    </md-content>
+<div>
+    <a href ng-click="mesNav.decrementaMes()" >Mês anterior</a>
+    <a href ng-click="mesNav.incrementaMes()" >Próximo mês</a>
+</div> 
+<div>Balanço de {{mesNav.mesStr}}: <span ng-class="utils.classDinheiro(totalEntrada + totalSaida)">{{totalEntrada + totalSaida|real}}</span>
+    (<span ng-class="utils.classDinheiro(totalEntrada)">{{totalEntrada|real}}</span>, 
+    <span ng-class="utils.classDinheiro(totalSaida)">{{totalSaida|real}}</span>)
 </div>
+
+<table>
+    <tbody ng-repeat="fato in fatos">
+        <tr ng-if="fato.dia != fatos[$index-1].dia"><th  colspan="2" style="padding-top:1em;text-align: left">{{fato.dia|date:"dd/MM/yyyy - EEEE"}}
+            <span ng-class="utils.classDinheiro(totaisDia[fato.dia])">{{totaisDia[fato.dia]|real}}</span></th>
+        </tr>
+        <tr>
+            <td><img src="img/16/bin.png" ng-click="removerFato(fato)"/></td>
+            <td><a href="#/fatos/{{fato.id}}">{{fato.desc}}</a> 
+                <span ng-class="utils.classDinheiro(fato.total)">{{fato.total|real}}</span></td>
+        </tr>
+    </tbody>
+</table>

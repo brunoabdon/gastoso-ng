@@ -1,3 +1,36 @@
-h1{
-    margin:0;
+/**********************************************/
+/*                 dinheiro                   */
+/**********************************************/
+.dinheiro{
+  content: "R$";
+}
+
+td.dinheiro, input.dinheiro, div.dinheiro{
+  text-align: right;
+  min-width: 6.5em;
+}
+
+span.dinheiro.positivo, 
+p.dinheiro.positivo,
+a.dinheiro.positivo,
+td.dinheiro.positivo,
+input.dinheiro.positivo{
+    color:green;
+}
+
+span.dinheiro.negativo,
+p.dinheiro.negativo,
+a.dinheiro.negativo,
+td.dinheiro.negativo,
+input.dinheiro.negativo {
+    color:#a00;
+}
+
+span.dinheiro.errado,
+p.dinheiro.errado,
+a.dinheiro.errado,
+td.dinheiro.errado,
+input.dinheiro.errado
+ {
+   color:red;
 }

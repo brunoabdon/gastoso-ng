@@ -17,6 +17,8 @@ angular.module('gastosoApp.contas', ['ngRoute'])
 .controller('ContasCtrl', ['$scope','MsgService','Utils','Conta',
 function($scope, MsgService, Utils, Conta) {
 
+    Utils.setTitle("Contas");
+
     $scope.utils = Utils;
     
     var contas = Conta.lista(
@@ -29,17 +31,15 @@ function($scope, MsgService, Utils, Conta) {
     };
 
 
-   $scope.removerConta = function(conta){
+   $scope.removerConta = function(contaDetalhada){
 
-        console.log('removendo ' + conta);
+        var conta = new Conta({id:contaDetalhada.conta.id});
 
         conta.$remove(
         function(){
-           $scope.contas.splice($scope.contas.indexOf(conta),1);
+           $scope.contas.splice($scope.contas.indexOf(contaDetalhada),1);
         },MsgService.handleFail);
-        
    };
-
 }])
 .controller('ContaCtrl', ['$scope','$location','$routeParams','MsgService','MesNav','Utils', 'Conta','Lancamento',
     function($scope, $location, $routeParams, MsgService, MesNav, Utils, Conta, Lancamento) {
@@ -48,9 +48,10 @@ function($scope, MsgService, Utils, Conta) {
   
     var contaId = $routeParams.id;
   
-    var salvaNomeOriginal = function(){$scope.nomeOriginal = $scope.conta.nome;};
-
-    $scope.conta = Conta.get({id:contaId},salvaNomeOriginal);
+    $scope.conta = Conta.get({id:contaId},function(){
+        $scope.nomeOriginal = $scope.conta.nome;
+        Utils.setTitle($scope.conta.nome);
+    });
     
     var paramsExtrato = {conta:contaId};
     
@@ -117,10 +118,9 @@ function($scope, MsgService, Utils, Conta) {
     $scope.alterarConta = function(){
         $scope.conta.$save(salvaNomeOriginal);
     };
-    
-    
-
-}]).controller('NovaContaCtrl', ['$scope','MsgService','Conta',function($scope, MsgService, Conta) {
+}]).controller('NovaContaCtrl', ['$scope','Utils','MsgService','Conta',function($scope, Utils, MsgService, Conta) {
+  
+    Utils.setTitle("Nova Conta");
   
     $scope.MsgService = MsgService;
     $scope.conta = new Conta();
@@ -131,5 +131,4 @@ function($scope, MsgService, Utils, Conta) {
                 $scope.conta = new Conta();
        },MsgService.handleFail);
   };
-}])
-;
+}]);
