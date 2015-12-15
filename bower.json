@@ -11,7 +11,7 @@
     "angular-loader": "1.4.x",
     "angular-resource": "1.4.x",
     "angular-i18n":"x",
-    "angular-material": "1.x",
+    "angular-material": "1.0.0",
     "html5-boilerplate": "~4.3.0",
     "ngstorage": "0.3.10",
     "angular-xeditable":"x"

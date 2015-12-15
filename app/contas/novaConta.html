@@ -1,13 +1,9 @@
-<div layout="column" ng-cloak>
-    <md-toolbar style="position: fixed;" ng-include="'menu.html'" onload="menuTitle='Nova Conta'">
-    </md-toolbar>    
-    <md-content style="margin-top:4em;" layout="row" layout-align="center center">
-    <md-input-container flex-sm="90" flex-gt-md="60" flex-lg="30" flex-gt-lg="20" >
-        <label>Nome</label>
-        <input ng-model="conta.nome">
-    </md-input-container>
-        <md-button class="md-fab md-primary" ng-click="adicionarConta()" nf->
-             <md-icon md-svg-src="img/svg/checkmark.svg"></md-icon>
-        </md-button>
-    </md-content>
+<div layout>
+<md-input-container flex-xs="90" flex-gt-md="60" flex-lg="30" flex-gt-lg="20" >
+    <label>Nome</label>
+    <input ng-model="conta.nome">
+</md-input-container>
+<md-button class="md-fab md-primary" ng-click="adicionarConta()" aria-label="Adicionar">
+     <md-icon md-svg-src="img/svg/checkmark.svg"></md-icon>
+</md-button>
 </div>

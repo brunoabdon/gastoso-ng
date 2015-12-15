@@ -1,15 +1,14 @@
-<div layout="column" ng-cloak>
-    <md-toolbar style="position: fixed;" ng-include="'menu.html'" onload="menuTitle='Contas'">
-    </md-toolbar>    
-    <md-content flex layout-padding style="margin-top:3em;">
-
-    <ul>
-        <li ng-repeat="contaDetalhada in contas" ng-class="classe(contaDetalhada)">
-              <img src="img/16/bin.png" ng-click="removerConta(contaDetalhada.conta)"/> 
-              <a href="#/contas/{{contaDetalhada.conta.id}}">{{contaDetalhada.conta.nome}}</a>          
-              <span ng-class="utils.classDinheiro(contaDetalhada.saldo)">{{contaDetalhada.saldo|real}}</span>
-       </li>
-    </ul>
-
-    </md-content>
-</div>
+<md-list>
+    <md-list-item class="md-2-line" 
+                  ng-repeat="contaDetalhada in contas" 
+                  ng-href="#/contas/{{contaDetalhada.conta.id}}">
+        <div class="md-list-item-text">
+            <h3>{{contaDetalhada.conta.nome}}</h3>
+            <p><span ng-class="utils.classDinheiro(contaDetalhada.saldo)">{{contaDetalhada.saldo|real}}</span></p>
+            <md-icon md-svg-src="img/svg/bin.svg" 
+                    ng-click="removerConta(contaDetalhada)" 
+                    aria-label="Remover {{conta.nome}}" 
+                    class="md-secondary md-hue-3"></md-icon>
+        </div>
+    </md-list-item>        
+</md-list>

@@ -1,64 +1,76 @@
-<h1>Gasto</h1>
-<div class="box">
-    
-    <div class="boxHeader">2333</div>
-    
-    <div ng-show="wiz.tela === 1" class="boxContent">
-        <h2>Quando?</h2>
-        <input id="dia" type="date" ng-model="dia" required>
+<div layout="column" layout-align="center center" layout-align-gt-xs="start start" flex-xs>
+    <div ng-show="wiz.tela === 1">
+    <md-datepicker ng-model="dia" md-placeholder="Quando?"></md-datepicker>
     </div>
-    
-    <div ng-show="wiz.tela === 2" class="boxContent">
-        <h2>O Que</h2>
-        <input ng-model="descricao" id="descricao">
+
+    <div ng-show="wiz.tela === 2">
+        <md-input-container class="md-icon-float md-block" flex-xs>
+            <label>O que?</label>
+            <input ng-model="descricao">
+        </md-input-container>   
     </div>
-    
-    <div ng-show="wiz.tela === 3" class="boxContent">
-        <h2>Quanto</h2>
-        <input id="valor" 
-           ng-model="valor" 
-           ng-class="utils.classDinheiro(valor)" 
-           type="number" 
-           format="number"
-           size="5">
+
+    <div ng-show="wiz.tela === 3">
+        <md-input-container class="md-icon-float md-block">
+            <label>Quanto?</label>
+            <input id="valor" 
+                    ng-model="valor" 
+                    ng-class="utils.classDinheiro(valor)" 
+                    type="number" 
+                    min="0"
+                    step="0.01"
+                    size="5">
+        </md-input-container>   
     </div>
-    
-    <div ng-show="wiz.tela === 4" class="boxContent">
-        <h2>Pago como?</h2>
-        <select id="conta" 
-                ng-model="conta"
-                ng-options="conta.nome for conta in contas track by conta.id"></select>
+
+    <div ng-show="wiz.tela === 4">
+        <md-input-container style="margin-right: 10px; min-width: 10em" >
+            <label>Pago como?</label>
+            <md-select ng-model="conta" ng-model-options="{trackBy: '$value.id'}">
+                <md-option ng-value="conta" ng-repeat="conta in contas">{{conta.nome}}</md-option>
+            </md-select>
+        </md-input-container>        
     </div>
-    
-    <div ng-show="wiz.tela === -1" class="boxContent">
+
+    <div ng-show="wiz.tela === -1">
         <h2>Gasto criado com sucesso</h2>
         <p>Pago {{descricao}} de {{valorFinal|real}} com {{conta.nome}} 
            em {{dia|date:dd/MM/yyyy}}.</p>
     </div>
 
-    <div class="boxFooter">
-        <p class="msg" ng-show="MsgService.hasMessage()">{{MsgService.message}}
-        <img src="img/16/cancel-circle.png" ng-click="MsgService.clearMessage()"></p>
-        
-        <button ng-click="wiz.prev()" 
-            ng-disabled="wiz.tela ===1"
-            ng-if="wiz.tela >= 1"
-            class="botaozinho"
-            ><img src="img/16/arrow-left.png" alt="Anterior">Anterior</button>
-    
-        <button ng-click="wiz.next()" 
-            ng-if="!wiz.isUltimaTela() && wiz.tela >= 1"
-            class="botaozinho"
-            >Próxima<img src="img/16/arrow-right.png" alt="Proxima"></button>
+</div>
+<div layout="row">
+    <md-button ng-click="wiz.prev()" flex-xs="50"
+                ng-disabled="wiz.tela ===1"
+                ng-if="wiz.tela >= 1"
+                title="Anterior"
+                aria-label="Anterior"
+                class="md-raised md-primary" >
+        <md-icon md-svg-icon="img/svg/arrow-bold-left.svg"></md-icon>Anterior
+    </md-button>        
 
-        <button ng-click="wiz.fim()" 
-            ng-if="wiz.isUltimaTela()"
-            class="botaozinho"
-            ><img src="img/16/checkmark.png" alt="OK">OK</button>
-    
-        <button ng-click="wiz.zerar()" 
-            ng-if="wiz.tela === -1"
-            class="botaozinho"
-            ><img src="img/16/file-empty.png" alt="Mais um">Mais um gasto...</button>
-    </div>    
+    <md-button ng-click="wiz.next()" flex-xs="50"
+                ng-if="!wiz.isUltimaTela() && wiz.tela >= 1"
+                title="Próxima"
+                aria-label="Próxima"
+                class="md-raised md-primary">Próxima
+        <md-icon md-svg-icon="img/svg/arrow-bold-right.svg"></md-icon>
+    </md-button>        
+
+    <md-button ng-click="wiz.fim()" flex-xs="50"
+                ng-if="wiz.isUltimaTela()"
+                ng-disabled="!conta"
+                title="OK"
+                aria-label="OK"
+                class="md-raised md-primary">
+        <md-icon md-svg-icon="img/svg/checkmark.svg"></md-icon>Salvar
+    </md-button>        
+
+    <md-button ng-click="wiz.zerar()" flex-xs="50"
+                ng-if="wiz.tela === -1"
+                title="Mais um gasto..."
+                aria-label="Mais um gasto..."
+                class="md-raised md-primary">
+        <md-icon md-svg-icon="img/svg/file-empty.svg"></md-icon>Mais um gasto...
+    </md-button>
 </div>

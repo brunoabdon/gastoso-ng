@@ -8,7 +8,8 @@ angular.module('gastosoApp', [
   'ngAnimate',
   'ngMaterial',
   'gastosoApp.contas',
-  'gastosoApp.fatos'
+  'gastosoApp.fatos',
+  'gastosoApp.gasto'
 ])
 
 .config(['$routeProvider','$mdThemingProvider',function($routeProvider,$mdThemingProvider) {
@@ -47,11 +48,10 @@ angular.module('gastosoApp', [
    require: 'ngModel',
     link: function(scope, elem, attr, modelCtrl) {
       modelCtrl.$formatters.push(function(modelValue){
-          console.log('parsing ' + modelValue);
         return DateUtils.parseLocalDate(modelValue);
       });
     }
-  }
+  };
 }])
 
 .run(['$rootScope','$localStorage','$http','$location','$resource','Utils','Login',
@@ -65,6 +65,7 @@ angular.module('gastosoApp', [
             $http.head(Utils.appBaseUrl + "/ping").then(angular.noop, function (res){
                 if(res.status === 401){
                     delete $http.defaults.headers.common['X-Abd-auth_token'];
+                    $rootScope.isLoggedIn = false;
                     $location.path("/login"); 
                 } else {
                     $location.path("/panic"); 
@@ -94,7 +95,7 @@ gastosoApp.factory('Lancamento', ['$resource','Utils', function($resource,Utils)
     return $resource(Utils.appBaseUrl + '/lancamentos/:id', {id:'@id'}, {});
   }]);
 
-gastosoApp.factory('DateUtils', [function(){
+gastosoApp.factory('DateUtils', function(){
     return {
         parseLocalDate: function(dataStr){
             var data = null;
@@ -112,13 +113,14 @@ gastosoApp.factory('DateUtils', [function(){
                     }
                 }
             }
+            
             if(data===null){
                 throw ("Unparsable: " + dataStr);
             }
             return data;
         }
     };
-}]);
+});
 
 
 gastosoApp.factory('Depends',['Conta','Fato','Lancamento',
@@ -171,7 +173,7 @@ gastosoApp.factory('Depends',['Conta','Fato','Lancamento',
         
 }]);
 
-gastosoApp.factory('Utils',[function(){
+gastosoApp.factory('Utils',['$rootScope',function($rootScope){
      var util = {};
      util.classDinheiro = function (valor) { 
         var klass = 'dinheiro';
@@ -188,9 +190,14 @@ gastosoApp.factory('Utils',[function(){
     util.appBaseUrl = 
         window.location.host === "localhost:8000"
             ? "http://localhost:5000"
-            : "https://gastoso.herokuapp.com";
-   
-     return util;
+            : window.location.host === "192.168.0.20:8000" 
+                ? "http://192.168.0.20:5000" 
+                : "https://gastoso.herokuapp.com";
+
+    util.setTitle = function(title){
+        $rootScope.title=title;
+    };
+    return util;
 }]);
 
 gastosoApp.factory('MsgService',function(){
