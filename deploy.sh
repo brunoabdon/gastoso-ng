@@ -18,5 +18,4 @@ echo ".bowerrc\nbower.json\n.gitignore" > .gitignore
 git add --all .
 git status
 git commit -m 'publicando'
-git push 
-
+git push -f
