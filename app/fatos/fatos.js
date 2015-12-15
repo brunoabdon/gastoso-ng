@@ -54,6 +54,12 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                         fato.total+=lancamento.valor;
                     });        
                 }
+
+                if(fato.total === 0 && fato.lancamentos.length === 2){
+                    fato.resumo = Math.abs(fato.lancamentos[0].valor)
+                }
+                
+                
                 $scope.totaisDia[fato.dia] = ($scope.totaisDia[fato.dia]||0)+fato.total;
                 if(fato.total > 0){
                     $scope.totalEntrada+=fato.total;
