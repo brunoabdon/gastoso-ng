@@ -2,7 +2,10 @@
     <a href ng-click="mesNav.decrementaMes()" >Mês anterior</a>
     <a href ng-click="mesNav.incrementaMes()" >Próximo mês</a>
 </div> 
-<div>Balanço de {{mesNav.mesStr}}: <span ng-class="utils.classDinheiro(total)">{{total|real}}</span> </div>
+<div>Balanço de {{mesNav.mesStr}}: <span ng-class="utils.classDinheiro(totalEntrada + totalSaida)">{{totalEntrada + totalSaida|real}}</span>
+    (<span ng-class="utils.classDinheiro(totalEntrada)">{{totalEntrada|real}}</span>, 
+    <span ng-class="utils.classDinheiro(totalSaida)">{{totalSaida|real}}</span>)
+</div>
 
 <table>
     <tbody ng-repeat="fato in fatos">
