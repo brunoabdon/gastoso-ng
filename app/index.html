@@ -13,20 +13,55 @@
 <link rel="stylesheet" href="css/gastoso.css">
 <link rel="icon" type="image/png" href="img/16/coin-dollar.png" />
 </head>
-<body>
-    <div layout="column" ng-cloak layout-fill>
-        <md-toolbar 
-            style="position: fixed;" 
-            ng-if="isLoggedIn">
-            <ng-include src="'menu.html'"></ng-include>
-        </md-toolbar>    
-        <md-content 
-            flex
-            layout-padding
-            layout="column"
-            style="margin-top:4em;" 
-            ng-view/>
-    </div>
+<body layout="column" ng-cloak layout-fill>
+
+<md-content layout="column" class="md-padding">
+        <md-fab-speed-dial md-direction="right"
+                         class="md-scale md-fab-top-left"  >
+        <md-fab-trigger>
+          <md-button aria-label="menu" class="md-fab md-primary">
+            <md-icon md-svg-src="img/svg/menu.svg"></md-icon>
+          </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+            <md-button aria-label="Novo Gasto" class="md-fab md-raised md-mini"
+                     href="#gasto">
+                <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon>
+                <md-tooltip md-autohide="false">Novo Gasto</md-tooltip>
+            </md-button>
+            <md-button aria-label="Fatos" class="md-fab md-raised md-mini"
+                     href="#fatos">
+                <md-icon md-svg-src="img/svg/calendar.svg"></md-icon>
+                <md-tooltip md-autohide="false">Fatos</md-tooltip>
+            </md-button>
+            <md-button aria-label="Contas" class="md-fab md-raised md-mini"
+                     href="#contas">
+                <md-icon md-svg-src="img/svg/safe.svg"></md-icon>
+                <md-tooltip md-autohide="false">Contas</md-tooltip>
+            </md-button>
+            <md-button aria-label="Nova Conta" class="md-fab md-raised md-mini"
+                     href="#novaConta">
+                <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon>
+                <md-tooltip md-autohide="false">Nova Conta</md-tooltip>
+            </md-button>
+            <md-button aria-label="Novo Fato" class="md-fab md-raised md-mini"
+                     href="#novoFato">
+                <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon>
+                <md-tooltip md-autohide="false">Novo Fato</md-tooltip>
+            </md-button>
+        </md-fab-actions>
+      </md-fab-speed-dial>
+    <md-toolbar>
+        <h3 style="margin-left: 3.5em; text-transform: capitalize">{{title}}</h3>
+    </md-toolbar>
+
+</md-content>
+        
+        <div flex layout="row" class="md-padding">
+            <!-- Container #4 -->
+            <md-content flex id="content" ng-view></md-content>
+        </div>
+        
     
 <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
