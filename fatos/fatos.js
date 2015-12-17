@@ -56,7 +56,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                 }
 
                 if(fato.total === 0 && fato.lancamentos.length === 2){
-                    fato.resumo = Math.abs(fato.lancamentos[0].valor)
+                    fato.resumo = Math.abs(fato.lancamentos[0].valor);
                 }
                 
                 
@@ -239,7 +239,7 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
             delete $scope.lancamento;
             salvarLancamentos();
         };
-        $scope.fato.dia=$dateFilter($scope.dia,'yyyy-MM-dd')
+        $scope.fato.dia=$dateFilter($scope.dia,'yyyy-MM-dd');
         $scope.fato.$save(fatoSalvo,MsgService.handleFail);
     };
     
@@ -249,7 +249,11 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
     if(!ehCriacao){
         $scope.fato = Fato.get({id:$routeParams.id},
             function(fato){
-                Utils.setTitle($scope.fato.descricao);
+                Utils.setTitle(
+                    $scope.fato.descricao
+                    + " (" 
+                    +  $dateFilter($scope.fato.dia,'yyyy-MM-dd')
+                    + ")");
                 Depends.carregaLancamentos(fato,
                     function(lancamentos){
                         $scope.lancamentos = lancamentos;

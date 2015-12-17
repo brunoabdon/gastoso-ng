@@ -59,14 +59,19 @@ angular.module('gastosoApp', [
         $rootScope.isLoggedIn = false || $localStorage.authKey;
         if(!$rootScope.isLoggedIn){
            $location.path("/login"); 
-        } else if($location.path() !== "/login"){
+        } else {
             $http.defaults.headers.common['X-Abd-auth_token'] = 
                 $localStorage.authKey.token;
-            $http.head(Utils.appBaseUrl + "/ping").then(angular.noop, function (res){
+            $http.head(Utils.appBaseUrl + "/ping").then(
+                function(){
+                    if($location.path() === "/login"){
+                        $location.path("/fatos"); 
+                    }
+                }, function (res){
                 if(res.status === 401){
                     delete $http.defaults.headers.common['X-Abd-auth_token'];
                     $rootScope.isLoggedIn = false;
-                    $location.path("/login"); 
+                    $location.path("/login");
                 } else {
                     $location.path("/panic"); 
                 }
