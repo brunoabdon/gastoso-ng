@@ -13,55 +13,49 @@
 <link rel="stylesheet" href="css/gastoso.css">
 <link rel="icon" type="image/png" href="img/16/coin-dollar.png" />
 </head>
-<body layout="column" ng-cloak layout-fill>
+<body layout="row" ng-cloak layout-fill >
+    
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="menu" id="menu">
+      <md-toolbar>
+          <h1 class="md-toolbar-tools">Menu</h1>
+      </md-toolbar>
+      <md-list ng-click="toggleMenu()" >
+        <md-list-item aria-label="Novo Gasto" 
+                 href="#gasto">
+            <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon> Novo Gasto
+        </md-list-item>
+        <md-list-item aria-label="Fatos" 
+                 href="#fatos">
+            <md-icon md-svg-src="img/svg/calendar.svg"></md-icon> Fatos
+        </md-list-item>
+        <md-list-item aria-label="Contas" 
+                 href="#contas">
+            <md-icon md-svg-src="img/svg/safe.svg"></md-icon> Contas
+        </md-list-item>
+        <md-list-item aria-label="Nova Conta" 
+                 href="#novaConta">
+            <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon> Nova Conta
+        </md-list-item>
+        <md-list-item aria-label="Novo Fato"
+                 href="#novoFato">
+            <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon> Novo Fato
+        </md-list-item>
+    </md-sidenav>
 
-<md-content layout="column" class="md-padding">
-        <md-fab-speed-dial md-direction="right"
-                         class="md-scale md-fab-top-left"  >
-        <md-fab-trigger>
-          <md-button aria-label="menu" class="md-fab md-primary">
-            <md-icon md-svg-src="img/svg/menu.svg"></md-icon>
-          </md-button>
-        </md-fab-trigger>
-        <md-fab-actions>
-            <md-button aria-label="Novo Gasto" class="md-fab md-raised md-mini"
-                     href="#gasto">
-                <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon>
-                <md-tooltip md-autohide="false">Novo Gasto</md-tooltip>
+    <md-content flex>
+        <md-toolbar style="padding: 0; position: fixed">
+            <h3 style="margin: 0.2em 0 0 0; text-transform: capitalize;" flex>
+            <md-button aria-label="Menu" class="md-fab md-raised md-mini"
+                     ng-click="toggleMenu()">
+                <md-icon md-svg-src="img/svg/menu.svg"></md-icon>
+                <md-tooltip md-autohide="false">Menu</md-tooltip>
             </md-button>
-            <md-button aria-label="Fatos" class="md-fab md-raised md-mini"
-                     href="#fatos">
-                <md-icon md-svg-src="img/svg/calendar.svg"></md-icon>
-                <md-tooltip md-autohide="false">Fatos</md-tooltip>
-            </md-button>
-            <md-button aria-label="Contas" class="md-fab md-raised md-mini"
-                     href="#contas">
-                <md-icon md-svg-src="img/svg/safe.svg"></md-icon>
-                <md-tooltip md-autohide="false">Contas</md-tooltip>
-            </md-button>
-            <md-button aria-label="Nova Conta" class="md-fab md-raised md-mini"
-                     href="#novaConta">
-                <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon>
-                <md-tooltip md-autohide="false">Nova Conta</md-tooltip>
-            </md-button>
-            <md-button aria-label="Novo Fato" class="md-fab md-raised md-mini"
-                     href="#novoFato">
-                <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon>
-                <md-tooltip md-autohide="false">Novo Fato</md-tooltip>
-            </md-button>
-        </md-fab-actions>
-      </md-fab-speed-dial>
-    <md-toolbar>
-        <h3 style="margin-left: 3.5em; text-transform: capitalize">{{title}}</h3>
-    </md-toolbar>
-
-</md-content>
-        
-        <div flex layout="row" class="md-padding">
-            <!-- Container #4 -->
-            <md-content flex id="content" ng-view></md-content>
-        </div>
-        
+            {{title}}</h3>
+        </md-toolbar>
+      
+        <div flex  class="md-padding" ng-view style="margin-top: 3.2em;"></div>
+    </md-content>
+    
     
 <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
