@@ -34,3 +34,7 @@ input.dinheiro.errado
  {
    color:red;
 }
+
+#menu md-icon {
+    margin-left: 0;
+}
