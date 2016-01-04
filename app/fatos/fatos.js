@@ -43,6 +43,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
 
             $scope.fatos = fatos;
 
+            var dia = null;
+
             for(var i = 0; i < fatos.length; i++){
                 var fato = fatos[i];
                 fato.total=0;
@@ -60,7 +62,8 @@ angular.module('gastosoApp.fatos', ['ngRoute'])
                 }
                 
                 
-                $scope.totaisDia[fato.dia] = ($scope.totaisDia[fato.dia]||0)+fato.total;
+                $scope.totaisDia[fato.dia] = (fato.dia == dia||0)+fato.total;
+		dia = fato.dia;
                 if(fato.total > 0){
                     $scope.totalEntrada+=fato.total;
                 } else {
