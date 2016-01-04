@@ -11677,13 +11677,12 @@ md-list-item {
       width: 100%;
       white-space: normal;
       -webkit-flex-direction: inherit;
-      -ms-flex-direction: inherit;
-      flex-direction: inherit;
+          -ms-flex-direction: inherit;
+              flex-direction: inherit;
       -webkit-align-items: inherit;
-      -ms-flex-align: inherit;
-      align-items: inherit;
-      border-radius: 0;
-      }
+          -ms-flex-align: inherit;
+              align-items: inherit;
+      border-radius: 0; }
       md-list-item.md-no-proxy.md-button > .md-ripple-container,
       md-list-item .md-no-style.md-button > .md-ripple-container {
         border-radius: 0; }

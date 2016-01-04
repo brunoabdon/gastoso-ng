@@ -54,35 +54,25 @@ angular.module('gastosoApp', [
   };
 }])
 
-.run(['$rootScope','$localStorage','$http','$location','$mdSidenav','Utils','Login',
-    function($rootScope,$localStorage,$http,$location,$mdSidenav,Utils,Login){
+.run(['$rootScope','$localStorage','$http','$location','$resource','Utils','Login',
+    function($rootScope,$localStorage,$http,$location,$resource,Utils,Login){
         $rootScope.isLoggedIn = false || $localStorage.authKey;
         if(!$rootScope.isLoggedIn){
            $location.path("/login"); 
-        } else {
+        } else if($location.path() !== "/login"){
             $http.defaults.headers.common['X-Abd-auth_token'] = 
                 $localStorage.authKey.token;
-            $http.head(Utils.appBaseUrl + "/ping").then(
-                function(){
-                    if($location.path() === "/login"){
-                        $location.path("/fatos"); 
-                    }
-                }, function (res){
+            $http.head(Utils.appBaseUrl + "/ping").then(angular.noop, function (res){
                 if(res.status === 401){
                     delete $http.defaults.headers.common['X-Abd-auth_token'];
                     $rootScope.isLoggedIn = false;
-                    $location.path("/login");
+                    $location.path("/login"); 
                 } else {
                     $location.path("/panic"); 
                 }
             });
         }
         $rootScope.logout = Login.logout;
-        
-        $rootScope.toggleMenu = function(){
-            $mdSidenav('menu').toggle();
-        };
-        
 }]);
 
 var gastosoApp = angular.module('gastosoApp');

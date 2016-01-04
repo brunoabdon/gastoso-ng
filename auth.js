@@ -47,7 +47,7 @@ angular.module('gastosoApp')
         };
 
         function logout (){
-            console.log('logut');
+            console.log('logout');
             delete $localStorage.authKey;
             $rootScope.isLoggedIn = false;
             $http.defaults.headers.common['X-Abd-auth_token'] = null;
