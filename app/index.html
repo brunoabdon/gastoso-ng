@@ -20,9 +20,13 @@
           <h1 class="md-toolbar-tools">Menu</h1>
       </md-toolbar>
       <md-list ng-click="toggleMenu()">
-        <md-list-item aria-label="Novo Gasto" 
+        <md-list-item aria-label="Gasto" 
                  href="#gasto">
-            <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon> Novo Gasto
+            <md-icon md-svg-src="img/svg/money-fly.svg"></md-icon>Gasto
+        </md-list-item>
+        <md-list-item aria-label="Transferência" 
+                 href="#transferencia">
+            <md-icon md-svg-src="img/svg/transfer.svg"></md-icon> Tranferência
         </md-list-item>
         <md-list-item aria-label="Fatos" 
                  href="#fatos">
@@ -38,7 +42,7 @@
         </md-list-item>
         <md-list-item aria-label="Novo Fato"
                  href="#novoFato">
-            <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon> Novo Fato
+            <md-icon md-svg-src="img/svg/coins.svg"></md-icon> Novo Fato
         </md-list-item>
         <md-list-item aria-label="Logout" ng-click="logout()"
                  href="#/login">
@@ -76,7 +80,7 @@
 <script src="auth.js"></script>
 <script src="contas/contas.js"></script>
 <script src="fatos/fatos.js"></script>
-<script src="movimentacao/gasto.js"></script>
+<script src="movimentacao/movimentacao.js"></script>
     
 </body>
 </html>
