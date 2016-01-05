@@ -9,7 +9,7 @@ angular.module('gastosoApp', [
   'ngMaterial',
   'gastosoApp.contas',
   'gastosoApp.fatos',
-  'gastosoApp.gasto'
+  'gastosoApp.movimentacao'
 ])
 
 .config(['$routeProvider','$mdThemingProvider',function($routeProvider,$mdThemingProvider) {
