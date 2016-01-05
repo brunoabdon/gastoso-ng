@@ -6,13 +6,13 @@
   "license": "GPL-v",
   "private": true,
   "dependencies": {
-    "angular": "1.4.x",
-    "angular-route": "1.4.x",
-    "angular-loader": "1.4.x",
-    "angular-resource": "1.4.x",
+    "angular": "1.x",
+    "angular-route": "1.x",
+    "angular-loader": "1.x",
+    "angular-resource": "1.x",
     "angular-i18n":"x",
-    "angular-material": "1.0.0",
-    "html5-boilerplate": "~4.3.0",
+    "angular-material": "1.x",
+    "html5-boilerplate": "~4.x",
     "ngstorage": "0.3.10",
     "angular-xeditable":"x"
   }
