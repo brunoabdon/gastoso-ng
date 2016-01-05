@@ -19,7 +19,7 @@
       <md-toolbar>
           <h1 class="md-toolbar-tools">Menu</h1>
       </md-toolbar>
-      <md-list ng-click="toggleMenu()" >
+      <md-list ng-click="toggleMenu()">
         <md-list-item aria-label="Novo Gasto" 
                  href="#gasto">
             <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon> Novo Gasto
@@ -39,6 +39,10 @@
         <md-list-item aria-label="Novo Fato"
                  href="#novoFato">
             <md-icon md-svg-src="img/svg/file-empty.svg"></md-icon> Novo Fato
+        </md-list-item>
+        <md-list-item aria-label="Logout" ng-click="logout()"
+                 href="#/login">
+            <md-icon md-svg-src="img/svg/exit.svg"></md-icon> Sair
         </md-list-item>
       </md-list>
     </md-sidenav>
