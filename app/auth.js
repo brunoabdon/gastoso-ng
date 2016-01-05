@@ -41,9 +41,7 @@ angular.module('gastosoApp')
                     $localStorage.authKey.token;
 
                 if(successHandler) successHandler(response);
-            }, function(response){
-                if(errorHandler) errorHandler(response);
-            });
+            }, (errorHandler||angular.noop));
         };
 
         function logout (){
