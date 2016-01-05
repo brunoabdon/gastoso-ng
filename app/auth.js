@@ -12,13 +12,19 @@ angular.module('gastosoApp')
         $scope.password = '';
         
         $scope.login = function(){
-            $scope.loginErrorMsg = 'Logando...';
+            $scope.loginMsg = 'Logando...';
             Login.login($scope.password,
                 function(){
-                    $scope.loginErrorMsg = 'Login Ok! Aguarde...';
+                    $scope.loginMsg = 'Login Ok! Aguarde...';
                     $location.path("/");
+                    $timeout(function(){
+                        delete $scope.loginMsg;
+                    },3000);                
+                    
                 },
                 function(res){
+                delete $scope.loginMsg;
+                $scope.password = '';
                 $scope.loginErrorMsg = res.statusText;
                 $timeout(function(){
                     delete $scope.loginErrorMsg;
