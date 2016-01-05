@@ -15,7 +15,8 @@
 </head>
 <body layout="row" ng-cloak layout-fill >
     
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="menu" id="menu">
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="menu" id="menu" 
+            ng-if="isLoggedIn">
       <md-toolbar>
           <h1 class="md-toolbar-tools">Menu</h1>
       </md-toolbar>
@@ -52,7 +53,7 @@
     </md-sidenav>
 
     <md-content flex>
-        <md-toolbar style="padding: 0; position: fixed">
+        <md-toolbar style="padding: 0; position: fixed" ng-if="isLoggedIn">
             <h3 style="margin: 0.2em 0 0 0; text-transform: capitalize;" flex>
             <md-button aria-label="Menu" class="md-fab md-raised md-mini"
                      ng-click="toggleMenu()">

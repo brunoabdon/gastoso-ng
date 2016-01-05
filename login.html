@@ -1,32 +1,17 @@
-<md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-    <div flex="90" layout="column" flex-xs="90" flex-gt-md="60" flex-lg="40" flex-gt-lg="20">
-      <md-card>
-        <md-card-header>
-          <md-card-avatar>
-            <img src="img/gastoso.png">
-          </md-card-avatar>
-          <md-card-header-text>
-            <span class="md-title">Gastoso</span>
-            <span class="md-subhead">Login</span>
-          </md-card-header-text>
-        </md-card-header>          
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Login</span>
-          </md-card-title-text>
-        </md-card-title>
-        <md-card-content>
-            <md-input-container class="md-icon-float md-block">
-                <label>Password</label>
-                <md-icon md-svg-src="img/svg/key.svg" class="name"></md-icon>
-                <input ng-model="password"  type="password" autofocus
-                        ng-keyup="$event.keyCode == 13 && login()">
-            </md-input-container>    
-        </md-card-content>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button class="md-raised md-primary" ng-click="login()" ng-disabled="!password">Logar</md-button>
-        </md-card-actions>
-      </md-card>
-    </div>
-</md-content>
-   
+<div layout="column" layout-align="center center">
+    <md-icon md-svg-src="img/svg/coin-dollar.svg" style="width:128px; height: 128px"></md-icon>
+    <h1>Gastoso</h1>
+<md-input-container class="md-block">
+        <label>Password</label>
+        <input ng-model="password"  type="password" autofocus
+                ng-keyup="$event.keyCode == 13 && login()">
+        <div ng-show="loginErrorMsg || loginMsg" style="font-size: small">
+            <span style="color:red" ng-show="loginErrorMsg">{{loginErrorMsg}}</span>
+            <span  ng-show="loginMsg">{{loginMsg}}</span>
+        </div>
+</md-input-container>    
+
+<md-button class="md-raised md-primary"
+           ng-click="login()" 
+           ng-disabled="!password">Logar</md-button>
+</div>     
